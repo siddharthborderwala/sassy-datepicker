@@ -40,7 +40,7 @@ export const getDatesOfMonth = (date: Date): { d: Date; active: boolean }[] => {
 
   const dates: { d: Date; active: boolean }[] = [];
 
-  for (let i = 0; i < firstDayOfMonthWeekDay; i++) {
+  for (let i = 0; i < firstDayOfMonthWeekDay - 1; i++) {
     dates.push({
       d: new Date(
         previousMonth.getFullYear(),
@@ -58,7 +58,7 @@ export const getDatesOfMonth = (date: Date): { d: Date; active: boolean }[] => {
     });
   }
 
-  for (let i = 0; i < 7 - lastDayOfMonthWeekDay - 1; i++) {
+  for (let i = 0; i < 7 - lastDayOfMonthWeekDay; i++) {
     dates.push({
       d: new Date(nextMonth.getFullYear(), nextMonth.getMonth(), i + 1),
       active: false,
