@@ -12,21 +12,16 @@ const DateButton: React.FC<DateButtonProps> = ({
   active,
   onClick,
   selected,
-}) => {
-  console.log('date rendered');
-
-  return (
-    <button
-      className={`sdp--square-btn sdp--date-btn ${selected &&
-        'sdp--date-btn__selected'} sdp--text ${!active &&
-        'sdp--text__inactive'}`}
-      onClick={() => onClick(date)}
-      tabIndex={active ? 0 : -1}
-    >
-      {date.getDate()}
-    </button>
-  );
-};
+}) => (
+  <button
+    className={`sdp--square-btn sdp--date-btn ${selected &&
+      'sdp--date-btn__selected'} sdp--text ${!active && 'sdp--text__inactive'}`}
+    onClick={() => onClick(date)}
+    tabIndex={active ? 0 : -1}
+  >
+    {date.getDate()}
+  </button>
+);
 
 export default React.memo(
   DateButton,

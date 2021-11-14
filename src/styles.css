@@ -6,6 +6,8 @@
   --shadow-md: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
     rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
     rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  --theme-color: #60a5fa;
+  --selected-date-color: #ffffff;
   width: 16rem;
   font-family: var(--font);
   border: none;
@@ -42,7 +44,7 @@
 
 .sdp--square-btn:focus {
   outline: none;
-  box-shadow: 0px 0px 0px 2px rgb(59 130 246 / 70%);
+  box-shadow: 0px 0px 0px 2px #60a5fab3;
 }
 
 .sdp--square-btn:focus:hover {
@@ -58,8 +60,8 @@
 }
 
 .sdp--date-btn__selected {
-  background-color: #60a5fa;
-  color: #ffffff;
+  background-color: var(--theme-color);
+  color: var(--selected-date-color);
   box-shadow: var(--shadow);
 }
 

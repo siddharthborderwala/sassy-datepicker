@@ -3,15 +3,12 @@
   "author": "Siddharth Borderwala",
   "version": "0.1.1",
   "license": "MIT",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "src"
+  "keywords": [
+    "react",
+    "datepicker",
+    "date",
+    "picker"
   ],
-  "engines": {
-    "node": ">=10"
-  },
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
@@ -21,31 +18,25 @@
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
-  "peerDependencies": {
-    "react": ">=16"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint"
-    }
-  },
-  "prettier": {
-    "printWidth": 80,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5"
-  },
-  "module": "dist/sassy-datepicker.esm.js",
-  "size-limit": [
-    {
-      "path": "dist/sassy-datepicker.cjs.production.min.js",
-      "limit": "10 KB"
-    },
-    {
-      "path": "dist/sassy-datepicker.esm.js",
-      "limit": "10 KB"
-    }
+  "files": [
+    "dist",
+    "src"
   ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/sassy-datepicker.esm.js",
+  "exports": {
+    "default": "./dist/index.js",
+    "require": "./dist/sassy-datepicker.cjs.production.min.js",
+    "import": "./dist/sassy-datepicker.esm.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sassy-labs/sassy-datepicker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sassy-labs/sassy-datepicker/issues"
+  },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^6.0.4",
     "@types/react": "^17.0.34",
@@ -60,5 +51,23 @@
     "tsdx": "^0.14.1",
     "tslib": "^2.3.1",
     "typescript": "^4.4.4"
-  }
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "size-limit": [
+    {
+      "path": "dist/sassy-datepicker.cjs.production.min.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/sassy-datepicker.esm.js",
+      "limit": "10 KB"
+    }
+  ]
 }

@@ -28,7 +28,6 @@ const DatePicker: React.FC<DatePickerProps> = ({ onChange }) => {
     setMonthDate(d => {
       const m = d.getMonth();
       const y = d.getFullYear();
-      console.log({ m, y });
       if (m === 0) {
         return new Date(y - 1, 11);
       } else {
@@ -62,10 +61,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ onChange }) => {
             key={d.toString()}
             date={d}
             active={active}
-            selected={
-              selectedDate.getDate() === d.getDate() &&
-              selectedDate.getMonth() === d.getMonth()
-            }
+            selected={selectedDate.toDateString() === d.toDateString()}
             onClick={setNewSelectedDate}
           />
         ))}
