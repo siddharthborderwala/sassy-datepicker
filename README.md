@@ -2,7 +2,7 @@
   <h1>sassy-datepicker</h1>
   <p>Beautiful, minimal and accessible date-picker for react.</p>
 
-  <img src="https://user-images.githubusercontent.com/54456279/141672075-4e289fd5-4234-465b-8596-d9f016be9f9d.jpg" height="200px" />
+  <img src="https://user-images.githubusercontent.com/54456279/141679315-1e63bfd3-709e-40b4-9c8f-5b8172429078.jpg" height="200px" />
 </center>
 
 ## Installation
