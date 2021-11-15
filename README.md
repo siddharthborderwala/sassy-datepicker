@@ -16,15 +16,19 @@ npm install sassy-datepicker
 ## Usage
 
 ```jsx
+import { useState } from 'react';
 import DatePicker from 'sassy-datepicker';
 
 function Example() {
-  const onChange = (date) => {
-    console.log(date.toString());
+  const [date, setDate] = useState(new Date());
+
+  const onChange = (newDate) => {
+    console.log(`New date selected - ${newDate.toString()}`);
+    setDate(newDate);
   };
 
   return (
-    <DatePicker onChange={onChange} />
+    <DatePicker onChange={onChange} initialDate={date} />
   );
 }
 ```

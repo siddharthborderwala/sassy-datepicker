@@ -14,8 +14,9 @@ const DateButton: React.FC<DateButtonProps> = ({
   selected,
 }) => (
   <button
-    className={`sdp--square-btn sdp--date-btn ${selected &&
-      'sdp--date-btn__selected'} sdp--text ${!active && 'sdp--text__inactive'}`}
+    className={`sdp--square-btn sdp--date-btn ${
+      selected ? 'sdp--date-btn__selected' : ''
+    } sdp--text ${!active ? 'sdp--text__inactive' : ''}`}
     onClick={() => onClick(date)}
     tabIndex={active ? 0 : -1}
   >

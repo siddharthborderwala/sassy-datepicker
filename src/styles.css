@@ -9,7 +9,6 @@
   --theme-color: #60a5fa;
   --selected-date-color: #ffffff;
   width: 16rem;
-  font-family: var(--font);
   border: none;
   border-radius: 0.5rem;
   box-shadow: var(--shadow);
@@ -20,7 +19,7 @@
 .sdp--text {
   font-weight: 500;
   margin: 0;
-  text-align: center;
+  font-family: var(--font);
 }
 
 .sdp--text__inactive {
@@ -79,6 +78,10 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 4px;
-  margin: 0.75rem 0 0;
+  margin: 0.5rem 0 0;
   justify-items: center;
+}
+
+.sdp--dates-grid > p {
+  padding: 0.5rem 0;
 }

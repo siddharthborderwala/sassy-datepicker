@@ -1,17 +1,21 @@
 import * as React from 'react';
 
 import MonthPicker from './month-picker';
+import DateButton from './date-button';
 import { getDatesOfMonth } from './util';
 import './styles.css';
-import DateButton from './date-button';
 
 export type DatePickerProps = {
   onChange?: (date: Date) => void;
+  initialDate?: Date;
 };
 
-const DatePicker: React.FC<DatePickerProps> = ({ onChange }) => {
-  const [monthDate, setMonthDate] = React.useState<Date>(new Date());
-  const [selectedDate, setSelectedDate] = React.useState<Date>(new Date());
+const DatePicker: React.FC<DatePickerProps> = ({
+  onChange,
+  initialDate = new Date(),
+}) => {
+  const [monthDate, setMonthDate] = React.useState<Date>(initialDate);
+  const [selectedDate, setSelectedDate] = React.useState<Date>(initialDate);
 
   const nextMonth = () =>
     setMonthDate(d => {

@@ -11,7 +11,7 @@ const App = () => {
     <div>
       <p>Select Date of Departure</p>
       <p>{date.toDateString()}</p>
-      <DatePicker onChange={setDate} />
+      <DatePicker onChange={setDate} initialDate={date} />
     </div>
   );
 };
