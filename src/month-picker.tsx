@@ -20,6 +20,7 @@ const MonthPicker: React.FC<MonthPickerProps> = ({
         className="sdp--square-btn sdp--square-btn__shadowed"
         onClick={prevMonth}
         aria-label="Go to previous month"
+        type="button"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -52,6 +53,7 @@ const MonthPicker: React.FC<MonthPickerProps> = ({
         className="sdp--square-btn sdp--square-btn__shadowed"
         onClick={nextMonth}
         aria-label="Go to next month"
+        type="button"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
