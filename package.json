@@ -1,5 +1,6 @@
 {
   "name": "sassy-datepicker",
+  "description": "Beautiful, minimal and accessible datepicker for react.",
   "author": "Siddharth Borderwala",
   "version": "0.2.3",
   "license": "MIT",

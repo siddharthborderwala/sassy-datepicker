@@ -7,6 +7,13 @@ type DateButtonProps = {
   onClick: (date: Date) => void;
 };
 
+const dateOptions: Intl.DateTimeFormatOptions = {
+  weekday: 'long',
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+};
+
 const DateButton: React.FC<DateButtonProps> = ({
   date,
   active,
@@ -19,6 +26,9 @@ const DateButton: React.FC<DateButtonProps> = ({
     } sdp--text ${!active ? 'sdp--text__inactive' : ''}`}
     onClick={() => onClick(date)}
     tabIndex={active ? 0 : -1}
+    aria-label={`${
+      selected ? 'Currently selected' : 'Select'
+    } ${date.toLocaleDateString('en-US', dateOptions)}`}
   >
     {date.getDate()}
   </button>

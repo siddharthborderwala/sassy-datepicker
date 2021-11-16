@@ -19,6 +19,7 @@ const MonthPicker: React.FC<MonthPickerProps> = ({
       <button
         className="sdp--square-btn sdp--square-btn__shadowed"
         onClick={prevMonth}
+        aria-label="Go to previous month"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -38,12 +39,19 @@ const MonthPicker: React.FC<MonthPickerProps> = ({
           ></polyline>
         </svg>
       </button>
-      <p className="sdp--text">
+      <p
+        className="sdp--text sdp--month-name"
+        aria-label={`${getMonthNameFromNumber(
+          month
+        )} ${year} is currently open in Date Picker`}
+        tabIndex={0}
+      >
         {getMonthNameFromNumber(month)} {year}
       </p>
       <button
         className="sdp--square-btn sdp--square-btn__shadowed"
         onClick={nextMonth}
+        aria-label="Go to next month"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

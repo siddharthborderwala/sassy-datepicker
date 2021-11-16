@@ -45,7 +45,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   };
 
   return (
-    <div className="sdp">
+    <div className="sdp" aria-label="Date Picker" tabIndex={0}>
       <MonthPicker
         month={monthDate.getMonth()}
         year={monthDate.getFullYear()}

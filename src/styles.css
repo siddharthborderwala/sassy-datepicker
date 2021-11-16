@@ -1,6 +1,6 @@
 .sdp {
-  --font: -apple-system, 'Inter', BlinkMacSystemFont, Roboto, Oxygen, Ubuntu,
-    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, Roboto, 'Segoe UI' Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   --shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
     rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   --shadow-md: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
@@ -14,6 +14,19 @@
   box-shadow: var(--shadow);
   background-color: #ffffff;
   padding: 0.75rem;
+}
+
+.sdp:focus,
+.sdp--month-name:focus,
+.sdp--square-btn:focus {
+  outline: none;
+  box-shadow: 0px 0px 0px 2px #60a5fab3;
+}
+
+.sdp--month-name {
+  padding: 0.5rem;
+  border: none;
+  border-radius: 0.5rem;
 }
 
 .sdp--text {
@@ -39,11 +52,6 @@
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   font-family: var(--font);
-}
-
-.sdp--square-btn:focus {
-  outline: none;
-  box-shadow: 0px 0px 0px 2px #60a5fab3;
 }
 
 .sdp--square-btn:focus:hover {
