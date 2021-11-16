@@ -29,6 +29,7 @@ const DateButton: React.FC<DateButtonProps> = ({
     aria-label={`${
       selected ? 'Currently selected' : 'Select'
     } ${date.toLocaleDateString('en-US', dateOptions)}`}
+    type="button"
   >
     {date.getDate()}
   </button>
