@@ -33,10 +33,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sassy-labs/sassy-datepicker.git"
+    "url": "https://github.com/sassy-labs/datepicker.git"
   },
   "bugs": {
-    "url": "https://github.com/sassy-labs/sassy-datepicker/issues"
+    "url": "https://github.com/sassy-labs/datepicker/issues"
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^6.0.4",
