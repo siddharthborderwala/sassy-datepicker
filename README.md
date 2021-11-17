@@ -2,13 +2,22 @@
 
 [![npm version](https://badge.fury.io/js/sassy-datepicker.svg)](https://badge.fury.io/js/sassy-datepicker)
 [![CI Status](https://github.com/sassy-labs/datepicker/actions/workflows/main.yml/badge.svg)](https://github.com/sassy-labs/datepicker/actions/workflows/test.yml)
-[![Maintenance Status](https://badgen.net/badge/maintenance/active/green)](https://github.com/teafuljs/teaful#maintenance-status)
-[![GitHub Discussions: Chat With Us](https://badgen.net/badge/discussions/chat%20with%20us/purple)](https://github.com/sassy-labs/datepicker/discussions)
-![PRs Welcome](https://img.shields.io/badge/PRs-welcome-blueviolet.svg)
+[![Bundle Size: Minified + Gzipped](https://img.shields.io/bundlephobia/minzip/sassy-datepicker?color=orange&label=minzip)](https://bundlephobia.com/package/sassy-datepicker)
+[![Maintenance Status](https://badgen.net/badge/maintenance/active/green)](https://github.com/sassy-labs/datepicker#maintenance-status)
+[![GitHub Issues: Chat With Us](https://badgen.net/badge/issues/chat%20with%20us/purple)](https://github.com/sassy-labs/datepicker/issues)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-blueviolet.svg)](https://github.com/sassy-labs/datepicker/pulls)
 
 Beautiful, minimal, customizable and accessible date-picker for react.
 
 <img src="https://user-images.githubusercontent.com/54456279/141679315-1e63bfd3-709e-40b4-9c8f-5b8172429078.jpg" height="200px" />
+
+Why use sassy-datepicker?
+
+- Beautiful picker
+- Simple and Easy to Use
+- Customizable
+- First Class Accessibility
+- Small bundle size
 
 ## Installation
 
@@ -52,6 +61,10 @@ function InRange() {
 ```
 
 > **Note**: Make sure when using both `initialDate` and `min/maxDate` props, the `initialDate` is in the range you specify using `min/maxDate` prop.
+
+## Example
+
+You can view a good example over at [Stackblitz](https://stackblitz.com/edit/react-umsdtl)
 
 ## Customization
 
