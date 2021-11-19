@@ -19,6 +19,16 @@ Why use sassy-datepicker?
 - First Class Accessibility
 - Small bundle size
 
+## Contents
+
+- [sassy-datepicker](#sassy-datepicker)
+  - [Contents](#contents)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Customization](#customization)
+  - [Props](#props)
+  - [Example](#example)
+
 ## Installation
 
 ```sh
@@ -36,14 +46,12 @@ import DatePicker from 'sassy-datepicker';
 function Example() {
   const [date, setDate] = useState(new Date());
 
-  const onChange = (newDate) => {
+  const onChange = newDate => {
     console.log(`New date selected - ${newDate.toString()}`);
     setDate(newDate);
   };
 
-  return (
-    <DatePicker onChange={onChange} initialDate={date} />
-  );
+  return <DatePicker onChange={onChange} selected={date} />;
 }
 ```
 
@@ -51,20 +59,15 @@ Suppose you only want to allow dates within a certain range, for that you can us
 
 ```jsx
 function InRange() {
+  // suppose you want to allow user to pick a date from today to the end of this year
   // minDate = today
-  // maxDate = 1st January 2022
+  // maxDate = 31st December 2021
 
-  return (
-    <DatePicker minDate={new Date()} maxDate={new Date(2022, 0, 1)} />
-  );
+  return <DatePicker minDate={new Date()} maxDate={new Date(2021, 11, 31)} />;
 }
 ```
 
-> **Note**: Make sure when using both `initialDate` and `min/maxDate` props, the `initialDate` is in the range you specify using `min/maxDate` prop.
-
-## Example
-
-You can view a good example over at [Stackblitz](https://stackblitz.com/edit/react-umsdtl)
+> **Note**: Make sure when using both `selected` and `min/maxDate` props, the `selected` is in the range you specify using `min/maxDate` prop.
 
 ## Customization
 
@@ -72,7 +75,7 @@ Styles have been defined using CSS custom properties under the `sdp` CSS class, 
 
 Note - You will have to use the `!important` directive to override the default styles
 
-- Background Color for Selected Date (default #60a5fa)
+- Background Color for Selected Date (default `#60a5fa`)
 
 ```css
 .sdp {
@@ -80,7 +83,7 @@ Note - You will have to use the `!important` directive to override the default s
 }
 ```
 
-- Text Color for Selected Date (default #ffffff)
+- Text Color for Selected Date (default `#ffffff`)
 
 ```css
 .sdp {
@@ -88,10 +91,25 @@ Note - You will have to use the `!important` directive to override the default s
 }
 ```
 
-- Font Family (default 'Inter')
+- Font Family (default `inherit` i.e. inherits from the parent element)
 
 ```css
 .sdp {
   --font: 'Kollektif', sans-serif !important;
 }
 ```
+
+## Props
+
+| Name         |          Type           | Description                                                                   |
+| :----------- | :---------------------: | :---------------------------------------------------------------------------- |
+| onChange     | `(date: Date) => void;` | This function is triggered every time the selected date in the picker changes |
+| selected     |         `Date`          | The selected date                                                       |
+| minDate      |         `Date`          | The lowest date value allowed                                                 |
+| maxDate      |         `Date`          | The highest date value allowed                                                |
+| className    |        `string`         | The className prop                                                            |
+| ref          |   `React.ForwardRef`    | The ref prop                                                                  |
+
+## Example
+
+You can view a good example over at [Stackblitz](https://stackblitz.com/edit/react-umsdtl)

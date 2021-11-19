@@ -11,9 +11,9 @@ export type DatePickerProps = {
    */
   onChange?: (date: Date) => void;
   /**
-   * The initially selected date.
+   * The selected date.
    */
-  initialDate?: Date;
+  selected?: Date;
   /**
    * The minimum date that can be selected (inclusive).
    */
@@ -22,20 +22,19 @@ export type DatePickerProps = {
    * The maximum date that can be selected (inclusive).
    */
   maxDate?: Date;
-  /**
-   * Class names you want to give to the date-picker.
-   */
-  className?: string | undefined;
-};
+} & React.PropsWithRef<
+  Omit<React.HTMLProps<HTMLDivElement>, 'onChange' | 'selected'>
+>;
 
 const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
   (
     {
       onChange,
-      initialDate = new Date(),
+      selected = new Date(),
       minDate = new Date(1900, 0, 1),
       maxDate,
       className,
+      ...props
     },
     ref
   ) => {
@@ -45,8 +44,8 @@ const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
         ? Number.POSITIVE_INFINITY
         : maxDate.getTime();
 
-    const [monthDate, setMonthDate] = React.useState<Date>(initialDate);
-    const [selectedDate, setSelectedDate] = React.useState<Date>(initialDate);
+    const [monthDate, setMonthDate] = React.useState<Date>(selected);
+    const [selectedDate, setSelectedDate] = React.useState<Date>(selected);
 
     const nextMonth = React.useCallback(
       () =>
@@ -83,8 +82,7 @@ const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
 
     if (
       process.env.NODE_ENV !== 'production' &&
-      (selectedDate.getTime() > maxDateVal ||
-        selectedDate.getTime() < minDateVal)
+      (selected.getTime() > maxDateVal || selected.getTime() < minDateVal)
     ) {
       console.warn(
         'Selected date must fall in the range of maxDate and minDate'
@@ -97,6 +95,7 @@ const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
         aria-label="Date Picker"
         tabIndex={0}
         ref={ref}
+        {...props}
       >
         <MonthPicker
           month={monthDate.getMonth()}
