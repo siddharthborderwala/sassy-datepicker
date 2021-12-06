@@ -28,6 +28,7 @@ Why use sassy-datepicker?
   - [Customization](#customization)
   - [Props](#props)
   - [Example](#example)
+  - [Road Map](#road-map)
 
 ## Installation
 
@@ -113,3 +114,10 @@ Note - You will have to use the `!important` directive to override the default s
 ## Example
 
 You can view a good example over at [Stackblitz](https://stackblitz.com/edit/react-umsdtl)
+
+
+## Road Map
+
+- [x] DatePicker
+- [ ] DateInput
+- [ ] TimePicker
