@@ -1,4 +1,5 @@
-# sassy-datepicker
+<div align="center">
+<h1>sassy-datepicker</h1>
 
 [![npm version](https://badge.fury.io/js/sassy-datepicker.svg)](https://badge.fury.io/js/sassy-datepicker)
 [![CI Status](https://github.com/sassy-labs/datepicker/actions/workflows/main.yml/badge.svg)](https://github.com/sassy-labs/datepicker/actions/workflows/main.yml)
@@ -11,24 +12,27 @@ Beautiful, minimal, customizable and accessible date-picker for react.
 
 <img src="https://user-images.githubusercontent.com/54456279/141679315-1e63bfd3-709e-40b4-9c8f-5b8172429078.jpg" height="200px" />
 
+</div>
+
 Why use sassy-datepicker?
 
 - Beautiful picker
+- Smooth and slick transitions
 - Simple and Easy to Use
 - Customizable
 - First Class Accessibility
 - Small bundle size
+- Extremely Performant
 
 ## Contents
 
-- [sassy-datepicker](#sassy-datepicker)
-  - [Contents](#contents)
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [Customization](#customization)
-  - [Props](#props)
-  - [Example](#example)
-  - [Road Map](#road-map)
+- [Contents](#contents)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Customization](#customization)
+- [Props](#props)
+- [Example](#example)
+- [Road Map](#road-map)
 
 ## Installation
 
@@ -111,6 +115,8 @@ Note - You will have to use the `!important` directive to override the default s
 | className    |        `string`         | The className prop                                                            |
 | ref          |   `React.ForwardRef`    | The ref prop                                                                  |
 
+And all the other react props for an HTMLDivElement including the className prop.
+
 ## Example
 
 You can view a good example over at [Stackblitz](https://stackblitz.com/edit/react-umsdtl)
@@ -119,5 +125,7 @@ You can view a good example over at [Stackblitz](https://stackblitz.com/edit/rea
 ## Road Map
 
 - [x] DatePicker
-- [ ] DateInput
 - [ ] TimePicker
+- [ ] Slick Transitions
+- [ ] DateInput
+- [ ] Release v1.0.0
