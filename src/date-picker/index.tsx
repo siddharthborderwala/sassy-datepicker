@@ -2,7 +2,8 @@ import * as React from 'react';
 
 import MonthPicker from './month-picker';
 import DateButton from './date-button';
-import { getDatesOfMonth } from './util';
+import { getDatesOfMonth } from '../util';
+
 import './styles.css';
 
 export type DatePickerProps = {
@@ -75,10 +76,13 @@ const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
       [monthDate]
     );
 
-    const setNewSelectedDate = (date: Date) => {
-      setSelectedDate(date);
-      onChange?.(date);
-    };
+    const setNewSelectedDate = React.useCallback(
+      (date: Date) => {
+        setSelectedDate(date);
+        onChange?.(date);
+      },
+      [onChange, setSelectedDate]
+    );
 
     if (
       process.env.NODE_ENV !== 'production' &&
@@ -91,7 +95,7 @@ const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
 
     return (
       <div
-        className={`sdp ${className}`}
+        className={`sdp sassy-root-theme ${className}`}
         aria-label="Date Picker"
         tabIndex={0}
         ref={ref}

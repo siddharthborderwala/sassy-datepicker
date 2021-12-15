@@ -1,5 +1,5 @@
 import React from 'react';
-import { getMonthNameFromNumber } from './util';
+import { getMonthNameFromNumber } from '../util';
 
 export type MonthPickerProps = {
   month: number;
