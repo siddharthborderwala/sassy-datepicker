@@ -93,9 +93,10 @@ const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
       );
     }
 
+    // TODO: arrow-keys navigation
     return (
       <div
-        className={`sdp sassy-root-theme ${className}`}
+        className={`sdp ${className ?? ''}`}
         aria-label="Date Picker"
         tabIndex={0}
         ref={ref}

@@ -1,4 +1,7 @@
 import React from 'react';
+import CustomSelect from './custom-select';
+
+import './styles.css';
 
 /**
  * Time type
@@ -33,7 +36,7 @@ export type TimePickerProps = {
    */
   minutesInterval?: number;
 } & React.PropsWithRef<
-  Omit<React.HTMLProps<HTMLSelectElement>, 'onChange' | 'selected'>
+  Omit<React.HTMLProps<HTMLDivElement>, 'onChange' | 'selected'>
 >;
 
 /**
@@ -75,7 +78,7 @@ const MINUTES_INTERVAL = 30;
 /**
  * TimePicker React Component
  */
-const TimePicker = React.forwardRef<HTMLSelectElement, TimePickerProps>(
+const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
   (
     {
       onChange,
@@ -83,6 +86,8 @@ const TimePicker = React.forwardRef<HTMLSelectElement, TimePickerProps>(
       minTime = MIN_TIME,
       maxTime = MAX_TIME,
       minutesInterval = MINUTES_INTERVAL,
+      className,
+      ...props
     },
     ref
   ) => {
@@ -101,6 +106,7 @@ const TimePicker = React.forwardRef<HTMLSelectElement, TimePickerProps>(
       );
     }, [selected, minutesInterval]);
 
+    // change event handler
     const handleChange = React.useCallback(
       (name: string) => (e: React.ChangeEvent<HTMLSelectElement>) => {
         onChange?.(
@@ -113,6 +119,7 @@ const TimePicker = React.forwardRef<HTMLSelectElement, TimePickerProps>(
       [minutesInterval, onChange, selectedTime]
     );
 
+    // the array of options for the minutes to select from
     const minuteOptions = React.useMemo<number[]>(() => {
       let options = [];
       for (let i = 0; i < 60; i += minutesInterval) {
@@ -121,6 +128,7 @@ const TimePicker = React.forwardRef<HTMLSelectElement, TimePickerProps>(
       return options;
     }, [minutesInterval]);
 
+    // need to update the value of selectedTime when onChange changes or minutesInterval changes
     React.useEffect(() => {
       onChange?.(selectedTime);
     }, [minutesInterval, onChange]);
@@ -130,35 +138,34 @@ const TimePicker = React.forwardRef<HTMLSelectElement, TimePickerProps>(
       (greaterThan(selectedTime, maxTime) || greaterThan(minTime, selectedTime))
     ) {
       console.warn(
-        'Selected date must fall in the range of maxDate and minDate'
+        'Selected time must fall in the range of maxTime and minTime'
       );
     }
 
+    // TODO: apply minTime and maxTime constraints
     return (
-      <div className="stp sassy-root-theme">
-        <select
-          ref={ref}
-          className="stp--hour-select"
-          value={selectedTime.hours}
-          onChange={handleChange('hours')}
-        >
-          {Array.from(Array(24).keys()).map(hour => (
-            <option key={hour} value={hour}>
-              {hour.toString().padStart(2, '0')}
-            </option>
-          ))}
-        </select>
-        <select
-          className="stp--min-select"
-          value={selectedTime.minutes}
-          onChange={handleChange('minutes')}
-        >
-          {minuteOptions.map(minute => (
-            <option key={minute} value={minute}>
-              {minute.toString().padStart(2, '0')}
-            </option>
-          ))}
-        </select>
+      <div className={`stp ${className ?? ''}`} {...props} ref={ref}>
+        <CustomSelect
+          className="stp--select stp--select__hours"
+          value={selectedTime.hours.toString().padStart(2, '0')}
+          onChange={
+            ((v: string) =>
+              handleChange('hours')({ target: { value: v } } as any)) as any
+          }
+          values={Array.from(Array(24).keys()).map(hour =>
+            hour.toString().padStart(2, '0')
+          )}
+        />
+        <p>:</p>
+        <CustomSelect
+          className="stp--select stp--select__minutes"
+          value={selectedTime.minutes.toString().padStart(2, '0')}
+          onChange={
+            ((v: string) =>
+              handleChange('minutes')({ target: { value: v } } as any)) as any
+          }
+          values={minuteOptions.map(m => m.toString().padStart(2, '0'))}
+        />
       </div>
     );
   }
