@@ -54,8 +54,14 @@
 
 .stp--select,
 .stp--option {
+  font-weight: 500;
   font-family: var(--font);
   font-size: 1rem;
+}
+
+.stp--option__disabled {
+  color: #bdbdbd;
+  pointer-events: none;
 }
 
 .stp--select:hover {

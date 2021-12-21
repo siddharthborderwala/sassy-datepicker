@@ -1,19 +1,56 @@
 import React from 'react';
+import CustomOption from './custom-option';
+
+export type OptionType = {
+  value: string[];
+  disabled: boolean;
+};
 
 type CustomSelectProps = {
+  /**
+   * The value of the select.
+   */
   value: string;
+  /**
+   * A callback triggered whenever the value of the select changes.
+   */
   onChange: (value: string) => void;
-  values: string[];
-} & React.PropsWithChildren<React.HTMLProps<HTMLDivElement>>;
+  /**
+   * The options to display in the select.
+   *
+   * Format - [{value: [value, label], disabled: boolean}, ...]
+   */
+  options: OptionType[];
+} & Omit<
+  React.PropsWithChildren<React.HTMLProps<HTMLDivElement>>,
+  'onChange' | 'value'
+>;
 
+/**
+ * A custom select component.
+ *
+ */
 const CustomSelect: React.FC<CustomSelectProps> = ({
   value,
-  values,
+  options,
   onChange,
   children,
 }) => {
   const ref = React.useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
+
+  const openOptionsDropdown = React.useCallback(() => {
+    setIsOpen(true);
+  }, []);
+
+  const closeOptionsDropdown = React.useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
+  const handleOptionSelect = React.useCallback(v => {
+    onChange(v);
+    closeOptionsDropdown();
+  }, []);
 
   React.useEffect(() => {
     if (React.Children.toArray(children).some(c => typeof c !== 'string')) {
@@ -24,7 +61,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   React.useEffect(() => {
     const clickListener = (e: MouseEvent) => {
       if (!ref.current?.contains(e.target as Node)) {
-        setIsOpen(false);
+        closeOptionsDropdown();
       }
     };
 
@@ -33,34 +70,28 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
     return () => document.removeEventListener('click', clickListener);
   }, []);
 
-  // TODO: optimize the callbacks
-  // TODO: uniform value format
   return (
-    <div className="stp--select__container" ref={ref}>
+    <div className="stp--select__container">
       <div
+        ref={ref}
         className="stp--select"
         tabIndex={0}
-        onClick={() => setIsOpen(true)}
-        onFocus={() => setIsOpen(true)}
+        onClick={openOptionsDropdown}
+        onFocus={openOptionsDropdown}
       >
         {value}
       </div>
       {isOpen && (
         <div className="stp--select__dropdown">
-          {values.map(v => (
-            <button
-              className={`stp--option ${
-                value === v ? 'stp--option__active' : ''
-              }`}
-              type="button"
-              onClick={() => {
-                onChange(v);
-                setIsOpen(false);
-              }}
+          {options.map(({ value: [v, label], disabled }) => (
+            <CustomOption
               key={v}
-            >
-              {v}
-            </button>
+              selected={v === value}
+              value={v}
+              label={label}
+              onClick={handleOptionSelect}
+              disabled={disabled}
+            />
           ))}
         </div>
       )}

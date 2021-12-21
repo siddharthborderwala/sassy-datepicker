@@ -1,5 +1,5 @@
 import React from 'react';
-import CustomSelect from './custom-select';
+import CustomSelect, { OptionType } from './custom-select';
 
 import './styles.css';
 
@@ -56,11 +56,14 @@ const alignTime = ({ hours, minutes }: Time, interval: number): Time => {
   };
 };
 
+// TODO: max-min time validation on update
+// TODO: max-min time disabled option correct logic
+
 /**
  * Compares two time values and returns true if a is greater than b
  *
- * @param a {Time} Time value a
- * @param b {Time} Time value b
+ * @param {Time} Time value a
+ * @param {Time} Time value b
  * @returns {boolean} If a is greater than b
  */
 const greaterThan = (a: Time, b: Time): boolean => {
@@ -69,6 +72,18 @@ const greaterThan = (a: Time, b: Time): boolean => {
   }
   return a.minutes > b.minutes;
 };
+
+const isMinuteOptionDisabled = (
+  selectedTime: Time,
+  maxTime: Time,
+  minTime: Time,
+  i: number
+) =>
+  selectedTime.hours > maxTime.hours ||
+  selectedTime.hours < minTime.hours ||
+  ((selectedTime.hours === maxTime.hours ||
+    selectedTime.hours === minTime.hours) &&
+    (i > maxTime.minutes || i < minTime.minutes));
 
 // sane defaults
 const MIN_TIME = { hours: 0, minutes: 0 };
@@ -91,11 +106,19 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
     },
     ref
   ) => {
-    if (60 % minutesInterval !== 0) {
-      throw new Error('TimePicker: minutesInterval must be a factor of 60');
+    if (
+      typeof minutesInterval !== 'number' &&
+      minutesInterval < 1 &&
+      Number.isInteger(minutesInterval)
+    ) {
+      throw new Error('minutesInterval must be an integer greater than 0');
     }
 
-    const selectedTime = React.useMemo(() => {
+    if (process.env.NODE_ENV !== 'production' && 60 % minutesInterval !== 0) {
+      console.warn('TimePicker: minutesInterval must be a factor of 60');
+    }
+
+    const [selectedTime, setSelectedTime] = React.useState(() => {
       if (selected !== undefined) {
         return alignTime(selected, minutesInterval);
       }
@@ -104,67 +127,81 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
         { hours: d.getHours(), minutes: d.getMinutes() },
         minutesInterval
       );
-    }, [selected, minutesInterval]);
+    });
 
-    // change event handler
-    const handleChange = React.useCallback(
-      (name: string) => (e: React.ChangeEvent<HTMLSelectElement>) => {
-        onChange?.(
-          alignTime(
-            { ...selectedTime, [name]: parseInt(e.target.value, 10) },
-            minutesInterval
-          )
-        );
-      },
-      [minutesInterval, onChange, selectedTime]
-    );
+    const handleMinutesChange = React.useCallback((v: string) => {
+      setSelectedTime(t => ({
+        ...t,
+        minutes: Number(v),
+      }));
+    }, []);
+
+    const handleHoursChange = React.useCallback((v: string) => {
+      setSelectedTime(t => ({
+        ...t,
+        hours: Number(v),
+      }));
+    }, []);
 
     // the array of options for the minutes to select from
-    const minuteOptions = React.useMemo<number[]>(() => {
-      let options = [];
+    const minuteOptions = React.useMemo<OptionType[]>(() => {
+      let options: OptionType[] = [];
       for (let i = 0; i < 60; i += minutesInterval) {
-        options.push(i);
+        options.push({
+          value: [i.toString(), i.toString().padStart(2, '0')],
+          disabled: isMinuteOptionDisabled(selectedTime, maxTime, minTime, i),
+        });
       }
       return options;
-    }, [minutesInterval]);
+    }, [minutesInterval, maxTime, minTime, selectedTime.hours]);
+
+    const hourOptions = React.useMemo<OptionType[]>(() => {
+      let options: OptionType[] = [];
+      for (let i = 0; i <= 23; i++) {
+        options.push({
+          value: [i.toString(), i.toString().padStart(2, '0')],
+          disabled: minTime.hours > i || maxTime.hours < i,
+        });
+      }
+      return options;
+    }, [maxTime, minTime]);
 
     // need to update the value of selectedTime when onChange changes or minutesInterval changes
     React.useEffect(() => {
       onChange?.(selectedTime);
-    }, [minutesInterval, onChange]);
+    }, [selectedTime, onChange]);
+
+    React.useEffect(() => {
+      const updatedTime = alignTime(selectedTime, minutesInterval);
+      setSelectedTime(updatedTime);
+      onChange?.(updatedTime);
+    }, [minutesInterval]);
 
     if (
       process.env.NODE_ENV !== 'production' &&
       (greaterThan(selectedTime, maxTime) || greaterThan(minTime, selectedTime))
     ) {
       console.warn(
-        'Selected time must fall in the range of maxTime and minTime'
+        'TimePicker: Selected time must fall in the range of maxTime and minTime'
       );
     }
 
-    // TODO: apply minTime and maxTime constraints
+    console.log('ren');
+
     return (
       <div className={`stp ${className ?? ''}`} {...props} ref={ref}>
         <CustomSelect
           className="stp--select stp--select__hours"
           value={selectedTime.hours.toString().padStart(2, '0')}
-          onChange={
-            ((v: string) =>
-              handleChange('hours')({ target: { value: v } } as any)) as any
-          }
-          values={Array.from(Array(24).keys()).map(hour =>
-            hour.toString().padStart(2, '0')
-          )}
+          onChange={handleHoursChange}
+          options={hourOptions}
         />
         <p>:</p>
         <CustomSelect
           className="stp--select stp--select__minutes"
           value={selectedTime.minutes.toString().padStart(2, '0')}
-          onChange={
-            ((v: string) =>
-              handleChange('minutes')({ target: { value: v } } as any)) as any
-          }
-          values={minuteOptions.map(m => m.toString().padStart(2, '0'))}
+          onChange={handleMinutesChange}
+          options={minuteOptions}
         />
       </div>
     );
