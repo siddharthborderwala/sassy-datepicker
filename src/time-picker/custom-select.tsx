@@ -52,7 +52,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
       onChange(v);
       closeOptionsDropdown();
     },
-    [onChange]
+    [onChange, closeOptionsDropdown]
   );
 
   React.useEffect(() => {
@@ -71,7 +71,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
     document.addEventListener('click', clickListener);
 
     return () => document.removeEventListener('click', clickListener);
-  }, []);
+  }, [closeOptionsDropdown]);
 
   return (
     <div className="stp--select__container">

@@ -59,7 +59,7 @@ const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
             return new Date(y, m + 1);
           }
         }),
-      [monthDate]
+      []
     );
 
     const prevMonth = React.useCallback(
@@ -73,7 +73,7 @@ const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
             return new Date(y, m - 1);
           }
         }),
-      [monthDate]
+      []
     );
 
     const setNewSelectedDate = React.useCallback(

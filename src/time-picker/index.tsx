@@ -186,6 +186,7 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
         });
       }
       return options;
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [minutesInterval, maxTime, minTime, selectedTime.hours]);
 
     const hourOptions = React.useMemo<OptionType[]>(() => {
