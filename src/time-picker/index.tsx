@@ -45,19 +45,22 @@ export type TimePickerProps = {
  * @param interval {number} The interval between each minute select option
  * @returns {Time} Time value rounded to the nearest interval
  */
-const alignTime = ({ hours, minutes }: Time, interval: number): Time => {
+const alignTime = (
+  { hours, minutes }: Time,
+  interval: number,
+  lower: boolean = true
+): Time => {
   // round minutes to nearest interval
   if (minutes % interval !== 0) {
-    minutes = minutes - (minutes % interval);
+    minutes = lower
+      ? minutes - (minutes % interval)
+      : minutes + (minutes % interval);
   }
   return {
     hours,
     minutes,
   };
 };
-
-// TODO: max-min time validation on update
-// TODO: max-min time disabled option correct logic
 
 /**
  * Compares two time values and returns true if a is greater than b
@@ -81,9 +84,8 @@ const isMinuteOptionDisabled = (
 ) =>
   selectedTime.hours > maxTime.hours ||
   selectedTime.hours < minTime.hours ||
-  ((selectedTime.hours === maxTime.hours ||
-    selectedTime.hours === minTime.hours) &&
-    (i > maxTime.minutes || i < minTime.minutes));
+  (selectedTime.hours === maxTime.hours && i > maxTime.minutes) ||
+  (selectedTime.hours === minTime.hours && i < minTime.minutes);
 
 // sane defaults
 const MIN_TIME = { hours: 0, minutes: 0 };
@@ -115,7 +117,7 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
     }
 
     if (process.env.NODE_ENV !== 'production' && 60 % minutesInterval !== 0) {
-      console.warn('TimePicker: minutesInterval must be a factor of 60');
+      console.warn('TimePicker: minutesInterval is not a factor of 60');
     }
 
     const [selectedTime, setSelectedTime] = React.useState(() => {
@@ -129,19 +131,50 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
       );
     });
 
-    const handleMinutesChange = React.useCallback((v: string) => {
-      setSelectedTime(t => ({
-        ...t,
-        minutes: Number(v),
-      }));
-    }, []);
+    const handleMinutesChange = React.useCallback(
+      (v: string) => {
+        setSelectedTime(t => {
+          if (t.hours === maxTime.hours && Number(v) > maxTime.minutes) {
+            return alignTime(
+              { ...t, minutes: maxTime.minutes },
+              minutesInterval
+            );
+          } else if (t.hours === minTime.hours && Number(v) < minTime.minutes) {
+            return alignTime(
+              { ...t, minutes: minTime.minutes },
+              minutesInterval,
+              false
+            );
+          } else {
+            return alignTime({ ...t, minutes: Number(v) }, minutesInterval);
+          }
+        });
+      },
+      [minutesInterval, maxTime, minTime]
+    );
 
-    const handleHoursChange = React.useCallback((v: string) => {
-      setSelectedTime(t => ({
-        ...t,
-        hours: Number(v),
-      }));
-    }, []);
+    const handleHoursChange = React.useCallback(
+      (v: string) => {
+        setSelectedTime(t => {
+          const h = Number(v);
+          if (h === minTime.hours && t.minutes < minTime.minutes) {
+            return alignTime(
+              { hours: h, minutes: minTime.minutes },
+              minutesInterval,
+              false
+            );
+          } else if (h === maxTime.hours && t.minutes > maxTime.minutes) {
+            return alignTime(
+              { hours: h, minutes: maxTime.minutes },
+              minutesInterval
+            );
+          } else {
+            return alignTime({ ...t, hours: h }, minutesInterval);
+          }
+        });
+      },
+      [minutesInterval, maxTime, minTime]
+    );
 
     // the array of options for the minutes to select from
     const minuteOptions = React.useMemo<OptionType[]>(() => {
@@ -166,7 +199,6 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
       return options;
     }, [maxTime, minTime]);
 
-    // need to update the value of selectedTime when onChange changes or minutesInterval changes
     React.useEffect(() => {
       onChange?.(selectedTime);
     }, [selectedTime, onChange]);
@@ -185,8 +217,6 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
         'TimePicker: Selected time must fall in the range of maxTime and minTime'
       );
     }
-
-    console.log('ren');
 
     return (
       <div className={`stp ${className ?? ''}`} {...props} ref={ref}>
