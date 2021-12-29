@@ -210,7 +210,7 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
     }, [minutesInterval]);
 
     if (
-      process.env.NODE_ENV !== 'production' &&
+      process?.env?.NODE_ENV !== 'production' &&
       (greaterThan(selectedTime, maxTime) || greaterThan(minTime, selectedTime))
     ) {
       console.warn(
@@ -237,5 +237,7 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
     );
   }
 );
+
+TimePicker.displayName = 'TimePicker';
 
 export default TimePicker;

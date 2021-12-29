@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import MonthPicker from './month-picker';
 import DateButton from './date-button';
@@ -85,7 +85,7 @@ const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
     );
 
     if (
-      process.env.NODE_ENV !== 'production' &&
+      process?.env?.NODE_ENV !== 'production' &&
       (selected.getTime() > maxDateVal || selected.getTime() < minDateVal)
     ) {
       console.warn(
@@ -134,5 +134,7 @@ const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
     );
   }
 );
+
+DatePicker.displayName = 'DatePicker';
 
 export default DatePicker;
