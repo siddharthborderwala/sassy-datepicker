@@ -208,6 +208,7 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
       const updatedTime = alignTime(selectedTime, minutesInterval);
       setSelectedTime(updatedTime);
       onChange?.(updatedTime);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [minutesInterval]);
 
     if (
