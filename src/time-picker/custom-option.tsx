@@ -33,8 +33,17 @@ const CustomOption: React.FC<CustomOptionProps> = ({
   onClick,
   disabled,
 }) => {
+  const ref = React.useRef<HTMLButtonElement>(null);
+
+  React.useEffect(() => {
+    if (selected) {
+      ref.current?.scrollIntoView();
+    }
+  }, [selected]);
+
   return (
     <button
+      ref={ref}
       className={`stp--option ${selected ? 'stp--option__active' : ''} ${
         disabled ? 'stp--option__disabled' : ''
       }`}
