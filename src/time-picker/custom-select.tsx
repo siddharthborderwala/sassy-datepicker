@@ -47,10 +47,13 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
     setIsOpen(false);
   }, []);
 
-  const handleOptionSelect = React.useCallback(v => {
-    onChange(v);
-    closeOptionsDropdown();
-  }, []);
+  const handleOptionSelect = React.useCallback(
+    v => {
+      onChange(v);
+      closeOptionsDropdown();
+    },
+    [onChange]
+  );
 
   React.useEffect(() => {
     if (React.Children.toArray(children).some(c => typeof c !== 'string')) {
