@@ -1,8 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 
 import MonthPicker from './month-picker';
 import DateButton from './date-button';
-import { getDatesOfMonth } from './util';
+import { getDatesOfMonth } from '../util';
+
 import './styles.css';
 
 export type DatePickerProps = {
@@ -58,7 +59,7 @@ const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
             return new Date(y, m + 1);
           }
         }),
-      [monthDate]
+      []
     );
 
     const prevMonth = React.useCallback(
@@ -72,26 +73,30 @@ const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
             return new Date(y, m - 1);
           }
         }),
-      [monthDate]
+      []
     );
 
-    const setNewSelectedDate = (date: Date) => {
-      setSelectedDate(date);
-      onChange?.(date);
-    };
+    const setNewSelectedDate = React.useCallback(
+      (date: Date) => {
+        setSelectedDate(date);
+        onChange?.(date);
+      },
+      [onChange, setSelectedDate]
+    );
 
     if (
-      process.env.NODE_ENV !== 'production' &&
+      process?.env?.NODE_ENV !== 'production' &&
       (selected.getTime() > maxDateVal || selected.getTime() < minDateVal)
     ) {
       console.warn(
-        'Selected date must fall in the range of maxDate and minDate'
+        'DatePicker: Selected date must fall in the range of maxDate and minDate'
       );
     }
 
+    // TODO: arrow-keys navigation
     return (
       <div
-        className={`sdp ${className}`}
+        className={`sdp ${className ?? ''}`}
         aria-label="Date Picker"
         tabIndex={0}
         ref={ref}
@@ -129,5 +134,7 @@ const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
     );
   }
 );
+
+DatePicker.displayName = 'DatePicker';
 
 export default DatePicker;
