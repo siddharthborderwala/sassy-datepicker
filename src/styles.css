@@ -9,4 +9,5 @@
     rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
   --theme-color: #60a5fa;
   --selected-date-color: #ffffff;
+  --disabled-color: #bdbdbd;
 }

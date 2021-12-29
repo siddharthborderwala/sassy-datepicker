@@ -27,7 +27,7 @@
 }
 
 .sdp--text__inactive {
-  color: #bdbdbd;
+  color: var(--disabled-color);
   pointer-events: none;
 }
 

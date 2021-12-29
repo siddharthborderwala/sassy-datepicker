@@ -60,7 +60,7 @@
 }
 
 .stp--option__disabled {
-  color: #bdbdbd;
+  color: var(--disabled-color);
   pointer-events: none;
 }
 
@@ -84,7 +84,7 @@
 
 .stp--option__active,
 .stp--option:hover {
-  color: #ffffff;
+  color: var(--selected-date-color);
   background-color: var(--theme-color);
 }
 
