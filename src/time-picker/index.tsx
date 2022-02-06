@@ -62,26 +62,12 @@ const alignTime = (
   };
 };
 
-/**
- * Compares two time values and returns true if a is greater than b
- *
- * @param {Time} Time value a
- * @param {Time} Time value b
- * @returns {boolean} If a is greater than b
- */
-const greaterThan = (a: Time, b: Time): boolean => {
-  if (a.hours !== b.hours) {
-    return a.hours > b.hours;
-  }
-  return a.minutes > b.minutes;
-};
-
 const isMinuteOptionDisabled = (
   selectedTime: Time,
   maxTime: Time,
   minTime: Time,
   i: number
-) =>
+): boolean =>
   selectedTime.hours > maxTime.hours ||
   selectedTime.hours < minTime.hours ||
   (selectedTime.hours === maxTime.hours && i > maxTime.minutes) ||
@@ -115,10 +101,6 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
     ) {
       throw new Error('minutesInterval must be an integer greater than 0');
     }
-
-    // if (process.env.NODE_ENV !== 'production' && 60 % minutesInterval !== 0) {
-    //   console.warn('TimePicker: minutesInterval is not a factor of 60');
-    // }
 
     const [selectedTime, setSelectedTime] = React.useState(() => {
       if (selected !== undefined) {
@@ -210,15 +192,6 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
       onChange?.(updatedTime);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [minutesInterval]);
-
-    // if (
-    //   process.env.NODE_ENV !== 'production' &&
-    //   (greaterThan(selectedTime, maxTime) || greaterThan(minTime, selectedTime))
-    // ) {
-    //   console.warn(
-    //     'TimePicker: Selected time must fall in the range of maxTime and minTime'
-    //   );
-    // }
 
     return (
       <div className={`stp ${className ?? ''}`} {...props} ref={ref}>

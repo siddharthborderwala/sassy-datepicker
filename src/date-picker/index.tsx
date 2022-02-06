@@ -84,15 +84,6 @@ const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
       [onChange, setSelectedDate]
     );
 
-    // if (
-    //   process.env.NODE_ENV !== 'production' &&
-    //   (selected.getTime() > maxDateVal || selected.getTime() < minDateVal)
-    // ) {
-    //   console.warn(
-    //     'DatePicker: Selected date must fall in the range of maxDate and minDate'
-    //   );
-    // }
-
     // TODO: arrow-keys navigation
     return (
       <div
