@@ -70,5 +70,6 @@
       "path": "dist/sassy-datepicker.esm.js",
       "limit": "10 KB"
     }
-  ]
+  ],
+  "dependencies": {}
 }

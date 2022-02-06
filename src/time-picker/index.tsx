@@ -116,9 +116,9 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
       throw new Error('minutesInterval must be an integer greater than 0');
     }
 
-    if (process.env.NODE_ENV !== 'production' && 60 % minutesInterval !== 0) {
-      console.warn('TimePicker: minutesInterval is not a factor of 60');
-    }
+    // if (process.env.NODE_ENV !== 'production' && 60 % minutesInterval !== 0) {
+    //   console.warn('TimePicker: minutesInterval is not a factor of 60');
+    // }
 
     const [selectedTime, setSelectedTime] = React.useState(() => {
       if (selected !== undefined) {
@@ -211,14 +211,14 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [minutesInterval]);
 
-    if (
-      process?.env?.NODE_ENV !== 'production' &&
-      (greaterThan(selectedTime, maxTime) || greaterThan(minTime, selectedTime))
-    ) {
-      console.warn(
-        'TimePicker: Selected time must fall in the range of maxTime and minTime'
-      );
-    }
+    // if (
+    //   process.env.NODE_ENV !== 'production' &&
+    //   (greaterThan(selectedTime, maxTime) || greaterThan(minTime, selectedTime))
+    // ) {
+    //   console.warn(
+    //     'TimePicker: Selected time must fall in the range of maxTime and minTime'
+    //   );
+    // }
 
     return (
       <div className={`stp ${className ?? ''}`} {...props} ref={ref}>
