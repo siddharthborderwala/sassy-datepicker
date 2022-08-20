@@ -1,17 +1,30 @@
-const MONTHS: { [key: number]: string } = {
-  0: 'January',
-  1: 'February',
-  2: 'March',
-  3: 'April',
-  4: 'May',
-  5: 'June',
-  6: 'July',
-  7: 'August',
-  8: 'September',
-  9: 'October',
-  10: 'November',
-  11: 'December',
-};
+import dt from 'date-and-time';
+import type { WeekStartDay, DisplayDate } from './date-picker/types';
+
+enum DAYS {
+  'Sunday' = 0,
+  'Monday' = 1,
+  'Tuesday' = 2,
+  'Wednesday' = 3,
+  'Thursday' = 4,
+  'Friday' = 5,
+  'Saturday' = 6,
+}
+
+enum MONTHS {
+  'January' = 0,
+  'February' = 1,
+  'March' = 2,
+  'April' = 3,
+  'May' = 4,
+  'June' = 5,
+  'July' = 6,
+  'August' = 7,
+  'September' = 8,
+  'October' = 9,
+  'November' = 10,
+  'December' = 11,
+}
 
 export const getMonthNameFromNumber = (month: number): string => {
   if (month < 0 || month > 11) {
@@ -20,49 +33,119 @@ export const getMonthNameFromNumber = (month: number): string => {
   return MONTHS[month];
 };
 
-export const getDatesOfMonth = (date: Date): { d: Date; active: boolean }[] => {
+export const getDayFromNumber = (
+  day: number,
+  weekStartsFrom: WeekStartDay
+): string => {
+  if (day < 0 || day > 6) {
+    throw new Error(`Invalid month number: ${day}`);
+  }
+  switch (weekStartsFrom) {
+    case 'Monday':
+      return DAYS[(day + 1) % 7];
+    case 'Sunday':
+      return DAYS[day];
+    default:
+      throw new Error(`Invalid week start day: ${weekStartsFrom}`);
+  }
+};
+
+export const getDaysOfWeek = (weekStartsFrom: WeekStartDay) => {
+  if (weekStartsFrom === 'Monday') {
+    return ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+  }
+  return ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+};
+
+export const getDatesOfMonth = (date: Date, minDateValue: number, maxDateValue: number, weekStartsFrom: WeekStartDay): DisplayDate[] => {
+  const currentYear = date.getFullYear();
+  const currentMonth = date.getMonth();
+
   // generate dates of each week of the month including the residue dates
   // of the last week of previous month and first week of next month
-  const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-  const lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+  const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
+  const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
 
-  const firstDayOfMonthWeekDay = firstDayOfMonth.getDay();
-  const lastDayOfMonthWeekDay = lastDayOfMonth.getDay();
+  // first day of the pervious month
+  // const previousMonth = dt.addMonths(firstDayOfMonth, -1);
+  // last day of the pervious month
+  const previousMonthLastDay = dt.addDays(firstDayOfMonth, -1);
 
-  const previousMonth = new Date(date.getFullYear(), date.getMonth(), 0);
-  const previousMonthLastDay = new Date(
-    previousMonth.getFullYear(),
-    previousMonth.getMonth() + 1,
-    0
-  );
+  const dates: DisplayDate[] = [];
 
-  const nextMonth = new Date(date.getFullYear(), date.getMonth() + 2, 0);
+  // the number of the weekday of the first day of the month
+  const firstWeekDayOfMonth = firstDayOfMonth.getDay();
+  // the number of the weekday of the last day of the month
+  const lastWeekDayOfMonth = lastDayOfMonth.getDay();
 
-  const dates: { d: Date; active: boolean }[] = [];
+  if (weekStartsFrom === 'Sunday') {
+    // insert the residual dates of previous month's last week
+    for (let i = 1; i <= firstWeekDayOfMonth; i++) {
+      const d = dt.addDays(previousMonthLastDay, (i - firstWeekDayOfMonth));
+      dates.push({
+        date: d,
+        active: false,
+        ms: d.valueOf(),
+      });
+    }
 
-  for (let i = 0; i < firstDayOfMonthWeekDay; i++) {
-    dates.push({
-      d: new Date(
-        previousMonth.getFullYear(),
-        previousMonth.getMonth(),
-        previousMonthLastDay.getDate() - firstDayOfMonthWeekDay + i + 1
-      ),
-      active: false,
-    });
-  }
+    // insert the dates of the current month
+    for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
+      const d = new Date(date.getFullYear(), date.getMonth(), i);
+      const dValue = d.valueOf();
+      dates.push({
+        date: d,
+        active: dValue > minDateValue && dValue < maxDateValue,
+        ms: dValue,
+      });
+    }
 
-  for (let i = 0; i < lastDayOfMonth.getDate(); i++) {
-    dates.push({
-      d: new Date(date.getFullYear(), date.getMonth(), i + 1),
-      active: true,
-    });
-  }
+    let i = lastWeekDayOfMonth + 1;
+    let counter = 1;
+    // insert the residual dates of the next month
+    while (i <= 6) {
+      const d= dt.addDays(lastDayOfMonth, counter++);
+      dates.push({
+        date: d,
+        active: false,
+        ms: d.valueOf(),
+      });
+      i++;
+    }
+  } else {
+    // insert the residual dates of previous month's last week
+    for (let i = 1; i < firstWeekDayOfMonth; i++) {
+      const d= dt.addDays(previousMonthLastDay, (i - firstWeekDayOfMonth + 1));
+      dates.push({
+        date: d,
+        active: false,
+        ms: d.valueOf(),
+      });
+    }
 
-  for (let i = 0; i < 6 - lastDayOfMonthWeekDay; i++) {
-    dates.push({
-      d: new Date(nextMonth.getFullYear(), nextMonth.getMonth(), i + 1),
-      active: false,
-    });
+    // insert the dates of the current month
+    for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
+      const d = new Date(date.getFullYear(), date.getMonth(), i);
+      const dValue = d.valueOf();
+      dates.push({
+        date: d,
+        active: dValue > minDateValue && dValue < maxDateValue,
+        ms: dValue,
+      });
+    }
+
+    let i = lastWeekDayOfMonth;
+    let counter = 1;
+    // insert the residual dates of the next month
+    while (i <= 6) {
+      const d = dt.addDays(lastDayOfMonth, counter++);
+      dates.push({
+        date: d,
+        active: false,
+        ms: d.valueOf(),
+      });
+      i++;
+    }
   }
 
   return dates;
