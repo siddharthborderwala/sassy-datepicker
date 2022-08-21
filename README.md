@@ -21,7 +21,7 @@ Why use sassy-datepicker?
 - Simple and Easy to Use
 - Customizable
 - First Class Accessibility
-- Small bundle size + No external dependencies
+- Small bundle size
 - Extremely Performant
 
 ## Contents
@@ -240,6 +240,9 @@ You can view a good example over at [Stackblitz](https://stackblitz.com/edit/rea
 
 - [x] DatePicker
 - [x] TimePicker
-- [ ] Slick Transitions
+- [x] Slick Transitions
+- [x] DatePicker Configuration Options
+- [ ] Month Picker Dropdown
+- [ ] Year Picker Dropdown
 - [ ] Enhanced Keyboard Support
 - [ ] Release v1.0.0

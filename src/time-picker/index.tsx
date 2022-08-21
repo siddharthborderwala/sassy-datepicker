@@ -1,5 +1,5 @@
 import React from 'react';
-import CustomSelect, { OptionType } from './custom-select';
+import CustomSelect, { OptionType } from '../components/select';
 
 import './styles.css';
 
@@ -159,8 +159,8 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
     );
 
     // the array of options for the minutes to select from
-    const minuteOptions = React.useMemo<OptionType[]>(() => {
-      let options: OptionType[] = [];
+    const minuteOptions = React.useMemo<OptionType<string>[]>(() => {
+      let options: OptionType<string>[] = [];
       for (let i = 0; i < 60; i += minutesInterval) {
         options.push({
           value: [i.toString(), i.toString().padStart(2, '0')],
@@ -171,8 +171,8 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [minutesInterval, maxTime, minTime, selectedTime.hours]);
 
-    const hourOptions = React.useMemo<OptionType[]>(() => {
-      let options: OptionType[] = [];
+    const hourOptions = React.useMemo<OptionType<string>[]>(() => {
+      let options: OptionType<string>[] = [];
       for (let i = 0; i <= 23; i++) {
         options.push({
           value: [i.toString(), i.toString().padStart(2, '0')],
@@ -194,16 +194,14 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
     }, [minutesInterval]);
 
     return (
-      <div className={`stp ${className ?? ''}`} {...props} ref={ref}>
+      <div className={`sassy ${className ?? ''}`} {...props} ref={ref}>
         <CustomSelect
-          className="stp--select stp--select__hours"
           value={selectedTime.hours.toString().padStart(2, '0')}
           onChange={handleHoursChange}
           options={hourOptions}
         />
         <p>:</p>
         <CustomSelect
-          className="stp--select stp--select__minutes"
           value={selectedTime.minutes.toString().padStart(2, '0')}
           onChange={handleMinutesChange}
           options={minuteOptions}

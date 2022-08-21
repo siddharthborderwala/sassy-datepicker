@@ -10,4 +10,6 @@
   --theme-color: #60a5fa;
   --selected-date-color: #ffffff;
   --disabled-color: #bdbdbd;
+  --outline: 1px solid #cbd5e1;
+  --ring-shadow: 0px 0px 0px 2px #60a5fa;
 }

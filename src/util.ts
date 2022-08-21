@@ -11,7 +11,7 @@ enum DAYS {
   'Saturday' = 6,
 }
 
-enum MONTHS {
+export enum MONTHS {
   'January' = 0,
   'February' = 1,
   'March' = 2,
@@ -32,6 +32,38 @@ export const getMonthNameFromNumber = (month: number): string => {
   }
   return MONTHS[month];
 };
+
+export const getMonthNumberFromName = (month: string): number => {
+  switch (month) {
+    case 'January':
+      return 0
+    case 'February':
+      return 1
+    case 'March':
+      return 2
+    case 'April':
+      return 3
+    case 'May':
+      return 4
+    case 'June':
+      return 5
+    case 'July':
+      return 6
+    case 'August':
+      return 7
+    case 'September':
+      return 8
+    case 'October':
+      return 9
+    case 'November':
+      return 10
+    case 'December':
+      return 11
+    default:
+      throw new Error(`Invalid month name: ${month}`)
+  }
+};
+
 
 export const getDayFromNumber = (
   day: number,
