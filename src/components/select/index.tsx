@@ -1,26 +1,28 @@
 import React from 'react';
-import CustomOption from './custom-option';
+import CustomOption from './option';
 
-export type OptionType = {
-  value: string[];
+import './styles.css';
+
+export type OptionType<T> = {
+  value: [T, string];
   disabled: boolean;
 };
 
-type CustomSelectProps = {
+type CustomSelectProps<T> = {
   /**
    * The value of the select.
    */
-  value: string;
+  value: T;
   /**
    * A callback triggered whenever the value of the select changes.
    */
-  onChange: (value: string) => void;
+  onChange: (value: T) => void;
   /**
    * The options to display in the select.
    *
    * Format - [{value: [value, label], disabled: boolean}, ...]
    */
-  options: OptionType[];
+  options: OptionType<T>[];
 } & Omit<
   React.PropsWithChildren<React.HTMLProps<HTMLDivElement>>,
   'onChange' | 'value'
@@ -30,12 +32,13 @@ type CustomSelectProps = {
  * A custom select component.
  *
  */
-const CustomSelect: React.FC<CustomSelectProps> = ({
+function CustomSelect<T>({
   value,
   options,
   onChange,
   children,
-}) => {
+  className,
+}: CustomSelectProps<T>) {
   const ref = React.useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
@@ -48,7 +51,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   }, []);
 
   const handleOptionSelect = React.useCallback(
-    v => {
+    (v) => {
       onChange(v);
       closeOptionsDropdown();
     },
@@ -56,7 +59,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   );
 
   React.useEffect(() => {
-    if (React.Children.toArray(children).some(c => typeof c !== 'string')) {
+    if (React.Children.toArray(children).some((c) => typeof c !== 'string')) {
       throw new Error('time-picker: CustomSelect children must be strings');
     }
   }, [children]);
@@ -68,16 +71,25 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
       }
     };
 
-    document.addEventListener('click', clickListener);
+    const blurListener = (e: FocusEvent) => {
+      if (!ref.current?.contains(e.target as Node)) {
+        closeOptionsDropdown();
+      }
+    };
 
-    return () => document.removeEventListener('click', clickListener);
+    document.addEventListener('click', clickListener);
+    document.addEventListener('click', blurListener);
+
+    return () => {
+      document.removeEventListener('click', clickListener);
+      document.removeEventListener('blur', blurListener);
+    };
   }, [closeOptionsDropdown]);
 
   return (
-    <div className="stp--select__container">
+    <div className={`sassy--select__container ${className ?? ''}`} ref={ref}>
       <div
-        ref={ref}
-        className="stp--select"
+        className="sassy--select"
         tabIndex={0}
         onClick={openOptionsDropdown}
         onFocus={openOptionsDropdown}
@@ -85,10 +97,10 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
         {value}
       </div>
       {isOpen && (
-        <div className="stp--select__dropdown">
+        <div className="sassy--select__dropdown">
           {options.map(({ value: [v, label], disabled }) => (
-            <CustomOption
-              key={v}
+            <CustomOption<T>
+              key={label}
               selected={v === value}
               value={v}
               label={label}
@@ -100,6 +112,6 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
       )}
     </div>
   );
-};
+}
 
 export default CustomSelect;
