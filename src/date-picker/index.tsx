@@ -1,9 +1,13 @@
 import React from 'react';
 import dt from 'date-and-time';
 
-import MonthPicker from './month-picker';
+import Header from './header';
 import DateButton from './date-button';
-import { getDatesOfMonth, getDaysOfWeek } from '../util';
+import {
+  getDatesOfMonth,
+  getDaysOfWeek,
+  getMonthNumberFromName,
+} from '../util';
 import { DatePickerOptions } from './types';
 
 import './styles.css';
@@ -61,16 +65,38 @@ const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
       [maxDate]
     );
 
-    const [activeMonthDate, setActiveMonthDate] = React.useState<Date>(value);
+    // current month and year the user is viewing
+    const [openedDate, setOpenedDate] = React.useState<Date>(value);
 
     const nextMonth = React.useCallback(
-      () => setActiveMonthDate((d) => dt.addMonths(d, 1)),
-      [setActiveMonthDate]
+      () => setOpenedDate((d) => dt.addMonths(d, 1)),
+      [setOpenedDate]
     );
 
     const prevMonth = React.useCallback(
-      () => setActiveMonthDate((d) => dt.addMonths(d, -1)),
-      [setActiveMonthDate]
+      () => setOpenedDate((d) => dt.addMonths(d, -1)),
+      [setOpenedDate]
+    );
+
+    const onMonthChange = React.useCallback(
+      (month: string) => {
+        setOpenedDate(
+          (d) =>
+            new Date(
+              d.getFullYear(),
+              getMonthNumberFromName(month),
+              d.getDate()
+            )
+        );
+      },
+      [setOpenedDate]
+    );
+
+    const onYearChange = React.useCallback(
+      (year: number) => {
+        setOpenedDate((d) => new Date(year, d.getMonth(), d.getDate()));
+      },
+      [setOpenedDate]
     );
 
     const handleClick = React.useCallback((d: Date) => onChange?.(d), [
@@ -90,12 +116,12 @@ const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
     const daysOfMonthList = React.useMemo(
       () =>
         getDatesOfMonth(
-          activeMonthDate,
+          openedDate,
           minDateValue,
           maxDateValue,
           options.weekStartsFrom
         ),
-      [activeMonthDate, minDateValue, maxDateValue, options.weekStartsFrom]
+      [openedDate, minDateValue, maxDateValue, options.weekStartsFrom]
     );
 
     // TODO: arrow-keys navigation
@@ -107,11 +133,15 @@ const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
         ref={ref}
         {...props}
       >
-        <MonthPicker
-          month={activeMonthDate.getMonth()}
-          year={activeMonthDate.getFullYear()}
+        <Header
+          month={openedDate.getMonth()}
+          year={openedDate.getFullYear()}
+          minDateValue={minDateValue}
+          maxDateValue={maxDateValue}
           nextMonth={nextMonth}
           prevMonth={prevMonth}
+          onYearChange={onYearChange}
+          onMonthChange={onMonthChange}
         />
         <div className="sdp--dates-grid">
           <>{daysOfWeekElements}</>
