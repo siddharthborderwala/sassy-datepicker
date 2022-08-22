@@ -5,6 +5,7 @@
   box-shadow: var(--shadow);
   background-color: #ffffff;
   padding: 0.75rem;
+  border: var(--outline);
 }
 
 .sdp:focus,
@@ -45,6 +46,14 @@
   font-family: var(--font);
 }
 
+.sdp--square-btn__outlined {
+  border: var(--outline);
+}
+
+.sdp--square-btn__outlined:focus:hover {
+  border: var(--outline);
+}
+
 .sdp--square-btn:focus:hover {
   box-shadow: none;
 }
@@ -67,7 +76,7 @@
   box-shadow: var(--shadow);
 }
 
-.sdp--month-picker {
+.sdp--header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -83,4 +92,15 @@
 
 .sdp--dates-grid > p.sdp--text {
   padding: 0.5rem 0;
+}
+
+.sdp--header__main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.sdp--select__month button {
+  text-align: left;
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import CustomSelect, { OptionType } from './custom-select';
+import CustomSelect, { OptionType } from '../components/select';
 
 import './styles.css';
 
@@ -22,7 +22,7 @@ export type TimePickerProps = {
   /**
    * The selected date.
    */
-  selected?: Time;
+  value?: Time;
   /**
    * The minimum time that can be selected - 0 to 23 (inclusive).
    */
@@ -36,7 +36,7 @@ export type TimePickerProps = {
    */
   minutesInterval?: number;
 } & React.PropsWithRef<
-  Omit<React.HTMLProps<HTMLDivElement>, 'onChange' | 'selected'>
+  Omit<React.HTMLProps<HTMLDivElement>, 'onChange' | 'selected' | 'value'>
 >;
 
 /**
@@ -85,7 +85,7 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
   (
     {
       onChange,
-      selected,
+      value,
       minTime = MIN_TIME,
       maxTime = MAX_TIME,
       minutesInterval = MINUTES_INTERVAL,
@@ -103,8 +103,8 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
     }
 
     const [selectedTime, setSelectedTime] = React.useState(() => {
-      if (selected !== undefined) {
-        return alignTime(selected, minutesInterval);
+      if (value !== undefined) {
+        return alignTime(value, minutesInterval);
       }
       const d = new Date();
       return alignTime(
@@ -115,7 +115,7 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
 
     const handleMinutesChange = React.useCallback(
       (v: string) => {
-        setSelectedTime(t => {
+        setSelectedTime((t) => {
           if (t.hours === maxTime.hours && Number(v) > maxTime.minutes) {
             return alignTime(
               { ...t, minutes: maxTime.minutes },
@@ -137,7 +137,7 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
 
     const handleHoursChange = React.useCallback(
       (v: string) => {
-        setSelectedTime(t => {
+        setSelectedTime((t) => {
           const h = Number(v);
           if (h === minTime.hours && t.minutes < minTime.minutes) {
             return alignTime(
@@ -159,8 +159,8 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
     );
 
     // the array of options for the minutes to select from
-    const minuteOptions = React.useMemo<OptionType[]>(() => {
-      let options: OptionType[] = [];
+    const minuteOptions = React.useMemo<OptionType<string>[]>(() => {
+      let options: OptionType<string>[] = [];
       for (let i = 0; i < 60; i += minutesInterval) {
         options.push({
           value: [i.toString(), i.toString().padStart(2, '0')],
@@ -171,8 +171,8 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [minutesInterval, maxTime, minTime, selectedTime.hours]);
 
-    const hourOptions = React.useMemo<OptionType[]>(() => {
-      let options: OptionType[] = [];
+    const hourOptions = React.useMemo<OptionType<string>[]>(() => {
+      let options: OptionType<string>[] = [];
       for (let i = 0; i <= 23; i++) {
         options.push({
           value: [i.toString(), i.toString().padStart(2, '0')],
@@ -196,14 +196,12 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
     return (
       <div className={`stp ${className ?? ''}`} {...props} ref={ref}>
         <CustomSelect
-          className="stp--select stp--select__hours"
           value={selectedTime.hours.toString().padStart(2, '0')}
           onChange={handleHoursChange}
           options={hourOptions}
         />
         <p>:</p>
         <CustomSelect
-          className="stp--select stp--select__minutes"
           value={selectedTime.minutes.toString().padStart(2, '0')}
           onChange={handleMinutesChange}
           options={minuteOptions}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-type CustomOptionProps = {
+type OptionProps<T> = {
   /**
    * If the option is currently selected.
    */
@@ -12,11 +12,11 @@ type CustomOptionProps = {
   /**
    * The value of the option.
    */
-  value: string;
+  value: T;
   /**
    * A callback triggered when the option is clicked.
    */
-  onClick: (v: string) => void;
+  onClick: (v: T) => void;
   /**
    * If the option is disabled.
    */
@@ -26,14 +26,20 @@ type CustomOptionProps = {
 /**
  * Custom Option component.
  */
-const CustomOption: React.FC<CustomOptionProps> = ({
+function Option<T>({
   selected,
   value,
   label,
   onClick,
   disabled,
-}) => {
+}: OptionProps<T>) {
   const ref = React.useRef<HTMLButtonElement>(null);
+
+  const handClick = React.useCallback(() => {
+    if (!disabled) {
+      onClick(value);
+    }
+  }, [onClick, disabled, value]);
 
   React.useEffect(() => {
     if (selected) {
@@ -44,16 +50,16 @@ const CustomOption: React.FC<CustomOptionProps> = ({
   return (
     <button
       ref={ref}
-      className={`stp--option ${selected ? 'stp--option__active' : ''} ${
-        disabled ? 'stp--option__disabled' : ''
+      className={`sassy--option ${selected ? 'sassy--option__active' : ''} ${
+        disabled ? 'sassy--option__disabled' : ''
       }`}
       type="button"
-      onClick={() => !disabled && onClick(value)}
-      key={value}
+      onClick={handClick}
+      key={label}
     >
       {label}
     </button>
   );
-};
+}
 
-export default CustomOption;
+export default Option;

@@ -1,0 +1,79 @@
+.sassy--select {
+  border: none;
+  border-radius: 0.25rem;
+  display: inline;
+  padding: 0.2rem 0.4rem;
+}
+
+.sassy--select__container {
+  border-radius: 0.25rem;
+  position: relative;
+}
+
+.sassy--select:focus {
+  outline: none;
+  box-shadow: var(--ring-shadow);
+}
+
+.sassy--select__dropdown {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  top: 1.5rem;
+  max-height: 40vh;
+  overflow: auto;
+  padding: 0.5rem;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  scrollbar-width: none;
+  box-shadow: var(--shadow-md);
+  border: var(--outline);
+}
+
+.sassy--select__dropdown::-webkit-scrollbar {
+  display: none;
+}
+
+.sassy--select,
+.sassy--option {
+  font-weight: 500;
+  font-family: var(--font);
+  font-size: 1rem;
+}
+
+.sassy--option:focus {
+  outline: none;
+  box-shadow: var(--ring-shadow);
+}
+
+.sassy--option__disabled {
+  color: var(--disabled-color);
+  pointer-events: none;
+}
+
+.sassy--select:hover {
+  cursor: context-menu;
+}
+
+.sassy--option {
+  transition: all 0.1s ease;
+  cursor: pointer;
+  padding: 0.25rem 0.4rem;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: #ffffff;
+  margin-top: 0.25rem;
+}
+
+.sassy--option:first-of-type {
+  margin-top: 0;
+}
+
+.sassy--option__active,
+.sassy--option:hover {
+  color: var(--selected-date-color);
+  background-color: var(--theme-color);
+  box-shadow: var(--shadow);
+}

@@ -1,8 +1,14 @@
 import React from 'react';
+import dt from 'date-and-time';
 
-import MonthPicker from './month-picker';
+import Header from './header';
 import DateButton from './date-button';
-import { getDatesOfMonth } from '../util';
+import {
+  getDatesOfMonth,
+  getDaysOfWeek,
+  getMonthNumberFromName,
+} from '../util';
+import { DatePickerOptions } from './types';
 
 import './styles.css';
 
@@ -14,74 +20,111 @@ export type DatePickerProps = {
   /**
    * The selected date.
    */
-  selected?: Date;
+  value?: Date;
   /**
    * The minimum date that can be selected (inclusive).
+   * Default is 1st January 1900
    */
   minDate?: Date;
   /**
    * The maximum date that can be selected (inclusive).
+   * Default is 100 years from now
    */
   maxDate?: Date;
+  /**
+   * DatePicker configuration options
+   */
+  options?: DatePickerOptions;
 } & React.PropsWithRef<
-  Omit<React.HTMLProps<HTMLDivElement>, 'onChange' | 'selected'>
+  Omit<
+    React.HTMLProps<HTMLDivElement>,
+    'onChange' | 'selected' | 'options' | 'value'
+  >
 >;
+
+const defaultOptions: DatePickerOptions = {
+  weekStartsFrom: 'Sunday',
+};
 
 const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
   (
     {
       onChange,
-      selected = new Date(),
-      minDate = new Date(1900, 0, 1),
+      value = new Date(),
+      minDate,
       maxDate,
+      options = defaultOptions,
       className,
       ...props
     },
     ref
   ) => {
-    const minDateVal = minDate.getTime();
-    const maxDateVal =
-      typeof maxDate === 'undefined'
-        ? Number.POSITIVE_INFINITY
-        : maxDate.getTime();
+    const minDateValue = React.useMemo(
+      () => minDate?.getTime() ?? new Date(1900, 0, 1).getTime(),
+      [minDate]
+    );
+    const maxDateValue = React.useMemo(
+      () => maxDate?.getTime() ?? dt.addYears(new Date(), 100).getTime(),
+      [maxDate]
+    );
 
-    const [monthDate, setMonthDate] = React.useState<Date>(selected);
-    const [selectedDate, setSelectedDate] = React.useState<Date>(selected);
+    // current month and year the user is viewing
+    const [openedDate, setOpenedDate] = React.useState<Date>(value);
 
     const nextMonth = React.useCallback(
-      () =>
-        setMonthDate(d => {
-          const m = d.getMonth();
-          const y = d.getFullYear();
-          if (m === 11) {
-            return new Date(y + 1, 0);
-          } else {
-            return new Date(y, m + 1);
-          }
-        }),
-      []
+      () => setOpenedDate((d) => dt.addMonths(d, 1)),
+      [setOpenedDate]
     );
 
     const prevMonth = React.useCallback(
-      () =>
-        setMonthDate(d => {
-          const m = d.getMonth();
-          const y = d.getFullYear();
-          if (m === 0) {
-            return new Date(y - 1, 11);
-          } else {
-            return new Date(y, m - 1);
-          }
-        }),
-      []
+      () => setOpenedDate((d) => dt.addMonths(d, -1)),
+      [setOpenedDate]
     );
 
-    const setNewSelectedDate = React.useCallback(
-      (date: Date) => {
-        setSelectedDate(date);
-        onChange?.(date);
+    const onMonthChange = React.useCallback(
+      (month: string) => {
+        setOpenedDate(
+          (d) =>
+            new Date(
+              d.getFullYear(),
+              getMonthNumberFromName(month),
+              d.getDate()
+            )
+        );
       },
-      [onChange, setSelectedDate]
+      [setOpenedDate]
+    );
+
+    const onYearChange = React.useCallback(
+      (year: number) => {
+        setOpenedDate((d) => new Date(year, d.getMonth(), d.getDate()));
+      },
+      [setOpenedDate]
+    );
+
+    const handleClick = React.useCallback((d: Date) => onChange?.(d), [
+      onChange,
+    ]);
+
+    const daysOfWeekElements = React.useMemo(
+      () =>
+        getDaysOfWeek(options.weekStartsFrom).map((v) => (
+          <p key={v} className="sdp--text sdp--text__inactive">
+            {v}
+          </p>
+        )),
+      [options.weekStartsFrom]
+    );
+
+    const daysOfMonthList = React.useMemo(
+      () =>
+        getDatesOfMonth(
+          openedDate,
+          minDateValue,
+          maxDateValue,
+          options.weekStartsFrom
+        ),
+      [openedDate, minDateValue, maxDateValue, options.weekStartsFrom]
     );
 
     // TODO: arrow-keys navigation
@@ -93,33 +136,29 @@ const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
         ref={ref}
         {...props}
       >
-        <MonthPicker
-          month={monthDate.getMonth()}
-          year={monthDate.getFullYear()}
+        <Header
+          month={openedDate.getMonth()}
+          year={openedDate.getFullYear()}
+          minDateValue={minDateValue}
+          maxDateValue={maxDateValue}
           nextMonth={nextMonth}
           prevMonth={prevMonth}
+          onYearChange={onYearChange}
+          onMonthChange={onMonthChange}
         />
         <div className="sdp--dates-grid">
-          <p className="sdp--text sdp--text__inactive">Su</p>
-          <p className="sdp--text sdp--text__inactive">Mo</p>
-          <p className="sdp--text sdp--text__inactive">Tu</p>
-          <p className="sdp--text sdp--text__inactive">We</p>
-          <p className="sdp--text sdp--text__inactive">Th</p>
-          <p className="sdp--text sdp--text__inactive">Fr</p>
-          <p className="sdp--text sdp--text__inactive">Sa</p>
-          {getDatesOfMonth(monthDate).map(({ d, active }) => {
-            const dVal = d.getTime();
-
-            return (
+          <>{daysOfWeekElements}</>
+          <>
+            {daysOfMonthList.map(({ date, active, ms }) => (
               <DateButton
-                key={dVal}
-                date={d}
-                active={dVal >= minDateVal && dVal <= maxDateVal && active}
-                selected={selectedDate.toDateString() === d.toDateString()}
-                onClick={setNewSelectedDate}
+                key={ms}
+                date={date}
+                active={active}
+                selected={dt.isSameDay(value, date)}
+                onClick={handleClick}
               />
-            );
-          })}
+            ))}
+          </>
         </div>
       </div>
     );
