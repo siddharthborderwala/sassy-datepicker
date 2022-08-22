@@ -8,9 +8,9 @@
 [![GitHub Issues: Chat With Us](https://badgen.net/badge/issues/chat%20with%20us/purple)](https://github.com/sassy-labs/datepicker/issues)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-blueviolet.svg)](https://github.com/sassy-labs/datepicker/pulls)
 
-Beautiful, minimal, customizable and accessible date-picker for react.
+Beautiful, minimal, customizable and accessible date-picker and time-picker for react.
 
-<img src="https://user-images.githubusercontent.com/54456279/141679315-1e63bfd3-709e-40b4-9c8f-5b8172429078.jpg" height="200px" />
+<img width="200" alt="Sassy DatePicker Snapshot" src="https://user-images.githubusercontent.com/54456279/185855384-cf2c1988-14e8-47dd-b5cd-18900d1c8e91.png">
 
 </div>
 
@@ -68,13 +68,30 @@ function Example() {
 }
 ```
 
+By default the week starts from Sunday, but if you want to change it to Monday, you can use the configuration options on the DatePicker
+
+```jsx
+function Example() {
+  const [date, setDate] = useState(new Date());
+
+  const onChange = newDate => {
+    console.log(`New date selected - ${newDate.toString()}`);
+    setDate(newDate);
+  };
+
+  return <DatePicker onChange={onChange} value={date} options={{ weekStartsFrom: 'Monday' }} />;
+}
+```
+
 Suppose you only want to allow dates within a certain range, for that you can use the `maxDate` and `minDate` props.
 
 ```jsx
 function InRange() {
   // suppose you want to allow user to pick a date from today to the end of this year
   // minDate = today
-  // maxDate = 31st December 2021
+  // maxDate = end of year
+  const firstRenderTime = React.useMemo(() => new Date(), []);
+  const endOfThisYear = React.useMemo(() => new Date(firstRenderTime.getYear(), 11, 31), [firstRenderTime]);
 
   return <DatePicker minDate={new Date()} maxDate={new Date(2021, 11, 31)} />;
 }
@@ -126,12 +143,21 @@ Note - You will have to use the `!important` directive to override the default s
 | :-------- | :---------------------: | :---------------------------------------------------------------------------- |
 | onChange  | `(date: Date) => void;` | This function is triggered every time the selected date in the picker changes |
 | value     |         `Date`          | The selected date                                                             |
+| options   |   `DatePickerOptions`   | Some configuration options for the DatePicker                                 |
 | minDate   |         `Date`          | The lowest date value allowed                                                 |
 | maxDate   |         `Date`          | The highest date value allowed                                                |
 | className |        `string`         | The className prop                                                            |
 | ref       |   `React.ForwardRef`    | The ref prop                                                                  |
 
 And all the other react props for an `HTMLDivElement`.
+
+Type definition for `DatePickerOptions`
+
+```ts
+type DatePickerOptions = {
+  weekStartsFrom: 'Sunday' | 'Monday';
+};
+```
 
 ### TimePicker
 
