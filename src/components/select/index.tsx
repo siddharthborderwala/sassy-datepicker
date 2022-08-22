@@ -73,7 +73,6 @@ function CustomSelect<T>({
 
     const blurListener = (e: FocusEvent) => {
       if (!ref.current?.contains(e.target as Node)) {
-        console.log('here');
         closeOptionsDropdown();
       }
     };
