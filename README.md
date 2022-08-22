@@ -10,7 +10,7 @@
 
 Beautiful, minimal, customizable and accessible date-picker and time-picker for react.
 
-<img width="200" alt="Sassy DatePicker Snapshot" src="https://user-images.githubusercontent.com/54456279/185855384-cf2c1988-14e8-47dd-b5cd-18900d1c8e91.png">
+<img width="200" alt="Sassy DatePicker Snapshot" src="https://user-images.githubusercontent.com/54456279/185861749-08218684-23b9-42f4-bfbb-18f4037800cf.png">
 
 </div>
 
@@ -19,7 +19,7 @@ Why use sassy-datepicker?
 - Beautiful picker
 - Smooth and slick transitions
 - Simple and Easy to Use
-- Customizable
+- Fully Customizable
 - First Class Accessibility
 - Small bundle size
 - Extremely Performant
@@ -93,7 +93,7 @@ function InRange() {
   const firstRenderTime = React.useMemo(() => new Date(), []);
   const endOfThisYear = React.useMemo(() => new Date(firstRenderTime.getYear(), 11, 31), [firstRenderTime]);
 
-  return <DatePicker minDate={new Date()} maxDate={new Date(2021, 11, 31)} />;
+  return <DatePicker minDate={firstRenderTime} maxDate={endOfThisYear} />;
 }
 ```
 
