@@ -35,6 +35,12 @@ function Option<T>({
 }: OptionProps<T>) {
   const ref = React.useRef<HTMLButtonElement>(null);
 
+  const handClick = React.useCallback(() => {
+    if (!disabled) {
+      onClick(value);
+    }
+  }, [onClick, disabled, value]);
+
   React.useEffect(() => {
     if (selected) {
       ref.current?.scrollIntoView();
@@ -48,7 +54,7 @@ function Option<T>({
         disabled ? 'sassy--option__disabled' : ''
       }`}
       type="button"
-      onClick={() => !disabled && onClick(value)}
+      onClick={handClick}
       key={label}
     >
       {label}

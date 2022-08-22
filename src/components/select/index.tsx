@@ -44,11 +44,11 @@ function CustomSelect<T>({
 
   const openOptionsDropdown = React.useCallback(() => {
     setIsOpen(true);
-  }, []);
+  }, [setIsOpen]);
 
   const closeOptionsDropdown = React.useCallback(() => {
     setIsOpen(false);
-  }, []);
+  }, [setIsOpen]);
 
   const handleOptionSelect = React.useCallback(
     (v) => {
@@ -60,7 +60,7 @@ function CustomSelect<T>({
 
   React.useEffect(() => {
     if (React.Children.toArray(children).some((c) => typeof c !== 'string')) {
-      throw new Error('time-picker: CustomSelect children must be strings');
+      throw new Error('CustomSelect children must be strings');
     }
   }, [children]);
 
@@ -73,33 +73,38 @@ function CustomSelect<T>({
 
     const blurListener = (e: FocusEvent) => {
       if (!ref.current?.contains(e.target as Node)) {
+        console.log('here');
         closeOptionsDropdown();
       }
     };
 
     document.addEventListener('click', clickListener);
-    document.addEventListener('click', blurListener);
+    ref.current?.addEventListener('focusout', blurListener);
 
     return () => {
       document.removeEventListener('click', clickListener);
-      document.removeEventListener('blur', blurListener);
+      ref.current?.removeEventListener('focusout', blurListener);
     };
-  }, [closeOptionsDropdown]);
+  }, [closeOptionsDropdown, ref]);
 
   return (
-    <div className={`sassy--select__container ${className ?? ''}`} ref={ref}>
-      <div
+    <div
+      tabIndex={-1}
+      className={`sassy--select__container ${className ?? ''}`}
+      ref={ref}
+    >
+      <p
         className="sassy--select"
         tabIndex={0}
         onClick={openOptionsDropdown}
         onFocus={openOptionsDropdown}
       >
         {value}
-      </div>
+      </p>
       {isOpen && (
         <div className="sassy--select__dropdown">
           {options.map(({ value: [v, label], disabled }) => (
-            <CustomOption<T>
+            <CustomOption
               key={label}
               selected={v === value}
               value={v}

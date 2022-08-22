@@ -36,7 +36,7 @@ const MonthPicker: React.FC<MonthPickerProps> = ({ value, onChange }) => {
 
   return (
     <CustomSelect
-      className="sdp--select sdp--select__month"
+      className="sdp--select__month"
       value={value}
       onChange={onChange}
       options={options}

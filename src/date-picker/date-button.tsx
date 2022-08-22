@@ -1,4 +1,5 @@
 import * as React from 'react';
+import dt from 'date-and-time';
 
 type DateButtonProps = {
   date: Date;
@@ -46,10 +47,11 @@ const DateButton: React.FC<DateButtonProps> = ({
   );
 };
 
+// take care of onClick
 export default React.memo(
   DateButton,
   (p, n) =>
-    p.date.getDay() === n.date.getDay() &&
+    dt.isSameDay(p.date, n.date) &&
     p.active === n.active &&
     p.selected === n.selected
 );

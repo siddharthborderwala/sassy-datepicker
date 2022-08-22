@@ -5,7 +5,7 @@
   box-shadow: var(--shadow);
   background-color: #ffffff;
   padding: 0.75rem;
-  outline: var(--outline);
+  border: var(--outline);
 }
 
 .sdp:focus,
@@ -47,11 +47,11 @@
 }
 
 .sdp--square-btn__outlined {
-  outline: var(--outline);
+  border: var(--outline);
 }
 
 .sdp--square-btn__outlined:focus:hover {
-  outline: var(--outline);
+  border: var(--outline);
 }
 
 .sdp--square-btn:focus:hover {

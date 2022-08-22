@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import DatePicker from '../';
+import DatePicker, { TimePicker } from '../';
 import './styles.css';
 
 const App = () => {
@@ -14,7 +14,8 @@ const App = () => {
         onChange={setDate}
         options={{ weekStartsFrom: 'Sunday' }}
       />
-      {/* <TimePicker className="time-picker" /> */}
+      <br />
+      <TimePicker className="time-picker" minutesInterval={5} />
     </div>
   );
 };

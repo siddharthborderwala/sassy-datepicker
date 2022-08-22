@@ -194,7 +194,7 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
     }, [minutesInterval]);
 
     return (
-      <div className={`sassy ${className ?? ''}`} {...props} ref={ref}>
+      <div className={`stp ${className ?? ''}`} {...props} ref={ref}>
         <CustomSelect
           value={selectedTime.hours.toString().padStart(2, '0')}
           onChange={handleHoursChange}

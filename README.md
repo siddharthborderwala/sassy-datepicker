@@ -64,7 +64,7 @@ function Example() {
     setDate(newDate);
   };
 
-  return <DatePicker onChange={onChange} selected={date} />;
+  return <DatePicker onChange={onChange} value={date} />;
 }
 ```
 
@@ -80,7 +80,7 @@ function InRange() {
 }
 ```
 
-> **Note**: Make sure when using both `selected` and `min/maxDate` props, the `selected` is in the range you specify using `min/maxDate` prop.
+> **Note**: Make sure when using both `value` and `min/maxDate` props, the `value` is in the range you specify using `min/maxDate` prop.
 
 #### Customization
 
@@ -125,7 +125,7 @@ Note - You will have to use the `!important` directive to override the default s
 | Name      |          Type           | Description                                                                   |
 | :-------- | :---------------------: | :---------------------------------------------------------------------------- |
 | onChange  | `(date: Date) => void;` | This function is triggered every time the selected date in the picker changes |
-| selected  |         `Date`          | The selected date                                                             |
+| value     |         `Date`          | The selected date                                                             |
 | minDate   |         `Date`          | The lowest date value allowed                                                 |
 | maxDate   |         `Date`          | The highest date value allowed                                                |
 | className |        `string`         | The className prop                                                            |
@@ -163,7 +163,7 @@ function Example() {
     setDate(newTime);
   };
 
-  return <TimePicker onChange={onChange} selected={time} />;
+  return <TimePicker onChange={onChange} value={time} />;
 }
 ```
 
@@ -224,7 +224,7 @@ Note - You will have to use the `!important` directive to override the default s
 | Name      |          Type           | Description                                                                   |
 | :-------- | :---------------------: | :---------------------------------------------------------------------------- |
 | onChange  | `(date: Time) => void;` | This function is triggered every time the selected time in the picker changes |
-| selected  |         `Time`          | The selected date                                                             |
+| value     |         `Time`          | The selected date                                                             |
 | minTime   |         `Time`          | The lowest date value allowed                                                 |
 | maxTime   |         `Time`          | The highest date value allowed                                                |
 | className |        `string`         | The className prop                                                            |
@@ -242,7 +242,7 @@ You can view a good example over at [Stackblitz](https://stackblitz.com/edit/rea
 - [x] TimePicker
 - [x] Slick Transitions
 - [x] DatePicker Configuration Options
-- [ ] Month Picker Dropdown
-- [ ] Year Picker Dropdown
+- [x] Month Picker Dropdown
+- [x] Year Picker Dropdown
 - [ ] Enhanced Keyboard Support
 - [ ] Release v1.0.0

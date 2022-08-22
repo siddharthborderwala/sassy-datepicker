@@ -1,11 +1,12 @@
 .stp {
-  padding: 0.5rem;
+  padding: 0.5rem 0.4rem;
   outline: none;
   font-family: var(--font);
   border: none;
   border-radius: 0.5rem;
   box-shadow: var(--shadow);
   display: inline-flex;
+  border: var(--outline);
 }
 
 .stp * {
@@ -18,6 +19,6 @@
 }
 
 .stp > p {
-  margin: 0 4px;
+  margin: 0 2px;
   display: inline;
 }

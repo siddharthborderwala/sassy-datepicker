@@ -32,14 +32,7 @@ const YearPicker: React.FC<YearPickerProps> = ({
     [fromYear, toYear]
   );
 
-  return (
-    <CustomSelect
-      className="stp--select"
-      value={value}
-      onChange={onChange}
-      options={options}
-    />
-  );
+  return <CustomSelect value={value} onChange={onChange} options={options} />;
 };
 
 export default YearPicker;
