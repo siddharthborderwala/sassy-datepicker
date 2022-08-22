@@ -36,7 +36,10 @@ export type DatePickerProps = {
    */
   options?: DatePickerOptions;
 } & React.PropsWithRef<
-  Omit<React.HTMLProps<HTMLDivElement>, 'onChange' | 'selected' | 'options'>
+  Omit<
+    React.HTMLProps<HTMLDivElement>,
+    'onChange' | 'selected' | 'options' | 'value'
+  >
 >;
 
 const defaultOptions: DatePickerOptions = {

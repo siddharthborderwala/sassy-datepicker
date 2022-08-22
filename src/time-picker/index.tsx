@@ -36,7 +36,7 @@ export type TimePickerProps = {
    */
   minutesInterval?: number;
 } & React.PropsWithRef<
-  Omit<React.HTMLProps<HTMLDivElement>, 'onChange' | 'selected'>
+  Omit<React.HTMLProps<HTMLDivElement>, 'onChange' | 'selected' | 'value'>
 >;
 
 /**
