@@ -182,3 +182,21 @@ export const getDatesOfMonth = (date: Date, minDateValue: number, maxDateValue: 
 
   return dates;
 };
+
+/**
+ * Convert a 12hr time to 24 hour.
+ *
+ * @param hour hour to convert
+ * @param amPm am or pm
+ */
+export const convertHourFrom12Hrto24Hr = (hour: number, amPm: 'AM' | 'PM'): number  => {
+  if (hour === 12) {
+     return amPm === 'AM' ? 0 : 12;
+  }
+  else if (amPm === 'PM') {
+    return hour + 12;
+  }
+  else {
+    return hour
+  }
+}
