@@ -263,7 +263,7 @@ Type definition for `TimePickerOptions`
 
 ```ts
 type TimePickerOptions = {
-  displayFormat: '12hr' | '24hr'; # default 24hr
+  displayFormat: '12hr' | '24hr'; // default 24hr
 };
 ```
 

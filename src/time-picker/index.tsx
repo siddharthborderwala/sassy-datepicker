@@ -1,6 +1,6 @@
 import React from 'react';
 import CustomSelect, { OptionType } from '../components/select';
-import { TimePickerOptions } from './types';
+import { Meridiem, TimePickerOptions } from './types';
 
 import './styles.css';
 import { convertHourFrom12Hrto24Hr } from '../util';
@@ -19,7 +19,7 @@ export type Time = {
 export type TimeDisplay = {
   hours: number;
   minutes: number;
-  amPm?: 'AM' | 'PM'
+  meridiem?: Meridiem;
 }
 
 /**
@@ -98,17 +98,17 @@ const isMinuteOptionDisabled = (
  */
 const to12HrTimeDisplay = (selectedTime: Time): TimeDisplay => {
   let hours;
-  let amPm: any = 'AM';
+  let meridiem = Meridiem.AM;
   if (selectedTime.hours === 0) {
     hours = 12;
   }
   else if (selectedTime.hours === 12) {
     hours = 12;
-    amPm = 'PM';
+    meridiem = Meridiem.PM;
   }
   else if (selectedTime.hours > 12) {
     hours = selectedTime.hours - 12
-    amPm = 'PM';
+    meridiem = Meridiem.PM;
   }
   else {
     hours = selectedTime.hours
@@ -117,7 +117,7 @@ const to12HrTimeDisplay = (selectedTime: Time): TimeDisplay => {
   return {
     hours,
     minutes: selectedTime.minutes,
-    amPm
+    meridiem
   };
 };
 
@@ -197,8 +197,8 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
       (v: string) => {
         setSelectedTime((t) => {
           let h = Number(v);
-          if (options.displayFormat === '12hr' && displayTime.amPm) {
-            h = convertHourFrom12Hrto24Hr(h, displayTime.amPm);
+          if (options.displayFormat === '12hr' && displayTime.meridiem) {
+            h = convertHourFrom12Hrto24Hr(h, displayTime.meridiem);
           }
 
           if (h === minTime.hours && t.minutes < minTime.minutes) {
@@ -217,15 +217,15 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
           }
         });
       },
-      [minutesInterval, maxTime, minTime, displayTime.amPm]
+      [minutesInterval, maxTime, minTime, displayTime.meridiem]
     );
 
-    const handleAmPmChange = React.useCallback(
+    const handleMeridiemChange = React.useCallback(
       (v: string) => {
         setSelectedTime((t) => {
           let h;
 
-          if (v === 'AM') {
+          if (v === Meridiem.AM) {
             // when switching to PM make 12 hour 0
             h = t.hours === 12 ? 0 : t.hours - 12;
           }
@@ -261,8 +261,8 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
       let normalizedHour;
       for (let i = startIndex; i <= maxHours; i++) {
         normalizedHour = i;
-        if (options.displayFormat === '12hr' && displayTime.amPm) {
-          normalizedHour = convertHourFrom12Hrto24Hr(i, displayTime.amPm)
+        if (options.displayFormat === '12hr' && displayTime.meridiem) {
+          normalizedHour = convertHourFrom12Hrto24Hr(i, displayTime.meridiem)
         }
 
         o.push({
@@ -271,9 +271,9 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
         });
       }
       return o;
-    }, [maxTime, minTime, options.displayFormat, displayTime.amPm]);
+    }, [maxTime, minTime, options.displayFormat, displayTime.meridiem]);
 
-    const amPmOptions = React.useMemo<OptionType<string>[]>(() => {
+    const meridiemOptions = React.useMemo<OptionType<string>[]>(() => {
       let isPmDisabled = false;
       let isAmDisabled = false;
 
@@ -335,11 +335,11 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
           onChange={handleMinutesChange}
           options={minuteOptions}
         />
-        { displayTime.amPm &&
+        { displayTime.meridiem &&
           <CustomSelect
-            value={displayTime.amPm}
-            onChange={handleAmPmChange}
-            options={amPmOptions}
+            value={displayTime.meridiem}
+            onChange={handleMeridiemChange}
+            options={meridiemOptions}
           />
         }
       </div>

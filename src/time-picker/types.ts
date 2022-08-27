@@ -4,3 +4,8 @@ export type TimePickerOptions = {
    */
   displayFormat: '12hr' | '24hr';
 };
+
+export enum Meridiem {
+  AM = 'AM',
+  PM = 'PM',
+}

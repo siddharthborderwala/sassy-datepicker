@@ -1,5 +1,6 @@
 import dt from 'date-and-time';
-import type { WeekStartDay, DisplayDate } from './date-picker/types';
+import type { DisplayDate, WeekStartDay } from './date-picker/types';
+import { Meridiem } from './time-picker/types';
 
 enum DAYS {
   'Sunday' = 0,
@@ -187,13 +188,13 @@ export const getDatesOfMonth = (date: Date, minDateValue: number, maxDateValue: 
  * Convert a 12hr time to 24 hour.
  *
  * @param hour hour to convert
- * @param amPm am or pm
+ * @param meridiem am or pm
  */
-export const convertHourFrom12Hrto24Hr = (hour: number, amPm: 'AM' | 'PM'): number  => {
+export const convertHourFrom12Hrto24Hr = (hour: number, meridiem: Meridiem): number  => {
   if (hour === 12) {
-     return amPm === 'AM' ? 0 : 12;
+     return meridiem === Meridiem.AM ? 0 : 12;
   }
-  else if (amPm === 'PM') {
+  else if (meridiem === Meridiem.PM) {
     return hour + 12;
   }
   else {
