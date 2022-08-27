@@ -298,10 +298,8 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
       }
 
       return [
-        // {value: ['AM', 'AM'], disabled: minTime.hours > 11 },
         {value: ['AM', 'AM'], disabled: isAmDisabled },
         {value: ['PM', 'PM'], disabled: isPmDisabled }
-        // {value: ['PM', 'PM'], disabled: maxTime.hours < 12 || (selectedTime.hours > maxTime.hours) }
       ]
     }, [maxTime, minTime, selectedTime.hours, selectedTime.minutes]);
 
