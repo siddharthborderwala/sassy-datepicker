@@ -248,15 +248,24 @@ Note - You will have to use the `!important` directive to override the default s
 #### Props
 
 | Name      |          Type           | Description                                                                   |
-| :-------- | :---------------------: | :---------------------------------------------------------------------------- |
+| :-------- |:-----------------------:|:------------------------------------------------------------------------------|
 | onChange  | `(date: Time) => void;` | This function is triggered every time the selected time in the picker changes |
 | value     |         `Time`          | The selected date                                                             |
+| options   |   `TimePickerOptions`   | Some configuration options for the TimePicker                                 |
 | minTime   |         `Time`          | The lowest date value allowed                                                 |
 | maxTime   |         `Time`          | The highest date value allowed                                                |
 | className |        `string`         | The className prop                                                            |
 | ref       |   `React.ForwardRef`    | The ref prop                                                                  |
 
 And all the other react props for an `HTMLDivElement`.
+
+Type definition for `TimePickerOptions`
+
+```ts
+type TimePickerOptions = {
+  displayFormat: '12hr' | '24hr'; // default 24hr
+};
+```
 
 ## Example
 
