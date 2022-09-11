@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import dt from 'date-and-time';
 
 type DateButtonProps = {
@@ -21,11 +21,11 @@ const DateButton: React.FC<DateButtonProps> = ({
   onClick,
   selected,
 }) => {
-  const handleClick = React.useCallback(() => {
+  const handleClick = useCallback(() => {
     onClick(date);
   }, [onClick, date]);
 
-  const dateAriaLabel = React.useMemo(
+  const dateAriaLabel = useMemo(
     () => date.toLocaleDateString('en-US', dateOptions),
     [date, dateOptions]
   );
@@ -48,7 +48,7 @@ const DateButton: React.FC<DateButtonProps> = ({
 };
 
 // take care of onClick
-export default React.memo(
+export default memo(
   DateButton,
   (p, n) =>
     dt.isSameDay(p.date, n.date) &&

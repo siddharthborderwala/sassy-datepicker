@@ -185,12 +185,12 @@ export const getDatesOfMonth = (date: Date, minDateValue: number, maxDateValue: 
 };
 
 /**
- * Convert a 12hr time to 24 hour.
+ * Convert a value from 12 hour time format to 24 hour format
  *
  * @param hour hour to convert
  * @param meridiem am or pm
  */
-export const convertHourFrom12Hrto24Hr = (hour: number, meridiem: Meridiem): number  => {
+export const convertHourFrom12HrTo24Hr = (hour: number, meridiem: Meridiem): number  => {
   if (hour === 12) {
      return meridiem === Meridiem.AM ? 0 : 12;
   }

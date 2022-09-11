@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 
 type OptionProps<T> = {
   /**
@@ -26,22 +26,22 @@ type OptionProps<T> = {
 /**
  * Custom Option component.
  */
-function Option<T>({
+function Option<T extends unknown>({
   selected,
   value,
   label,
   onClick,
   disabled,
-}: OptionProps<T>) {
-  const ref = React.useRef<HTMLButtonElement>(null);
+}: OptionProps<T>): JSX.Element {
+  const ref = useRef<HTMLButtonElement>(null);
 
-  const handClick = React.useCallback(() => {
+  const handClick = useCallback(() => {
     if (!disabled) {
       onClick(value);
     }
   }, [onClick, disabled, value]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (selected) {
       ref.current?.scrollIntoView();
     }

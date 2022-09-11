@@ -9,13 +9,24 @@
   border: var(--outline);
 }
 
+.stp--disabled {
+  pointer-events: none;
+}
+
+.stp--divider {
+  line-height: 1rem;
+}
+
+.stp--divider__disabled {
+  opacity: 50%;
+}
+
 .stp * {
   outline: none;
 }
 
-.stp:focus,
-.stp *:focus {
-  box-shadow: 0px 0px 0px 2px #60a5fab3;
+.stp:focus {
+  box-shadow: var(--ring-shadow);
 }
 
 .stp > p {

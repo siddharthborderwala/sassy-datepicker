@@ -1,26 +1,23 @@
-import React from 'react';
+import React, {
+  forwardRef,
+  HTMLProps,
+  PropsWithRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import CustomSelect, { OptionType } from '../components/select';
-import { Meridiem, TimePickerOptions } from './types';
+import { Meridiem, Time, TimePickerOptions } from './types';
 
 import './styles.css';
-import { convertHourFrom12Hrto24Hr } from '../util';
-
-/**
- * Time type
- */
-export type Time = {
-  hours: number;
-  minutes: number;
-};
-
-/**
- * Time display type
- */
-export type TimeDisplay = {
-  hours: number;
-  minutes: number;
-  meridiem?: Meridiem;
-}
+import { convertHourFrom12HrTo24Hr } from '../util';
+import {
+  alignTime,
+  generateHourOptions,
+  // generateMeridiemOptions,
+  generateMinuteOptions,
+} from './methods';
 
 /**
  * Props for TimePicker React Component
@@ -29,7 +26,7 @@ export type TimePickerProps = {
   /**
    * This function is called when the selected date is changed.
    */
-  onChange?: (time: Time) => void;
+  onChange: (time: Time) => void;
   /**
    * The selected date.
    */
@@ -50,96 +47,41 @@ export type TimePickerProps = {
    * TimePicker configuration options
    */
   options?: TimePickerOptions;
-} & React.PropsWithRef<
-  Omit<React.HTMLProps<HTMLDivElement>, 'onChange' | 'selected' | 'options' | 'value'>
+  /**
+   * If the TimePicker is disabled
+   */
+  disabled?: boolean;
+} & PropsWithRef<
+  Omit<
+    HTMLProps<HTMLInputElement>,
+    'onChange' | 'selected' | 'options' | 'value' | 'disabled'
+  >
 >;
 
 const defaultOptions: TimePickerOptions = {
-  displayFormat: '24hr'
-}
-
-/**
- *
- * @param time {Time} The time value
- * @param interval {number} The interval between each minute select option
- * @returns {Time} Time value rounded to the nearest interval
- */
-const alignTime = (
-  { hours, minutes }: Time,
-  interval: number,
-  lower: boolean = true
-): Time => {
-  // round minutes to nearest interval
-  if (minutes % interval !== 0) {
-    minutes = lower
-      ? minutes - (minutes % interval)
-      : minutes + (minutes % interval);
-  }
-  return {
-    hours,
-    minutes,
-  };
+  timeFormat: '12hr',
 };
 
-const isMinuteOptionDisabled = (
-  selectedTime: Time,
-  maxTime: Time,
-  minTime: Time,
-  i: number
-): boolean =>
-  selectedTime.hours > maxTime.hours ||
-  selectedTime.hours < minTime.hours ||
-  (selectedTime.hours === maxTime.hours && i > maxTime.minutes) ||
-  (selectedTime.hours === minTime.hours && i < minTime.minutes);
+const meridiemOptions: OptionType<Meridiem>[] = [
+  { value: Meridiem.AM, label: Meridiem.AM, disabled: false },
+  { value: Meridiem.PM, label: Meridiem.PM, disabled: false },
+];
 
-/**
- * Convert Time to a 12hr TimeDisplay format
- * @param selectedTime
- */
-const to12HrTimeDisplay = (selectedTime: Time): TimeDisplay => {
-  let hours;
-  let meridiem = Meridiem.AM;
-  if (selectedTime.hours === 0) {
-    hours = 12;
-  }
-  else if (selectedTime.hours === 12) {
-    hours = 12;
-    meridiem = Meridiem.PM;
-  }
-  else if (selectedTime.hours > 12) {
-    hours = selectedTime.hours - 12
-    meridiem = Meridiem.PM;
-  }
-  else {
-    hours = selectedTime.hours
-  }
-
-  return {
-    hours,
-    minutes: selectedTime.minutes,
-    meridiem
-  };
-};
-
-
-// sane defaults
-const MIN_TIME = { hours: 0, minutes: 0 };
-const MAX_TIME = { hours: 23, minutes: 59 };
+// defaults
 const MINUTES_INTERVAL = 30;
 
 /**
  * TimePicker React Component
  */
-const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
+const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(
   (
     {
       onChange,
       value,
-      minTime = MIN_TIME,
-      maxTime = MAX_TIME,
       minutesInterval = MINUTES_INTERVAL,
       options = defaultOptions,
       className,
+      disabled,
       ...props
     },
     ref
@@ -152,196 +94,130 @@ const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
       throw new Error('minutesInterval must be an integer greater than 0');
     }
 
-    const [selectedTime, setSelectedTime] = React.useState(() => {
-      if (value !== undefined) {
-        return alignTime(value, minutesInterval);
-      }
+    const { timeFormat } = options;
+    const [selectedTime, setSelectedTime] = useState(() => {
+      if (value !== undefined) alignTime(value, minutesInterval);
       const d = new Date();
       return alignTime(
-        { hours: d.getHours(), minutes: d.getMinutes() },
+        { minutes: d.getMinutes(), hours: d.getHours() },
         minutesInterval
       );
     });
 
-    const [displayTime, setDisplayTime] = React.useState(() => {
-      if (options.displayFormat === '12hr') {
-        return to12HrTimeDisplay(selectedTime);
-      }
-
-      return {...selectedTime};
-    })
-
-    const handleMinutesChange = React.useCallback(
-      (v: string) => {
-        setSelectedTime((t) => {
-          if (t.hours === maxTime.hours && Number(v) > maxTime.minutes) {
-            return alignTime(
-              { ...t, minutes: maxTime.minutes },
-              minutesInterval
-            );
-          } else if (t.hours === minTime.hours && Number(v) < minTime.minutes) {
-            return alignTime(
-              { ...t, minutes: minTime.minutes },
-              minutesInterval,
-              false
-            );
-          } else {
-            return alignTime({ ...t, minutes: Number(v) }, minutesInterval);
-          }
-        });
-      },
-      [minutesInterval, maxTime, minTime]
+    const [currentMeridiem, setCurrentMeridiem] = useState<Meridiem>(() =>
+      selectedTime.hours <= 11 ? Meridiem.AM : Meridiem.PM
     );
 
-    const handleHoursChange = React.useCallback(
+    const handleMinutesChange = useCallback(
       (v: string) => {
         setSelectedTime((t) => {
-          let h = Number(v);
-          if (options.displayFormat === '12hr' && displayTime.meridiem) {
-            h = convertHourFrom12Hrto24Hr(h, displayTime.meridiem);
-          }
-
-          if (h === minTime.hours && t.minutes < minTime.minutes) {
-            return alignTime(
-              { hours: h, minutes: minTime.minutes },
-              minutesInterval,
-              false
-            );
-          } else if (h === maxTime.hours && t.minutes > maxTime.minutes) {
-            return alignTime(
-              { hours: h, minutes: maxTime.minutes },
-              minutesInterval
-            );
-          } else {
-            return alignTime({ ...t, hours: h }, minutesInterval);
-          }
+          const minutes = Number(v);
+          return alignTime({ ...t, minutes }, minutesInterval);
         });
       },
-      [minutesInterval, maxTime, minTime, displayTime.meridiem]
+      [minutesInterval]
     );
 
-    const handleMeridiemChange = React.useCallback(
+    const handleHoursChange = useCallback(
       (v: string) => {
         setSelectedTime((t) => {
-          let h;
-
-          if (v === Meridiem.AM) {
-            // when switching to PM make 12 hour 0
-            h = t.hours === 12 ? 0 : t.hours - 12;
+          let hours = Number(v);
+          if (timeFormat === '12hr') {
+            hours = convertHourFrom12HrTo24Hr(hours, currentMeridiem);
           }
-          else {
-            // when switching to PM make 0 hour 12
-            h = t.hours === 0 ? 12 : t.hours + 12;
-          }
-
-          return alignTime({...t, hours: h}, minutesInterval)
-        })
+          return alignTime({ ...t, hours }, minutesInterval);
+        });
       },
-      [maxTime, minTime]
+      [minutesInterval, currentMeridiem, timeFormat]
     );
 
-    // the array of options for the minutes to select from
-    const minuteOptions = React.useMemo<OptionType<string>[]>(() => {
-      let options: OptionType<string>[] = [];
-      for (let i = 0; i < 60; i += minutesInterval) {
-        options.push({
-          value: [i.toString(), i.toString().padStart(2, '0')],
-          disabled: isMinuteOptionDisabled(selectedTime, maxTime, minTime, i),
-        });
-      }
-      return options;
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [minutesInterval, maxTime, minTime, selectedTime.hours]);
-
-    const hourOptions = React.useMemo<OptionType<string>[]>(() => {
-      const [startIndex, maxHours] = options.displayFormat === '12hr' ?
-        [1, 12] : [0, 23];
-
-      let o: OptionType<string>[] = [];
-      let normalizedHour;
-      for (let i = startIndex; i <= maxHours; i++) {
-        normalizedHour = i;
-        if (options.displayFormat === '12hr' && displayTime.meridiem) {
-          normalizedHour = convertHourFrom12Hrto24Hr(i, displayTime.meridiem)
+    const handleMeridiemChange = useCallback((v: Meridiem) => {
+      setCurrentMeridiem(v);
+      setSelectedTime((t) => {
+        if (v === Meridiem.AM) {
+          return {
+            minutes: t.minutes,
+            hours: t.hours - 12,
+          };
         }
+        return {
+          minutes: t.minutes,
+          hours: t.hours + 12,
+        };
+      });
+    }, []);
 
-        o.push({
-          value: [i.toString(), i.toString().padStart(2, '0')],
-          disabled: minTime.hours > normalizedHour || maxTime.hours < normalizedHour,
-        });
-      }
-      return o;
-    }, [maxTime, minTime, options.displayFormat, displayTime.meridiem]);
+    // the array of options of minutes to select from
+    const minuteOptions = useMemo(
+      () => generateMinuteOptions(minutesInterval),
+      [minutesInterval]
+    );
 
-    const meridiemOptions = React.useMemo<OptionType<string>[]>(() => {
-      let isPmDisabled = false;
-      let isAmDisabled = false;
+    // the array of options of hours to select from
+    const hourOptions = useMemo(() => generateHourOptions(timeFormat), [
+      timeFormat,
+    ]);
 
-      if (minTime.hours > 11) {
-        isAmDisabled = true
-      }
-      else if (selectedTime.hours > 11) {
+    //
+    const currentHourDisplayValue = useMemo(() => {
+      if (timeFormat === '24hr')
+        return selectedTime.hours.toString().padStart(2, '0');
+      if (currentMeridiem === Meridiem.AM) {
+        const h = selectedTime.hours;
+        if (h === 0) return '12';
+        return h.toString().padStart(2, '0');
+      } else {
         const h = selectedTime.hours - 12;
-        if (h < minTime.hours || h === minTime.hours && selectedTime.minutes < minTime.minutes) {
-          isAmDisabled = true;
-        }
+        if (h === 0) return '12';
+        return h.toString().padStart(2, '0');
       }
+    }, [selectedTime.hours, timeFormat, currentMeridiem]);
 
-      if (maxTime.hours < 12) {
-        isPmDisabled = true
-      }
-      else if (selectedTime.hours < 12) {
-        const h = selectedTime.hours + 12;
-        if (h > maxTime.hours || h === maxTime.hours && selectedTime.minutes > maxTime.minutes) {
-          isPmDisabled = true;
-        }
-      }
+    const currentMinuteDisplayValue = useMemo(
+      () => selectedTime.minutes.toString().padStart(2, '0'),
+      [selectedTime.minutes]
+    );
 
-      return [
-        {value: ['AM', 'AM'], disabled: isAmDisabled },
-        {value: ['PM', 'PM'], disabled: isPmDisabled }
-      ]
-    }, [maxTime, minTime, selectedTime.hours, selectedTime.minutes]);
-
-    React.useEffect(() => {
-      onChange?.(selectedTime);
+    useEffect(() => {
+      onChange(selectedTime);
     }, [selectedTime, onChange]);
 
-    React.useEffect(() => {
-      const updatedTime = alignTime(selectedTime, minutesInterval);
-      setSelectedTime(updatedTime);
-      onChange?.(updatedTime);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {
+      setSelectedTime(alignTime(selectedTime, minutesInterval));
     }, [minutesInterval]);
 
-    React.useEffect(() => {
-      let displayTime = selectedTime;
-      if (options.displayFormat === '12hr') {
-        displayTime = to12HrTimeDisplay(selectedTime);
-      }
-      setDisplayTime(displayTime);
-    }, [selectedTime, options.displayFormat])
-
+    // FIXME: hour and minute options depending on maxTime and minTime
     return (
-      <div className={`stp ${className ?? ''}`} {...props} ref={ref}>
+      <div
+        className={`stp ${className ?? ''} ${disabled ? 'stp--disabled' : ''}`}
+        {...props}
+        ref={ref}
+      >
         <CustomSelect
-          value={displayTime.hours.toString().padStart(2, '0')}
+          disabled={disabled}
+          value={currentHourDisplayValue}
           onChange={handleHoursChange}
           options={hourOptions}
         />
-        <p>:</p>
+        <span
+          className={`stp--divider ${disabled ? 'stp--divider__disabled' : ''}`}
+        >
+          :
+        </span>
         <CustomSelect
-          value={displayTime.minutes.toString().padStart(2, '0')}
+          disabled={disabled}
+          value={currentMinuteDisplayValue}
           onChange={handleMinutesChange}
           options={minuteOptions}
         />
-        { displayTime.meridiem &&
+        {timeFormat === '12hr' && (
           <CustomSelect
-            value={displayTime.meridiem}
+            disabled={disabled}
+            value={currentMeridiem}
             onChange={handleMeridiemChange}
             options={meridiemOptions}
           />
-        }
+        )}
       </div>
     );
   }

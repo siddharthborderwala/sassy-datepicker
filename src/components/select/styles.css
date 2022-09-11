@@ -15,6 +15,15 @@
   box-shadow: var(--ring-shadow);
 }
 
+.sassy--select.sassy--select__disabled {
+  opacity: 50%;
+  pointer-events: none;
+}
+
+.sassy--select.sassy--select__disabled:focus {
+  box-shadow: none;
+}
+
 .sassy--select__dropdown {
   position: absolute;
   z-index: 2;

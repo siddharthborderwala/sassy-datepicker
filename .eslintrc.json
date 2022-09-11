@@ -16,6 +16,5 @@
     "ecmaVersion": 2021,
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint"],
-  "rules": {}
+  "plugins": ["eslint-plugin-react", "@typescript-eslint/eslint-plugin"]
 }
