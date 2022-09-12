@@ -1,5 +1,4 @@
 import React from 'react';
-import Badge from './badge';
 import {
   Sparkle,
   Cards,
@@ -19,19 +18,17 @@ const FeatureItem = ({ Icon, label }) => (
   </div>
 );
 
-const Features = () => {
-  return (
-    <div className={styles.features}>
-      <FeatureItem Icon={Sparkle} label="Beautiful" />
-      <FeatureItem Icon={Wheelchair} label="Accessible" />
-      <FeatureItem Icon={PencilSimpleLine} label="Customizable" />
-      <FeatureItem Icon={Cards} label="Smooth Transitions" />
-      <FeatureItem Icon={FileTs} label="TypeScript Support" />
-      <FeatureItem Icon={CodeSimple} label="Simple API" />
-      <FeatureItem Icon={Package} label="Small Bundle" />
-      <FeatureItem Icon={Lightning} label="Extremely Fast" />
-    </div>
-  );
-};
+const Features = () => (
+  <div className={styles.features}>
+    <FeatureItem Icon={Sparkle} label="Beautiful" />
+    <FeatureItem Icon={Wheelchair} label="Accessible" />
+    <FeatureItem Icon={PencilSimpleLine} label="Customizable" />
+    <FeatureItem Icon={Cards} label="Smooth Transitions" />
+    <FeatureItem Icon={FileTs} label="TypeScript Support" />
+    <FeatureItem Icon={CodeSimple} label="Simple API" />
+    <FeatureItem Icon={Package} label="Small Bundle" />
+    <FeatureItem Icon={Lightning} label="Extremely Fast" />
+  </div>
+);
 
 export default Features;
