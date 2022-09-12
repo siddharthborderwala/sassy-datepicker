@@ -1,11 +1,11 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import DatePicker from '../src';
+import { TimePicker } from '../src';
 
-describe('it', () => {
+describe('DatePicker', () => {
   it('renders without crashing', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<DatePicker />, div);
-    ReactDOM.unmountComponentAtNode(div);
+    const onChange = jest.fn();
+    ReactDOM.render(<TimePicker onChange={onChange} />, div);
   });
 });

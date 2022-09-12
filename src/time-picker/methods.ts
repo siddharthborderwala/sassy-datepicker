@@ -1,6 +1,12 @@
 import { OptionType } from './../components/select';
 import { Time, Meridiem, TimeDisplay, TimeFormat } from './types';
 
+const option = (n: number) => ({
+  value: n.toString(),
+  label: n.toString().padStart(2, '0'),
+  disabled: false,
+});
+
 /**
  * Creates a time value aligned with the minutes interval from am raw time input
  *
@@ -13,11 +19,10 @@ export const alignTime = (
   interval: number,
   lower: boolean = true
 ): Time => {
+  const rem = minutes % interval;
   // round minutes to nearest interval
-  if (minutes % interval !== 0) {
-    minutes = lower
-      ? minutes - (minutes % interval)
-      : minutes + (minutes % interval);
+  if (rem !== 0) {
+    minutes = lower ? minutes - rem : minutes + interval - rem;
   }
   return {
     hours,
@@ -52,70 +57,20 @@ export const timeToTimeDisplay = (selectedTime: Time): TimeDisplay => {
   };
 };
 
-export const generateMeridiemOptions = (
-  minTime: Time,
-  maxTime: Time,
-  selectedTime: Time
-): OptionType<Meridiem>[] => {
-  let isPmDisabled = false;
-  let isAmDisabled = false;
-
-  if (minTime.hours > 11) {
-    isAmDisabled = true;
-  } else if (selectedTime.hours > 11) {
-    const h = selectedTime.hours - 12;
-    if (
-      h < minTime.hours ||
-      (h === minTime.hours && selectedTime.minutes < minTime.minutes)
-    ) {
-      isAmDisabled = true;
-    }
-  }
-
-  if (maxTime.hours < 12) {
-    isPmDisabled = true;
-  } else if (selectedTime.hours < 12) {
-    const h = selectedTime.hours + 12;
-    if (
-      h > maxTime.hours ||
-      (h === maxTime.hours && selectedTime.minutes > maxTime.minutes)
-    ) {
-      isPmDisabled = true;
-    }
-  }
-
-  return [
-    { value: Meridiem.AM, label: Meridiem.AM, disabled: isAmDisabled },
-    { value: Meridiem.PM, label: Meridiem.PM, disabled: isPmDisabled },
-  ];
-};
-
 export const generateHourOptions = (
   timeFormat: TimeFormat
 ): OptionType<string>[] => {
   if (timeFormat === '12hr') {
     const listOfOptions: OptionType<string>[] = new Array(12);
-    listOfOptions[0] = {
-      value: '12',
-      label: '12',
-      disabled: false,
-    };
+    listOfOptions[0] = option(12);
     for (let i = 1; i <= 11; i += 1) {
-      listOfOptions[i] = {
-        value: i.toString(),
-        label: i.toString().padStart(2, '0'),
-        disabled: false,
-      };
+      listOfOptions[i] = option(i);
     }
     return listOfOptions;
   }
   const listOfOptions: OptionType<string>[] = new Array(24);
   for (let i = 0; i <= 23; i += 1) {
-    listOfOptions[i] = {
-      value: i.toString(),
-      label: i.toString().padStart(2, '0'),
-      disabled: false,
-    };
+    listOfOptions[i] = option(i);
   }
   return listOfOptions;
 };
@@ -125,11 +80,7 @@ export const generateMinuteOptions = (
 ): OptionType<string>[] => {
   let options: OptionType<string>[] = [];
   for (let i = 0; i < 60; i += minutesInterval) {
-    options.push({
-      value: i.toString(),
-      label: i.toString().padStart(2, '0'),
-      disabled: false,
-    });
+    options.push(option(i));
   }
   return options;
 };

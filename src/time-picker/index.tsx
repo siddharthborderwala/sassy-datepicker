@@ -15,7 +15,6 @@ import { convertHourFrom12HrTo24Hr } from '../util';
 import {
   alignTime,
   generateHourOptions,
-  // generateMeridiemOptions,
   generateMinuteOptions,
 } from './methods';
 
