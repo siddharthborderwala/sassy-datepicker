@@ -2833,7 +2833,7 @@ sade@^1.7.3:
   dependencies:
     mri "^1.1.0"
 
-sassy-datepicker@../dist:
+sassy-datepicker@../dist/:
   version "0.0.0"
 
 scheduler@^0.23.0:

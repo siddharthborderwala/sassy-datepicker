@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import DatePicker, { TimePicker } from '../.';
+import DatePicker, { TimePicker } from '../dist';
+import '../dist/styles.css';
 import './styles.css';
 
 const App = () => {
