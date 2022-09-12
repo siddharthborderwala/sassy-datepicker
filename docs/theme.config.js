@@ -2,6 +2,7 @@ export default {
   project: {
     link: 'https://github.com/sassy-labs/datepicker',
   },
+  docsRepositoryBase: 'https://github.com/sassy-labs/datepicker',
   titleSuffix: ' - Sassy DatePicker',
   navigation: {
     next: true,

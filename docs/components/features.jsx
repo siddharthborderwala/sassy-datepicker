@@ -21,13 +21,13 @@ const FeatureItem = ({ Icon, label }) => (
 const Features = () => (
   <div className={styles.features}>
     <FeatureItem Icon={Sparkle} label="Beautiful" />
-    <FeatureItem Icon={Wheelchair} label="Accessible" />
     <FeatureItem Icon={PencilSimpleLine} label="Customizable" />
+    <FeatureItem Icon={Wheelchair} label="Accessible" />
     <FeatureItem Icon={Cards} label="Smooth Transitions" />
-    <FeatureItem Icon={FileTs} label="TypeScript Support" />
     <FeatureItem Icon={CodeSimple} label="Simple API" />
-    <FeatureItem Icon={Package} label="Small Bundle" />
     <FeatureItem Icon={Lightning} label="Extremely Fast" />
+    <FeatureItem Icon={Package} label="Small Bundle" />
+    <FeatureItem Icon={FileTs} label="TypeScript Support" />
   </div>
 );
 

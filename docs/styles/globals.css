@@ -19,3 +19,24 @@ body {
 article.docs-container > main {
   width: 100%;
 }
+
+html.dark .sdp {
+  background-color: #222222;
+  --disabled-color: #555555;
+  --outline: 1px solid #555555;
+  color: #e1e1e1;
+}
+
+html.dark .sdp button,
+html.dark .sdp .sassy--select__dropdown {
+  background-color: #222222;
+}
+
+html.dark .sdp .sassy--option__active,
+html.dark .sdp .sassy--option:hover {
+  background-color: var(--theme-color);
+}
+
+html.dark .sdp button.sdp--date-btn__selected {
+  background-color: var(--theme-color);
+}
