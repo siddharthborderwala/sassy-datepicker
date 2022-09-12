@@ -18,7 +18,7 @@
     "prepare": "tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why",
-    "build:docs": "yarn build && cd docs && yarn build"
+    "build:docs": "yarn build && cd docs && yarn install && yarn build"
   },
   "files": [
     "dist",
