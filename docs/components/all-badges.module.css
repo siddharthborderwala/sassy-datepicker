@@ -1,0 +1,20 @@
+.badges {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+@media screen and (max-width: 42em) {
+  .badges {
+    display: none;
+  }
+}
+
+.badges > a:not(:last-of-type) {
+  margin-right: 0.25rem;
+}
+
+.badges > a {
+  display: inline-block;
+}

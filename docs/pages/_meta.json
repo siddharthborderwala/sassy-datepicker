@@ -1,0 +1,19 @@
+{
+  "index": {
+    "title": "Introduction",
+    "type": "page",
+    "hidden": true
+  },
+  "getting-started": {
+    "title": "Getting Started",
+    "type": "doc"
+  },
+  "date-picker": {
+    "title": "Date Picker",
+    "type": "doc"
+  },
+  "time-picker": {
+    "title": "Time Picker",
+    "type": "doc"
+  }
+}

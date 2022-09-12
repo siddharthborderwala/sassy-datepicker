@@ -3,10 +3,19 @@ body {
   box-sizing: border-box;
 }
 
-article.docs-container > main {
-  width: 100%;
+.heading {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 2rem;
 }
 
-.main-picker > .sdp--grid > .sdp--text {
-  margin-top: 0;
+.heading--sub {
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+article.docs-container > main {
+  width: 100%;
 }

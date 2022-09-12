@@ -1,0 +1,11 @@
+.main-picker--container {
+  margin: 2.5rem 0;
+}
+
+.main-picker {
+  margin: 0 auto;
+}
+
+.main-picker > .sdp--grid > .sdp--text {
+  margin-top: 0;
+}

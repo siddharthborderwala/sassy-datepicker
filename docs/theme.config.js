@@ -1,14 +1,21 @@
 export default {
-  projectLink: 'https://github.com/sassy-labs/datepicker',
-  titleSuffix: '- Sassy DatePicker',
-  nextLinks: true,
-  prevLinks: true,
-  search: true,
-  customSearch: null,
+  project: {
+    link: 'https://github.com/sassy-labs/datepicker',
+  },
+  titleSuffix: ' - Sassy DatePicker',
+  navigation: {
+    next: true,
+    prev: true,
+  },
+  unstable_flexsearch: true,
   darkMode: true,
   footer: true,
-  footerText: `MIT ${new Date().getFullYear()} © Siddharth Borderwala.`,
-  footerEditLink: `Edit this page on GitHub`,
+  footer: {
+    text: `MIT ${new Date().getFullYear()} © Siddharth Borderwala.`,
+  },
+  editLink: {
+    text: `Edit this page on GitHub`,
+  },
   logo: <strong>sassy-datepicker</strong>,
   head: (
     <>
