@@ -17,7 +17,16 @@ export default {
   editLink: {
     text: `Edit this page on GitHub`,
   },
-  logo: <strong>sassy-datepicker</strong>,
+  logo: (
+    <>
+      <h1>
+        <strong>sassy-datepicker</strong>
+      </h1>
+      <h2 style={{ marginLeft: '0.5rem', color: 'gray' }}>
+        DatePicker for React
+      </h2>
+    </>
+  ),
   head: (
     <>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />

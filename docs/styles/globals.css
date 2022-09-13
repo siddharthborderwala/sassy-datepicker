@@ -40,3 +40,11 @@ html.dark .sdp .sassy--option:hover {
 html.dark .sdp button.sdp--date-btn__selected {
   background-color: var(--theme-color);
 }
+
+html.light {
+  --code-bg-color: hsla(212deg, 100%, 39%, 5%);
+}
+
+html.dark {
+  --code-bg-color: hsla(212deg, 100%, 77%, 10%);
+}

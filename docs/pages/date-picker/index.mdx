@@ -1,0 +1,109 @@
+import { Callout } from 'nextra-theme-docs';
+import LimitedDatepickerDemo from 'components/limited-datepicker-demo';
+import WeekStartsFromDemo from 'components/week-starts-from-demo';
+
+## Basic Usage
+
+The `DatePicker` is the default export of the library.
+
+```jsx
+import React, { useState } from 'react';
+import DatePicker from 'sassy-datepicker';
+
+function Example() {
+  const [date, setDate] = useState(new Date());
+
+  const onChange = (newDate) => {
+    console.log(`New date selected - ${newDate.toString()}`);
+    setDate(newDate);
+  };
+
+  return <DatePicker onChange={onChange} value={date} />;
+}
+```
+
+<Callout emoji="⚠️">
+  The DatePicker is a [controlled
+  component](https://reactjs.org/docs/forms.html#controlled-components) so the
+  `onChange` and `value` props are required. If you don't pass them, the picker
+  will not re-render with the changed date.
+</Callout>
+
+## Customization
+
+### Date Limits
+
+You can set the date limits for the DatePicker using the `minDate` and `maxDate` props. They accept a JavaScript `Date` as props.
+
+**Default values**
+
+- `minDate` = 1st January 1900
+- `maxDate` = 100 years from now
+
+```jsx
+const minDate = new Date(2000, 0, 1); // 1st January 2000
+const maxDate = new Date(2099, 11, 31); // 31st December 2099
+
+function LimitedPicker() {
+  const [date, setDate] = useState(new Date());
+
+  return (
+    <DatePicker
+      value={date}
+      onChange={setDate}
+      minDate={minDate}
+      maxDate={maxDate}
+    />
+  );
+}
+```
+
+Try out changing the limits here and see how the DatePicker takes care of the rest
+
+<LimitedDatepickerDemo />
+
+It is guaranteed that the DatePicker won't allow selection of a date outside the limits.
+
+<Callout emoji="⚠️">
+  As the limits are set by the developer, the developer needs to take care of
+  the logical consistency. If the maxDate is smaller than minDate, or
+  vice-versa, all the dates will be disabled in the picker.
+</Callout>
+
+### First Day of Week
+
+By default, the date picker has Sunday as the first day of the week but this can be changed to Monday using the `options` prop.
+
+```jsx
+function WeekStartsFromMonday() {
+  const [date, setDate] = useState(new Date());
+
+  return (
+    <DatePicker
+      value={date}
+      onChange={setDate}
+      options={{ weekStartsFrom: 'Monday' }}
+    />
+  );
+}
+```
+
+Here's a demo for you to see how the DatePicker updates when the `weekStartsFrom` property is changed
+
+<WeekStartsFromDemo />
+
+## Props
+
+Here is a list of props and their types and description for `DatePicker`
+
+| Name      |          Type           | Description                                                                   |
+| :-------- | :---------------------: | :---------------------------------------------------------------------------- |
+| onChange  | `(date: Date) => void;` | This function is triggered every time the selected date in the picker changes |
+| value     |         `Date`          | The selected date                                                             |
+| options   |   `DatePickerOptions`   | Some configuration options for the DatePicker                                 |
+| minDate   |         `Date`          | The lowest date value allowed                                                 |
+| maxDate   |         `Date`          | The highest date value allowed                                                |
+| className |        `string`         | The className prop                                                            |
+| ref       |   `React.ForwardRef`    | The ref prop                                                                  |
+
+And all the other react props for an `HTMLDivElement`.

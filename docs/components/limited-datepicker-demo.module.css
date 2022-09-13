@@ -1,0 +1,14 @@
+.limited-dp--picker {
+  margin: 0 auto;
+  margin-top: 2rem;
+}
+
+.limited-dp--date-input {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.limited-dp--date-input > label {
+  font-weight: bold;
+  margin-right: 2rem;
+}
