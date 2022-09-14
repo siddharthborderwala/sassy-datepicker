@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { isSameDay, addMonths, addYears } from 'date-and-time';
+import dt from 'date-and-time';
 
 import Header from './header';
 import DateButton from './date-button';
@@ -14,7 +14,7 @@ import {
   getDatesOfMonth,
   getDaysOfWeek,
   getMonthNumberFromName,
-} from '../util';
+} from './methods';
 import { DatePickerOptions } from './types';
 
 import './styles.css';
@@ -76,19 +76,20 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
       [minDate]
     );
     const maxDateValue = useMemo(
-      () => maxDate?.getTime() ?? addYears(new Date(), 100).getTime(),
+      () => maxDate?.getTime() ?? dt.addYears(new Date(), 100).getTime(),
       [maxDate]
     );
 
     // current month and year the user is viewing
     const [openedDate, setOpenedDate] = useState<Date>(value);
 
-    const nextMonth = useCallback(() => setOpenedDate((d) => addMonths(d, 1)), [
-      setOpenedDate,
-    ]);
+    const nextMonth = useCallback(
+      () => setOpenedDate((d) => dt.addMonths(d, 1)),
+      [setOpenedDate]
+    );
 
     const prevMonth = useCallback(
-      () => setOpenedDate((d) => addMonths(d, -1)),
+      () => setOpenedDate((d) => dt.addMonths(d, -1)),
       [setOpenedDate]
     );
 
@@ -166,7 +167,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
               key={ms}
               date={date}
               active={active && !disabled}
-              selected={isSameDay(value, date)}
+              selected={dt.isSameDay(value, date)}
               onClick={handleClick}
             />
           ))}

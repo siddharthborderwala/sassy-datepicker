@@ -2,7 +2,7 @@ import { OptionType } from './../components/select';
 import { Time, Meridiem, TimeDisplay, TimeFormat } from './types';
 
 const option = (n: number) => ({
-  value: n.toString(),
+  value: n,
   label: n.toString().padStart(2, '0'),
   disabled: false,
 });
@@ -59,16 +59,16 @@ export const timeToTimeDisplay = (selectedTime: Time): TimeDisplay => {
 
 export const generateHourOptions = (
   timeFormat: TimeFormat
-): OptionType<string>[] => {
+): OptionType<number>[] => {
   if (timeFormat === '12hr') {
-    const listOfOptions: OptionType<string>[] = new Array(12);
+    const listOfOptions: OptionType<number>[] = new Array(12);
     listOfOptions[0] = option(12);
     for (let i = 1; i <= 11; i += 1) {
       listOfOptions[i] = option(i);
     }
     return listOfOptions;
   }
-  const listOfOptions: OptionType<string>[] = new Array(24);
+  const listOfOptions: OptionType<number>[] = new Array(24);
   for (let i = 0; i <= 23; i += 1) {
     listOfOptions[i] = option(i);
   }
@@ -77,10 +77,29 @@ export const generateHourOptions = (
 
 export const generateMinuteOptions = (
   minutesInterval: number
-): OptionType<string>[] => {
-  let options: OptionType<string>[] = [];
+): OptionType<number>[] => {
+  let options: OptionType<number>[] = [];
   for (let i = 0; i < 60; i += minutesInterval) {
     options.push(option(i));
   }
   return options;
+};
+
+/**
+ * Convert a value from 12 hour time format to 24 hour format
+ *
+ * @param hour hour to convert
+ * @param meridiem am or pm
+ */
+export const convertHourFrom12HrTo24Hr = (
+  hour: number,
+  meridiem: Meridiem
+): number => {
+  if (hour === 12) {
+    return meridiem === Meridiem.AM ? 0 : 12;
+  } else if (meridiem === Meridiem.PM) {
+    return hour + 12;
+  } else {
+    return hour;
+  }
 };

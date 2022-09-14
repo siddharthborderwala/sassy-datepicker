@@ -11,11 +11,11 @@ import CustomSelect, { OptionType } from '../components/select';
 import { Meridiem, Time, TimePickerOptions } from './types';
 
 import './styles.css';
-import { convertHourFrom12HrTo24Hr } from '../util';
 import {
   alignTime,
   generateHourOptions,
   generateMinuteOptions,
+  convertHourFrom12HrTo24Hr,
 } from './methods';
 
 /**
@@ -30,14 +30,14 @@ export type TimePickerProps = {
    * The selected date.
    */
   value?: Time;
-  /**
-   * The minimum time that can be selected - 0 to 23 (inclusive).
-   */
-  minTime?: Time;
-  /**
-   * The maximum time that can be selected - 0 to 23 (inclusive).
-   */
-  maxTime?: Time;
+  // /**
+  //  * The minimum time that can be selected - 0 to 23 (inclusive).
+  //  */
+  // minTime?: Time;
+  // /**
+  //  * The maximum time that can be selected - 0 to 23 (inclusive).
+  //  */
+  // maxTime?: Time;
   /**
    * The number of minutes between each minute select option - default is 30
    */
@@ -65,6 +65,8 @@ const meridiemOptions: OptionType<Meridiem>[] = [
   { value: Meridiem.AM, label: Meridiem.AM, disabled: false },
   { value: Meridiem.PM, label: Meridiem.PM, disabled: false },
 ];
+
+const formatNumber = (v: number) => v.toString().padStart(2, '0');
 
 // defaults
 const MINUTES_INTERVAL = 30;
@@ -108,19 +110,18 @@ const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(
     );
 
     const handleMinutesChange = useCallback(
-      (v: string) => {
+      (v: number) => {
         setSelectedTime((t) => {
-          const minutes = Number(v);
-          return alignTime({ ...t, minutes }, minutesInterval);
+          return alignTime({ ...t, minutes: v }, minutesInterval);
         });
       },
       [minutesInterval]
     );
 
     const handleHoursChange = useCallback(
-      (v: string) => {
+      (v: number) => {
         setSelectedTime((t) => {
-          let hours = Number(v);
+          let hours = v;
           if (timeFormat === '12hr') {
             hours = convertHourFrom12HrTo24Hr(hours, currentMeridiem);
           }
@@ -159,23 +160,14 @@ const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(
 
     //
     const currentHourDisplayValue = useMemo(() => {
-      if (timeFormat === '24hr')
-        return selectedTime.hours.toString().padStart(2, '0');
-      if (currentMeridiem === Meridiem.AM) {
-        const h = selectedTime.hours;
-        if (h === 0) return '12';
-        return h.toString().padStart(2, '0');
-      } else {
-        const h = selectedTime.hours - 12;
-        if (h === 0) return '12';
-        return h.toString().padStart(2, '0');
-      }
+      if (timeFormat === '24hr') return selectedTime.hours;
+      const h =
+        currentMeridiem === Meridiem.AM
+          ? selectedTime.hours
+          : selectedTime.hours - 12;
+      if (h === 0) return 12;
+      return h;
     }, [selectedTime.hours, timeFormat, currentMeridiem]);
-
-    const currentMinuteDisplayValue = useMemo(
-      () => selectedTime.minutes.toString().padStart(2, '0'),
-      [selectedTime.minutes]
-    );
 
     useEffect(() => {
       onChange(selectedTime);
@@ -185,7 +177,6 @@ const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(
       setSelectedTime(alignTime(selectedTime, minutesInterval));
     }, [minutesInterval]);
 
-    // FIXME: hour and minute options depending on maxTime and minTime
     return (
       <div
         className={`stp ${className ?? ''} ${disabled ? 'stp--disabled' : ''}`}
@@ -197,6 +188,7 @@ const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(
           value={currentHourDisplayValue}
           onChange={handleHoursChange}
           options={hourOptions}
+          formatValue={formatNumber}
         />
         <span
           className={`stp--divider ${disabled ? 'stp--divider__disabled' : ''}`}
@@ -205,9 +197,10 @@ const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(
         </span>
         <CustomSelect
           disabled={disabled}
-          value={currentMinuteDisplayValue}
+          value={selectedTime.minutes}
           onChange={handleMinutesChange}
           options={minuteOptions}
+          formatValue={formatNumber}
         />
         {timeFormat === '12hr' && (
           <CustomSelect

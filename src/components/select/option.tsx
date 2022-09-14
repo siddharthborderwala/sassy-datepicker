@@ -21,6 +21,10 @@ type OptionProps<T> = {
    * If the option is disabled.
    */
   disabled: boolean;
+  /**
+   * Handle blur
+   */
+  handleBlur?: React.FocusEventHandler;
 };
 
 /**
@@ -32,10 +36,11 @@ function Option<T extends unknown>({
   label,
   onClick,
   disabled,
+  handleBlur,
 }: OptionProps<T>): JSX.Element {
   const ref = useRef<HTMLButtonElement>(null);
 
-  const handClick = useCallback(() => {
+  const handleClick = useCallback(() => {
     if (!disabled) {
       onClick(value);
     }
@@ -43,19 +48,22 @@ function Option<T extends unknown>({
 
   useEffect(() => {
     if (selected) {
-      ref.current?.scrollIntoView();
+      ref.current?.focus();
     }
+
+    return () => ref.current?.blur();
   }, [selected]);
 
   return (
     <button
+      key={label}
       ref={ref}
+      type="button"
       className={`sassy--option ${selected ? 'sassy--option__active' : ''} ${
         disabled ? 'sassy--option__disabled' : ''
       }`}
-      type="button"
-      onClick={handClick}
-      key={label}
+      onBlur={handleBlur}
+      onClick={handleClick}
     >
       {label}
     </button>

@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useMemo } from 'react';
-import { isSameDay } from 'date-and-time';
+import dt from 'date-and-time';
 
 type DateButtonProps = {
   date: Date;
@@ -51,7 +51,7 @@ const DateButton: React.FC<DateButtonProps> = ({
 export default memo(
   DateButton,
   (p, n) =>
-    isSameDay(p.date, n.date) &&
+    dt.isSameDay(p.date, n.date) &&
     p.active === n.active &&
     p.selected === n.selected
 );

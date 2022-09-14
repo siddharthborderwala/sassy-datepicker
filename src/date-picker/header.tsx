@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import LeftCaret from '../icons/left-caret';
 import RightCaret from '../icons/right-caret';
-import { getMonthNameFromNumber } from '../util';
+import { getMonthNameFromNumber } from './methods';
 import MonthPicker from './month-picker';
 import YearPicker from './year-picker';
 

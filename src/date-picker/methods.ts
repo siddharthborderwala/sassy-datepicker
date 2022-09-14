@@ -1,6 +1,5 @@
 import dt from 'date-and-time';
-import type { DisplayDate, WeekStartDay } from './date-picker/types';
-import { Meridiem } from './time-picker/types';
+import type { DisplayDate, WeekStartDay } from './types';
 
 enum DAYS {
   'Sunday' = 0,
@@ -122,13 +121,15 @@ export const getDatesOfMonth = (date: Date, minDateValue: number, maxDateValue: 
       });
     }
 
+    const fullYear = date.getFullYear();
+    const fullMonth = date.getMonth();
     // insert the dates of the current month
     for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
-      const d = new Date(date.getFullYear(), date.getMonth(), i);
+      const d = new Date(fullYear, fullMonth, i);
       const dValue = d.valueOf();
       dates.push({
         date: d,
-        active: dValue > minDateValue && dValue < maxDateValue,
+        active: dValue >= minDateValue && dValue <= maxDateValue,
         ms: dValue,
       });
     }
@@ -183,21 +184,3 @@ export const getDatesOfMonth = (date: Date, minDateValue: number, maxDateValue: 
 
   return dates;
 };
-
-/**
- * Convert a value from 12 hour time format to 24 hour format
- *
- * @param hour hour to convert
- * @param meridiem am or pm
- */
-export const convertHourFrom12HrTo24Hr = (hour: number, meridiem: Meridiem): number  => {
-  if (hour === 12) {
-     return meridiem === Meridiem.AM ? 0 : 12;
-  }
-  else if (meridiem === Meridiem.PM) {
-    return hour + 12;
-  }
-  else {
-    return hour
-  }
-}

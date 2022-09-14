@@ -1,5 +1,4 @@
 import React, {
-  Children,
   HTMLProps,
   PropsWithChildren,
   useCallback,
@@ -37,6 +36,10 @@ type CustomSelectProps<T> = {
    * If this input element is disabled
    */
   disabled?: boolean;
+  /**
+   * How to format the display value
+   */
+  formatValue?: (value: T) => string;
 } & Omit<
   PropsWithChildren<HTMLProps<HTMLDivElement>>,
   'onChange' | 'value' | 'disabled'
@@ -50,9 +53,9 @@ function CustomSelect<T>({
   value,
   options,
   onChange,
-  children,
   className,
   disabled,
+  formatValue,
 }: CustomSelectProps<T>): JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -76,24 +79,26 @@ function CustomSelect<T>({
   const showDropDown = useMemo(() => isOpen && !disabled, [isOpen, disabled]);
 
   useEffect(() => {
-    if (Children.toArray(children).some((c) => typeof c !== 'string')) {
-      throw new Error('CustomSelect children must be strings');
-    }
-  }, [children]);
-
-  useEffect(() => {
     const clickListener = (e: MouseEvent) => {
       if (!ref.current?.contains(e.target as Node)) {
         closeOptionsDropdown();
       }
     };
 
+    const focusOutListener = (e: FocusEvent) => {
+      if (!ref.current?.contains(e.relatedTarget as Node)) {
+        closeOptionsDropdown();
+      }
+    };
+
     document.addEventListener('click', clickListener);
+    ref.current?.addEventListener('focusout', focusOutListener);
 
     return () => {
       document.removeEventListener('click', clickListener);
+      ref.current?.removeEventListener('focusout', focusOutListener);
     };
-  }, [closeOptionsDropdown, ref]);
+  }, [closeOptionsDropdown, ref.current]);
 
   return (
     <div
@@ -107,18 +112,18 @@ function CustomSelect<T>({
         onClick={openOptionsDropdown}
         onFocus={openOptionsDropdown}
       >
-        {value}
+        {formatValue?.(value) ?? value}
       </p>
       {showDropDown && (
         <div className="sassy--select__dropdown">
           {options.map(({ value: currValue, label, disabled }) => (
             <CustomOption
               key={label}
-              selected={currValue === value}
-              value={currValue}
               label={label}
-              onClick={handleOptionSelect}
+              selected={value === currValue}
+              value={currValue}
               disabled={disabled}
+              onClick={handleOptionSelect}
             />
           ))}
         </div>
