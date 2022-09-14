@@ -9,8 +9,6 @@ export default {
     prev: true,
   },
   unstable_flexsearch: true,
-  darkMode: true,
-  footer: true,
   footer: {
     text: `MIT ${new Date().getFullYear()} © Siddharth Borderwala.`,
   },

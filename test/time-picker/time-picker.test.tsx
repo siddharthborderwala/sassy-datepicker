@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { TimePicker } from '../src';
+import { TimePicker } from '../../src';
 
 describe('DatePicker', () => {
   it('renders without crashing', () => {

@@ -4,9 +4,14 @@ import {
   generateHourOptions,
   generateMinuteOptions,
   timeToTimeDisplay,
+  convertHourFrom12HrTo24Hr,
 } from '../../src/time-picker/methods';
+import { Meridiem } from '../../src/time-picker/types';
 
-describe('TimePicker method - alignTime', () => {
+const testName = (fn: (...args: any) => any) =>
+  `TimePicker method - ${fn.name}`;
+
+describe(testName(alignTime), () => {
   const t = { hours: 2, minutes: 12 };
   it('align to previous interval works', () => {
     const t1 = alignTime(t, 5);
@@ -21,9 +26,9 @@ describe('TimePicker method - alignTime', () => {
   });
 });
 
-describe('TimePicker method - generateHourOptions', () => {
-  const mapToNumbersArray = (a: OptionType<string>[]) =>
-    a.map(({ value }) => Number(value));
+describe(testName(generateHourOptions), () => {
+  const mapToNumbersArray = (a: OptionType<number>[]) =>
+    a.map(({ value }) => value);
 
   it('24hr hour options generate', () => {
     const options12Hr = mapToNumbersArray(generateHourOptions('12hr'));
@@ -38,9 +43,9 @@ describe('TimePicker method - generateHourOptions', () => {
   });
 });
 
-describe('TimePicker method - generateMinuteOptions', () => {
-  const mapToNumbersArray = (a: OptionType<string>[]) =>
-    a.map(({ value }) => Number(value));
+describe(testName(generateMinuteOptions), () => {
+  const mapToNumbersArray = (a: OptionType<number>[]) =>
+    a.map(({ value }) => value);
 
   it('minute options get generated', () => {
     const options = mapToNumbersArray(generateMinuteOptions(10));
@@ -48,9 +53,21 @@ describe('TimePicker method - generateMinuteOptions', () => {
   });
 });
 
-describe('TimePicker method - timeToTimeDisplay', () => {
+describe(testName(timeToTimeDisplay), () => {
   it('converts', () => {
     const td = timeToTimeDisplay({ hours: 15, minutes: 10 });
     expect(td).toStrictEqual({ hours: 3, minutes: 10, meridiem: 'PM' });
+  });
+});
+
+describe(testName(convertHourFrom12HrTo24Hr), () => {
+  it('converts PM', () => {
+    const h = convertHourFrom12HrTo24Hr(3, Meridiem.PM);
+    expect(h).toBe(15);
+  });
+
+  it('converts AM', () => {
+    const h = convertHourFrom12HrTo24Hr(3, Meridiem.AM);
+    expect(h).toBe(3);
   });
 });
