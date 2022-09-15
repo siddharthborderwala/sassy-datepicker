@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import DatePicker, { TimePicker } from '../dist';
+import DatePicker, { TimePicker } from '../src';
 import '../dist/styles.css';
 import './styles.css';
 
@@ -45,7 +45,7 @@ const App = () => {
           onChange={setTime}
           className="time-picker"
           minutesInterval={1}
-          options={{ timeFormat: format }}
+          // options={{ timeFormat: format }}
           disabled={timeDisabled}
         />
       </div>

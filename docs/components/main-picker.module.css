@@ -1,11 +1,26 @@
 .main-picker--container {
   margin: 2.5rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .main-picker {
-  margin: 0 auto;
+  margin-right: 2rem;
 }
 
 .main-picker > .sdp--grid > .sdp--text {
   margin-top: 0;
+}
+
+@media screen and (max-width: 30em) {
+  .main-picker--container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .main-picker {
+    margin-right: 0;
+    margin-bottom: 2rem;
+  }
 }

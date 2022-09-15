@@ -5,7 +5,7 @@ import styles from './all-badges.module.css';
 const AllBadges = () => (
   <div className={styles.badges}>
     <Badge
-      href="https://badge.fury.io/js/sassy-datepicker.svg"
+      href="https://npmjs.org/package/sassy-datepicker"
       src="https://badge.fury.io/js/sassy-datepicker.svg"
       alt="NPM Version"
     />
@@ -21,17 +21,17 @@ const AllBadges = () => (
     />
     <Badge
       href="https://bundlephobia.com/package/sassy-datepicker"
-      src="https://img.shields.io/bundlephobia/minzip/sassy-datepicker?color=blueviolet&label=minzip"
+      src="https://img.shields.io/bundlephobia/minzip/sassy-datepicker?color=green&label=minzip"
       alt="Bundle Size: Minified + Gzipped"
     />
     <Badge
       href="https://github.com/sassy-labs/datepicker/issues"
-      src="https://badgen.net/badge/issues/chat%20with%20us/purple"
+      src="https://badgen.net/badge/issues/chat%20with%20us/blue"
       alt="GitHub Issues"
     />
     <Badge
       href="https://github.com/sassy-labs/datepicker/pulls"
-      src="https://img.shields.io/badge/PRs-welcome-blueviolet.svg"
+      src="https://img.shields.io/badge/PRs-welcome-blue.svg"
       alt="PRs Welcome"
     />
   </div>

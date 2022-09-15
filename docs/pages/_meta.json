@@ -1,11 +1,14 @@
 {
   "index": {
     "title": "Introduction",
-    "type": "page",
-    "hidden": true
+    "type": "doc"
   },
   "getting-started": {
     "title": "Getting Started",
+    "type": "doc"
+  },
+  "theming": {
+    "title": "Theming",
     "type": "doc"
   },
   "date-picker": {
