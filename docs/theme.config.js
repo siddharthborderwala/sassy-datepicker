@@ -16,14 +16,9 @@ export default {
     text: `Edit this page on GitHub`,
   },
   logo: (
-    <>
-      <h1>
-        <strong>sassy-datepicker</strong>
-      </h1>
-      <h2 style={{ marginLeft: '0.5rem', color: 'gray' }}>
-        DatePicker for React
-      </h2>
-    </>
+    <h1>
+      <strong>sassy-datepicker</strong>
+    </h1>
   ),
   head: (
     <>

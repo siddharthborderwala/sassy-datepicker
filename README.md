@@ -79,7 +79,7 @@ function Example() {
     setDate(newDate);
   };
 
-  return <DatePicker onChange={onChange} value={date} options={{ weekStartsFrom: 'Monday' }} />;
+  return <DatePicker onChange={onChange} value={date} weekStartsFrom="Monday />;
 }
 ```
 
@@ -139,25 +139,18 @@ Note - You will have to use the `!important` directive to override the default s
 
 #### Props
 
-| Name      |          Type           | Description                                                                   |
-| :-------- | :---------------------: | :---------------------------------------------------------------------------- |
-| onChange  | `(date: Date) => void;` | This function is triggered every time the selected date in the picker changes |
-| value     |         `Date`          | The selected date                                                             |
-| options   |   `DatePickerOptions`   | Some configuration options for the DatePicker                                 |
-| minDate   |         `Date`          | The lowest date value allowed                                                 |
-| maxDate   |         `Date`          | The highest date value allowed                                                |
-| className |        `string`         | The className prop                                                            |
-| ref       |   `React.ForwardRef`    | The ref prop                                                                  |
+| Name           |          Type           | Description                                                                   |
+| :------------- | :---------------------: | :---------------------------------------------------------------------------- |
+| onChange       | `(date: Date) => void;` | This function is triggered every time the selected date in the picker changes |
+| value          |         `Date`          | The selected date                                                             |
+| weekStartsFrom | `'Sunday' \| 'Monday'`  | Some configuration options for the DatePicker                                 |
+| minDate        |         `Date`          | The lowest date value allowed                                                 |
+| maxDate        |         `Date`          | The highest date value allowed                                                |
+| className      |        `string`         | The className prop                                                            |
+| ref            |   `React.ForwardRef`    | The ref prop                                                                  |
 
 And all the other react props for an `HTMLDivElement`.
 
-Type definition for `DatePickerOptions`
-
-```ts
-type DatePickerOptions = {
-  weekStartsFrom: 'Sunday' | 'Monday';
-};
-```
 
 ### TimePicker
 
@@ -247,25 +240,19 @@ Note - You will have to use the `!important` directive to override the default s
 
 #### Props
 
-| Name      |          Type           | Description                                                                   |
-| :-------- |:-----------------------:|:------------------------------------------------------------------------------|
-| onChange  | `(date: Time) => void;` | This function is triggered every time the selected time in the picker changes |
-| value     |         `Time`          | The selected date                                                             |
-| options   |   `TimePickerOptions`   | Some configuration options for the TimePicker                                 |
-| minTime   |         `Time`          | The lowest date value allowed                                                 |
-| maxTime   |         `Time`          | The highest date value allowed                                                |
-| className |        `string`         | The className prop                                                            |
-| ref       |   `React.ForwardRef`    | The ref prop                                                                  |
+| Name            |          Type           | Description                                                                   |
+| :-------------- | :---------------------: | :---------------------------------------------------------------------------- |
+| onChange        | `(date: Time) => void;` | This function is triggered every time the selected time in the picker changes |
+| value           |         `Time`          | The selected date                                                             |
+| minutesInterval |        `number`         | Time interval between the options of minutes dropdown                         |
+| displayFormat   |   `'12hr' \| '24hr'`    | The display format for the time in the Picker                                 |
+| minTime         |         `Time`          | The lowest date value allowed                                                 |
+| maxTime         |         `Time`          | The highest date value allowed                                                |
+| className       |        `string`         | The className prop                                                            |
+| ref             |   `React.ForwardRef`    | The ref prop                                                                  |
 
 And all the other react props for an `HTMLDivElement`.
 
-Type definition for `TimePickerOptions`
-
-```ts
-type TimePickerOptions = {
-  displayFormat: '12hr' | '24hr'; // default 24hr
-};
-```
 
 ## Example
 

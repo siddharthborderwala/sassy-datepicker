@@ -72,19 +72,13 @@ It is guaranteed that the DatePicker won't allow selection of a date outside the
 
 ### First Day of Week
 
-By default, the date picker has Sunday as the first day of the week but this can be changed to Monday using the `options` prop.
+By default, the date picker has Sunday as the first day of the week but this can be changed to Monday using the `weekStartsFrom` prop. It accepts two values - `"Monday"` or `"Sunday"`.
 
 ```jsx
 function WeekStartsFromMonday() {
   const [date, setDate] = useState(new Date());
 
-  return (
-    <DatePicker
-      value={date}
-      onChange={setDate}
-      options={{ weekStartsFrom: 'Monday' }}
-    />
-  );
+  return <DatePicker value={date} onChange={setDate} weekStartsFrom="Monday" />;
 }
 ```
 
@@ -96,20 +90,16 @@ Here's a demo for you to see how the DatePicker updates when the `weekStartsFrom
 
 Here is a list of props and their types and description for `DatePicker`
 
-| Name      |          Type           | Description                                                                   |
-| :-------- | :---------------------: | :---------------------------------------------------------------------------- |
-| onChange  | `(date: Date) => void;` | This function is triggered every time the selected date in the picker changes |
-| value     |         `Date`          | The selected date                                                             |
-| options   |   `DatePickerOptions`   | Some configuration options for the DatePicker                                 |
-| minDate   |         `Date`          | The lowest date value allowed                                                 |
-| maxDate   |         `Date`          | The highest date value allowed                                                |
-| className |        `string`         | The className prop                                                            |
-| ref       |   `React.ForwardRef`    | The ref prop                                                                  |
+| Name           |          Type           | Description                                                                   |
+| :------------- | :---------------------: | :---------------------------------------------------------------------------- |
+| onChange\*     | `(date: Date) => void;` | This function is triggered every time the selected date in the picker changes |
+| value\*        |         `Date`          | The selected date                                                             |
+| weekStartsFrom | `'Sunday' \| 'Monday'`  | Some configuration options for the DatePicker                                 |
+| minDate        |         `Date`          | The lowest date value allowed                                                 |
+| maxDate        |         `Date`          | The highest date value allowed                                                |
+| className      |        `string`         | The className prop                                                            |
+| ref            |   `React.ForwardRef`    | The ref prop                                                                  |
 
 And all the other react props for an `HTMLDivElement`.
 
-```ts
-type DatePickerOptions = {
-  weekStartsFrom: 'Sunday' | 'Monday';
-};
-```
+> **Required Props**: Items marked with an asterisk are required
