@@ -17,6 +17,7 @@ import {
   generateMinuteOptions,
   convertHourFrom12HrTo24Hr,
 } from './methods';
+import TwoDots from '../icons/two-dots';
 
 /**
  * Props for TimePicker React Component
@@ -193,7 +194,7 @@ const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(
         <span
           className={`stp--divider ${disabled ? 'stp--divider__disabled' : ''}`}
         >
-          :
+          <TwoDots />
         </span>
         <CustomSelect
           disabled={disabled}

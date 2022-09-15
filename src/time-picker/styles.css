@@ -14,11 +14,13 @@
 }
 
 .stp--divider {
-  line-height: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .stp--divider__disabled {
-  opacity: 50%;
+  opacity: var(--disabled-opacity);
 }
 
 .stp * {
