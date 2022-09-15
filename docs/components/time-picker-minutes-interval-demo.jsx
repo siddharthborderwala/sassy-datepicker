@@ -25,7 +25,7 @@ const TimePickerMinutesIntervalDemo = () => {
     <DemoContainer>
       <div className={styles['minutes-interval--input']}>
         <label>
-          <pre>Display Format</pre>
+          <pre>Minutes Interval</pre>
         </label>
         <input
           type="number"

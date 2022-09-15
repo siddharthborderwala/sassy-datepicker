@@ -68,7 +68,7 @@ const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(
       className,
       disabled,
       displayFormat = '12hr',
-      minutesInterval = 30,
+      minutesInterval = 5,
       ...props
     },
     ref
