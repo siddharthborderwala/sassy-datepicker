@@ -6,6 +6,6 @@ describe('DatePicker', () => {
   it('renders without crashing', () => {
     const div = document.createElement('div');
     const onChange = jest.fn();
-    ReactDOM.render(<DatePicker onChange={onChange} />, div);
+    ReactDOM.render(<DatePicker value={new Date()} onChange={onChange} />, div);
   });
 });

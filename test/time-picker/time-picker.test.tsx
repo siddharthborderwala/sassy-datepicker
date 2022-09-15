@@ -6,6 +6,9 @@ describe('DatePicker', () => {
   it('renders without crashing', () => {
     const div = document.createElement('div');
     const onChange = jest.fn();
-    ReactDOM.render(<TimePicker onChange={onChange} />, div);
+    ReactDOM.render(
+      <TimePicker value={{ hours: 15, minutes: 30 }} onChange={onChange} />,
+      div
+    );
   });
 });
