@@ -1,5 +1,5 @@
 import { OptionType } from './../components/select';
-import { Time, Meridiem, TimeDisplay, TimeFormat } from './types';
+import { Time, Meridiem, TimeDisplay, DisplayFormat } from './types';
 
 const option = (n: number) => ({
   value: n,
@@ -58,7 +58,7 @@ export const timeToTimeDisplay = (selectedTime: Time): TimeDisplay => {
 };
 
 export const generateHourOptions = (
-  timeFormat: TimeFormat
+  timeFormat: DisplayFormat
 ): OptionType<number>[] => {
   if (timeFormat === '12hr') {
     const listOfOptions: OptionType<number>[] = new Array(12);

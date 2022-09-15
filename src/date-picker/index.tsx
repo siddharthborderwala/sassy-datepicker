@@ -15,7 +15,7 @@ import {
   getDaysOfWeek,
   getMonthNumberFromName,
 } from './methods';
-import { DatePickerOptions } from './types';
+import { WeekStartDay } from './types';
 
 import './styles.css';
 
@@ -27,7 +27,7 @@ export type DatePickerProps = {
   /**
    * The selected date.
    */
-  value?: Date;
+  value: Date;
   /**
    * The minimum date that can be selected (inclusive).
    * Default is 1st January 1900
@@ -39,9 +39,9 @@ export type DatePickerProps = {
    */
   maxDate?: Date;
   /**
-   * DatePicker configuration options
+   * Week starts from which day
    */
-  options?: DatePickerOptions;
+  weekStartsFrom?: WeekStartDay;
   /**
    * If the DatePicker is disabled
    */
@@ -53,10 +53,6 @@ export type DatePickerProps = {
   >
 >;
 
-const defaultOptions: DatePickerOptions = {
-  weekStartsFrom: 'Sunday',
-};
-
 const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
   (
     {
@@ -64,7 +60,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
       value = new Date(),
       minDate,
       maxDate,
-      options = defaultOptions,
+      weekStartsFrom = 'Sunday',
       className,
       disabled = false,
       ...props
@@ -118,7 +114,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
 
     const daysOfWeekElements = useMemo(
       () =>
-        getDaysOfWeek(options.weekStartsFrom).map((v) => (
+        getDaysOfWeek(weekStartsFrom).map((v) => (
           <p
             key={v}
             className={`sdp--text ${disabled ? 'sdp--text__inactive' : ''}`}
@@ -126,18 +122,13 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
             {v}
           </p>
         )),
-      [options.weekStartsFrom, disabled]
+      [weekStartsFrom, disabled]
     );
 
     const daysOfMonthList = useMemo(
       () =>
-        getDatesOfMonth(
-          openedDate,
-          minDateValue,
-          maxDateValue,
-          options.weekStartsFrom
-        ),
-      [openedDate, minDateValue, maxDateValue, options.weekStartsFrom]
+        getDatesOfMonth(openedDate, minDateValue, maxDateValue, weekStartsFrom),
+      [openedDate, minDateValue, maxDateValue, weekStartsFrom]
     );
 
     // TODO: arrow-keys navigation

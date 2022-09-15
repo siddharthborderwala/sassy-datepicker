@@ -15,14 +15,7 @@ export type TimeDisplay = {
   meridiem?: Meridiem;
 };
 
-export type TimeFormat = '12hr' | '24hr';
-
-export type TimePickerOptions = {
-  /**
-   * Which time format to use
-   */
-  timeFormat: TimeFormat;
-};
+export type DisplayFormat = '12hr' | '24hr';
 
 export enum Meridiem {
   AM = 'AM',

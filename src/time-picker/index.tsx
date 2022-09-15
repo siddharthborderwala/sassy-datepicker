@@ -8,7 +8,7 @@ import React, {
   useState,
 } from 'react';
 import CustomSelect, { OptionType } from '../components/select';
-import { Meridiem, Time, TimePickerOptions } from './types';
+import { DisplayFormat, Meridiem, Time } from './types';
 
 import './styles.css';
 import {
@@ -30,27 +30,19 @@ export type TimePickerProps = {
   /**
    * The selected date.
    */
-  value?: Time;
-  // /**
-  //  * The minimum time that can be selected - 0 to 23 (inclusive).
-  //  */
-  // minTime?: Time;
-  // /**
-  //  * The maximum time that can be selected - 0 to 23 (inclusive).
-  //  */
-  // maxTime?: Time;
-  /**
-   * The number of minutes between each minute select option - default is 30
-   */
-  minutesInterval?: number;
-  /**
-   * TimePicker configuration options
-   */
-  options?: TimePickerOptions;
+  value: Time;
   /**
    * If the TimePicker is disabled
    */
   disabled?: boolean;
+  /**
+   * Which time format to use
+   */
+  displayFormat?: DisplayFormat;
+  /**
+   * The number of minutes between each minute select option - default is 30
+   */
+  minutesInterval?: number;
 } & PropsWithRef<
   Omit<
     HTMLProps<HTMLInputElement>,
@@ -58,19 +50,12 @@ export type TimePickerProps = {
   >
 >;
 
-const defaultOptions: TimePickerOptions = {
-  timeFormat: '12hr',
-};
-
 const meridiemOptions: OptionType<Meridiem>[] = [
   { value: Meridiem.AM, label: Meridiem.AM, disabled: false },
   { value: Meridiem.PM, label: Meridiem.PM, disabled: false },
 ];
 
 const formatNumber = (v: number) => v.toString().padStart(2, '0');
-
-// defaults
-const MINUTES_INTERVAL = 30;
 
 /**
  * TimePicker React Component
@@ -80,10 +65,10 @@ const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(
     {
       onChange,
       value,
-      minutesInterval = MINUTES_INTERVAL,
-      options = defaultOptions,
       className,
       disabled,
+      displayFormat = '12hr',
+      minutesInterval = 30,
       ...props
     },
     ref
@@ -96,7 +81,6 @@ const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(
       throw new Error('minutesInterval must be an integer greater than 0');
     }
 
-    const { timeFormat } = options;
     const [selectedTime, setSelectedTime] = useState(() => {
       if (value !== undefined) alignTime(value, minutesInterval);
       const d = new Date();
@@ -123,13 +107,13 @@ const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(
       (v: number) => {
         setSelectedTime((t) => {
           let hours = v;
-          if (timeFormat === '12hr') {
+          if (displayFormat === '12hr') {
             hours = convertHourFrom12HrTo24Hr(hours, currentMeridiem);
           }
           return alignTime({ ...t, hours }, minutesInterval);
         });
       },
-      [minutesInterval, currentMeridiem, timeFormat]
+      [minutesInterval, currentMeridiem, displayFormat]
     );
 
     const handleMeridiemChange = useCallback((v: Meridiem) => {
@@ -155,20 +139,20 @@ const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(
     );
 
     // the array of options of hours to select from
-    const hourOptions = useMemo(() => generateHourOptions(timeFormat), [
-      timeFormat,
+    const hourOptions = useMemo(() => generateHourOptions(displayFormat), [
+      displayFormat,
     ]);
 
     //
     const currentHourDisplayValue = useMemo(() => {
-      if (timeFormat === '24hr') return selectedTime.hours;
+      if (displayFormat === '24hr') return selectedTime.hours;
       const h =
         currentMeridiem === Meridiem.AM
           ? selectedTime.hours
           : selectedTime.hours - 12;
       if (h === 0) return 12;
       return h;
-    }, [selectedTime.hours, timeFormat, currentMeridiem]);
+    }, [selectedTime.hours, displayFormat, currentMeridiem]);
 
     useEffect(() => {
       onChange(selectedTime);
@@ -203,7 +187,7 @@ const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(
           options={minuteOptions}
           formatValue={formatNumber}
         />
-        {timeFormat === '12hr' && (
+        {displayFormat === '12hr' && (
           <CustomSelect
             disabled={disabled}
             value={currentMeridiem}

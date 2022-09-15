@@ -24,7 +24,7 @@ const App = () => {
           className="date-picker"
           value={date}
           onChange={setDate}
-          options={{ weekStartsFrom: 'Sunday' }}
+          weekStartsFrom="Monday"
           disabled={dateDisabled}
         />
       </div>
@@ -45,7 +45,6 @@ const App = () => {
           onChange={setTime}
           className="time-picker"
           minutesInterval={1}
-          // options={{ timeFormat: format }}
           disabled={timeDisabled}
         />
       </div>
