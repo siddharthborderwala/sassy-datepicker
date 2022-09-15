@@ -8,10 +8,10 @@ The `TimePicker` is a named export of the library.
 
 ```jsx
 import React, { useState } from 'react';
-import { TimePicker } from 'sassy-datepicker';
+import { TimePicker, getCurrentTime } from 'sassy-datepicker';
 
 function Example() {
-  const [time, setTime] = useState({ hours: 15, minutes: 30 });
+  const [time, setTime] = useState(getCurrentTime());
 
   const onChange = (newTime) => {
     console.log(`New time selected - ${newTime.hours}:${newTime.minutes}`);
@@ -20,6 +20,17 @@ function Example() {
 
   return <TimePicker onChange={onChange} value={time} />;
 }
+```
+
+The library exports a utility function called `getCurrentTime` which you can use to get the current time in the format being used by the time-picker.
+
+The `Time` structure looks like the following
+
+```js
+const time = {
+  hours: 10,
+  minutes: 30,
+};
 ```
 
 <Callout emoji="⚠️">

@@ -18,5 +18,9 @@
   "time-picker": {
     "title": "Time Picker",
     "type": "doc"
+  },
+  "utility-functions": {
+    "title": "Utility Functions",
+    "type": "doc"
   }
 }

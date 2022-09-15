@@ -1,0 +1,35 @@
+## Useful Functions
+
+The library has exported a few utility functions that can come in handy while working the the DatePicker and TimePicker.
+
+#### `getCurrentTime`
+
+This function returns the current time in the format used by the `TimePicker`
+
+```js
+// { hours: number, minutes: number }
+const time = getCurrentTime();
+```
+
+#### `convertDateToTime`
+
+This function accepts a date and returns the time in the format used by the `TimePicker`
+
+```js
+// { hours: 0, minutes: 0 }
+const time = convertDateToTime(new Date(2001, 8, 30));
+```
+
+#### `convertTimeToDate`
+
+This function accepts a time and an optional date argument and returns a date according to the inputs
+
+```js
+const time = { hours: 15, minutes: 30 };
+
+const date1 = convertTimeToDate(time);
+// date1 has the current day, month and year with the time set to 15:30
+
+const date2 = convertTimeToDate(time, new Date(2001, 8, 30));
+// date2 has 30th September 2001, month and year with the time set to 15:30
+```
