@@ -1,0 +1,132 @@
+import { Callout } from 'nextra-theme-docs';
+import TimePickerDisplayFormatDemo from 'components/time-picker-display-format-demo';
+import TimePickerMinutesIntervalDemo from 'components/time-picker-minutes-interval-demo';
+
+## Basic Usage
+
+The `TimePicker` is a named export of the library.
+
+```jsx
+import React, { useState } from 'react';
+import { TimePicker, getCurrentTime } from 'sassy-datepicker';
+
+function Example() {
+  const [time, setTime] = useState(getCurrentTime());
+
+  const onChange = (newTime) => {
+    console.log(`New time selected - ${newTime.hours}:${newTime.minutes}`);
+    setTime(newTime);
+  };
+
+  return <TimePicker onChange={onChange} value={time} />;
+}
+```
+
+The library exports a utility function called `getCurrentTime` which you can use to get the current time in the format being used by the time-picker.
+
+The `Time` structure looks like the following
+
+```js
+const time = {
+  hours: 10,
+  minutes: 30,
+};
+```
+
+<Callout emoji="⚠️">
+  The TimePicker is a [controlled
+  component](https://reactjs.org/docs/forms.html#controlled-components) so the
+  `onChange` and `value` props are required. If you don't pass them, the picker
+  will not re-render with the changed time.
+</Callout>
+
+## Customization
+
+### Minutes Interval
+
+You can choose what options will be shown in the minute selection dropdown. This is regulated by the `minutesInterval` prop.
+
+**Default value**
+
+- `minutesInterval` = 30
+
+```jsx
+import React, { useState } from 'react';
+import { TimePicker } from 'sassy-datepicker';
+
+const minutesInterval = 5;
+
+function Example() {
+  const [time, setTime] = useState({ hours: 15, minutes: 30 });
+
+  const onChange = (newTime) => {
+    console.log(`New time selected - ${newTime.hours}:${newTime.minutes}`);
+    setTime(newTime);
+  };
+
+  return (
+    <TimePicker
+      onChange={onChange}
+      value={time}
+      minutesInterval={minutesInterval}
+    />
+  );
+}
+```
+
+Try out changing the display format here and see how the TimePicker updates
+
+<TimePickerMinutesIntervalDemo />
+
+### Time Format
+
+The time picker supports two different time display formats - `12hr` and `24hr`.
+
+**Default value**
+
+- `displayFormat` = '12hr'
+
+```jsx
+import React, { useState } from 'react';
+import { TimePicker } from 'sassy-datepicker';
+
+const displayFormat = '24hr';
+
+function Example() {
+  const [time, setTime] = useState({ hours: 15, minutes: 30 });
+
+  const onChange = (newTime) => {
+    console.log(`New time selected - ${newTime.hours}:${newTime.minutes}`);
+    setTime(newTime);
+  };
+
+  return (
+    <TimePicker
+      onChange={onChange}
+      value={time}
+      displayFormat={displayFormat}
+    />
+  );
+}
+```
+
+Try out changing the display format here and see how the TimePicker updates
+
+<TimePickerDisplayFormatDemo />
+
+## Props
+
+| Name            |          Type           | Description                                                                   |
+| :-------------- | :---------------------: | :---------------------------------------------------------------------------- |
+| onChange\*      | `(date: Time) => void;` | This function is triggered every time the selected time in the picker changes |
+| value\*         |         `Time`          | The selected date                                                             |
+| minutesInterval |        `number`         | Time interval between the options of minutes dropdown                         |
+| displayFormat   |   `'12hr' \| '24hr'`    | The display format for the time in the Picker                                 |
+| minTime         |         `Time`          | The lowest date value allowed                                                 |
+| maxTime         |         `Time`          | The highest date value allowed                                                |
+| className       |        `string`         | The className prop                                                            |
+| ref             |   `React.ForwardRef`    | The ref prop                                                                  |
+
+And all the other react props for an `HTMLDivElement`.
+
+> **Required Props**: Items marked with an asterisk are required

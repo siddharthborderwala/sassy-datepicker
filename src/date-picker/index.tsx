@@ -1,4 +1,11 @@
-import React from 'react';
+import React, {
+  forwardRef,
+  HTMLProps,
+  PropsWithRef,
+  useCallback,
+  useMemo,
+  useState,
+} from 'react';
 import dt from 'date-and-time';
 
 import Header from './header';
@@ -7,8 +14,8 @@ import {
   getDatesOfMonth,
   getDaysOfWeek,
   getMonthNumberFromName,
-} from '../util';
-import { DatePickerOptions } from './types';
+} from './methods';
+import { WeekStartDay } from './types';
 
 import './styles.css';
 
@@ -16,11 +23,11 @@ export type DatePickerProps = {
   /**
    * This function is called when the selected date is changed.
    */
-  onChange?: (date: Date) => void;
+  onChange: (date: Date) => void;
   /**
    * The selected date.
    */
-  value?: Date;
+  value: Date;
   /**
    * The minimum date that can be selected (inclusive).
    * Default is 1st January 1900
@@ -32,56 +39,60 @@ export type DatePickerProps = {
    */
   maxDate?: Date;
   /**
-   * DatePicker configuration options
+   * Week starts from which day
    */
-  options?: DatePickerOptions;
-} & React.PropsWithRef<
+  weekStartsFrom?: WeekStartDay;
+  /**
+   * If the DatePicker is disabled
+   */
+  disabled?: boolean;
+} & PropsWithRef<
   Omit<
-    React.HTMLProps<HTMLDivElement>,
-    'onChange' | 'selected' | 'options' | 'value'
+    HTMLProps<HTMLInputElement>,
+    'onChange' | 'selected' | 'options' | 'value' | 'type' | 'name' | 'disabled'
   >
 >;
 
-const defaultOptions: DatePickerOptions = {
-  weekStartsFrom: 'Sunday',
-};
-
-const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
+/**
+ * DatePicker component to pick dates
+ */
+const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
   (
     {
       onChange,
       value = new Date(),
       minDate,
       maxDate,
-      options = defaultOptions,
+      weekStartsFrom = 'Sunday',
       className,
+      disabled = false,
       ...props
     },
     ref
   ) => {
-    const minDateValue = React.useMemo(
+    const minDateValue = useMemo(
       () => minDate?.getTime() ?? new Date(1900, 0, 1).getTime(),
       [minDate]
     );
-    const maxDateValue = React.useMemo(
+    const maxDateValue = useMemo(
       () => maxDate?.getTime() ?? dt.addYears(new Date(), 100).getTime(),
       [maxDate]
     );
 
     // current month and year the user is viewing
-    const [openedDate, setOpenedDate] = React.useState<Date>(value);
+    const [openedDate, setOpenedDate] = useState<Date>(value);
 
-    const nextMonth = React.useCallback(
+    const nextMonth = useCallback(
       () => setOpenedDate((d) => dt.addMonths(d, 1)),
       [setOpenedDate]
     );
 
-    const prevMonth = React.useCallback(
+    const prevMonth = useCallback(
       () => setOpenedDate((d) => dt.addMonths(d, -1)),
       [setOpenedDate]
     );
 
-    const onMonthChange = React.useCallback(
+    const onMonthChange = useCallback(
       (month: string) => {
         setOpenedDate(
           (d) =>
@@ -95,44 +106,39 @@ const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
       [setOpenedDate]
     );
 
-    const onYearChange = React.useCallback(
+    const onYearChange = useCallback(
       (year: number) => {
         setOpenedDate((d) => new Date(year, d.getMonth(), d.getDate()));
       },
       [setOpenedDate]
     );
 
-    const handleClick = React.useCallback((d: Date) => onChange?.(d), [
-      onChange,
-    ]);
+    const handleClick = useCallback((d: Date) => onChange(d), [onChange]);
 
-    const daysOfWeekElements = React.useMemo(
+    const daysOfWeekElements = useMemo(
       () =>
-        getDaysOfWeek(options.weekStartsFrom).map((v) => (
-          <p key={v} className="sdp--text sdp--text__inactive">
+        getDaysOfWeek(weekStartsFrom).map((v) => (
+          <p
+            key={v}
+            className={`sdp--text ${disabled ? 'sdp--text__inactive' : ''}`}
+          >
             {v}
           </p>
         )),
-      [options.weekStartsFrom]
+      [weekStartsFrom, disabled]
     );
 
-    const daysOfMonthList = React.useMemo(
+    const daysOfMonthList = useMemo(
       () =>
-        getDatesOfMonth(
-          openedDate,
-          minDateValue,
-          maxDateValue,
-          options.weekStartsFrom
-        ),
-      [openedDate, minDateValue, maxDateValue, options.weekStartsFrom]
+        getDatesOfMonth(openedDate, minDateValue, maxDateValue, weekStartsFrom),
+      [openedDate, minDateValue, maxDateValue, weekStartsFrom]
     );
 
-    // TODO: arrow-keys navigation
     return (
       <div
-        className={`sdp ${className ?? ''}`}
+        className={`sdp ${className ?? ''} ${disabled ? 'sdp--disabled' : ''}`}
         aria-label="Date Picker"
-        tabIndex={0}
+        tabIndex={disabled ? -1 : 0}
         ref={ref}
         {...props}
       >
@@ -145,20 +151,19 @@ const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
           prevMonth={prevMonth}
           onYearChange={onYearChange}
           onMonthChange={onMonthChange}
+          disabled={disabled}
         />
-        <div className="sdp--dates-grid">
-          <>{daysOfWeekElements}</>
-          <>
-            {daysOfMonthList.map(({ date, active, ms }) => (
-              <DateButton
-                key={ms}
-                date={date}
-                active={active}
-                selected={dt.isSameDay(value, date)}
-                onClick={handleClick}
-              />
-            ))}
-          </>
+        <div className="sdp--grid">{daysOfWeekElements}</div>
+        <div className="sdp--grid">
+          {daysOfMonthList.map(({ date, active, ms }) => (
+            <DateButton
+              key={ms}
+              date={date}
+              active={active && !disabled}
+              selected={dt.isSameDay(value, date)}
+              onClick={handleClick}
+            />
+          ))}
         </div>
       </div>
     );

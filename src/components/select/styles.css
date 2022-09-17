@@ -15,6 +15,15 @@
   box-shadow: var(--ring-shadow);
 }
 
+.sassy--select.sassy--select__disabled {
+  opacity: var(--disabled-opacity);
+  pointer-events: none;
+}
+
+.sassy--select.sassy--select__disabled:focus {
+  box-shadow: none;
+}
+
 .sassy--select__dropdown {
   position: absolute;
   z-index: 2;
@@ -24,7 +33,7 @@
   max-height: 40vh;
   overflow: auto;
   padding: 0.5rem;
-  background-color: #ffffff;
+  background: var(--select-background);
   border: none;
   border-radius: 0.5rem;
   scrollbar-width: none;
@@ -63,7 +72,7 @@
   padding: 0.25rem 0.4rem;
   border: none;
   border-radius: 0.25rem;
-  background-color: #ffffff;
+  background: var(--option-background);
   margin-top: 0.25rem;
 }
 

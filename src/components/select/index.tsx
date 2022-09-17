@@ -1,10 +1,19 @@
-import React from 'react';
+import React, {
+  HTMLProps,
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import CustomOption from './option';
 
 import './styles.css';
 
 export type OptionType<T> = {
-  value: [T, string];
+  value: T;
+  label: string;
   disabled: boolean;
 };
 
@@ -23,9 +32,17 @@ type CustomSelectProps<T> = {
    * Format - [{value: [value, label], disabled: boolean}, ...]
    */
   options: OptionType<T>[];
+  /**
+   * If this input element is disabled
+   */
+  disabled?: boolean;
+  /**
+   * How to format the display value
+   */
+  formatValue?: (value: T) => string;
 } & Omit<
-  React.PropsWithChildren<React.HTMLProps<HTMLDivElement>>,
-  'onChange' | 'value'
+  PropsWithChildren<HTMLProps<HTMLDivElement>>,
+  'onChange' | 'value' | 'disabled'
 >;
 
 /**
@@ -36,21 +53,22 @@ function CustomSelect<T>({
   value,
   options,
   onChange,
-  children,
   className,
-}: CustomSelectProps<T>) {
-  const ref = React.useRef<HTMLDivElement>(null);
-  const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  disabled,
+  formatValue,
+}: CustomSelectProps<T>): JSX.Element {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const openOptionsDropdown = React.useCallback(() => {
-    setIsOpen(true);
-  }, [setIsOpen]);
+  const openOptionsDropdown = useCallback(() => {
+    if (!disabled) setIsOpen(true);
+  }, [setIsOpen, disabled]);
 
-  const closeOptionsDropdown = React.useCallback(() => {
+  const closeOptionsDropdown = useCallback(() => {
     setIsOpen(false);
   }, [setIsOpen]);
 
-  const handleOptionSelect = React.useCallback(
+  const handleOptionSelect = useCallback(
     (v) => {
       onChange(v);
       closeOptionsDropdown();
@@ -58,33 +76,34 @@ function CustomSelect<T>({
     [onChange, closeOptionsDropdown]
   );
 
-  React.useEffect(() => {
-    if (React.Children.toArray(children).some((c) => typeof c !== 'string')) {
-      throw new Error('CustomSelect children must be strings');
-    }
-  }, [children]);
+  const showDropDown = useMemo(() => isOpen && !disabled, [isOpen, disabled]);
 
-  React.useEffect(() => {
+  const displayValue = useMemo(() => formatValue?.(value) ?? value, [
+    formatValue,
+    value,
+  ]);
+
+  useEffect(() => {
     const clickListener = (e: MouseEvent) => {
       if (!ref.current?.contains(e.target as Node)) {
         closeOptionsDropdown();
       }
     };
 
-    const blurListener = (e: FocusEvent) => {
-      if (!ref.current?.contains(e.target as Node)) {
+    const focusOutListener = (e: FocusEvent) => {
+      if (!ref.current?.contains(e.relatedTarget as Node)) {
         closeOptionsDropdown();
       }
     };
 
     document.addEventListener('click', clickListener);
-    ref.current?.addEventListener('focusout', blurListener);
+    ref.current?.addEventListener('focusout', focusOutListener);
 
     return () => {
       document.removeEventListener('click', clickListener);
-      ref.current?.removeEventListener('focusout', blurListener);
+      ref.current?.removeEventListener('focusout', focusOutListener);
     };
-  }, [closeOptionsDropdown, ref]);
+  }, [closeOptionsDropdown, ref.current]);
 
   return (
     <div
@@ -93,23 +112,24 @@ function CustomSelect<T>({
       ref={ref}
     >
       <p
-        className="sassy--select"
-        tabIndex={0}
+        className={`sassy--select ${disabled ? 'sassy--select__disabled' : ''}`}
+        tabIndex={disabled ? -1 : 0}
         onClick={openOptionsDropdown}
         onFocus={openOptionsDropdown}
       >
-        {value}
+        {displayValue}
       </p>
-      {isOpen && (
+      {showDropDown && (
         <div className="sassy--select__dropdown">
-          {options.map(({ value: [v, label], disabled }) => (
+          {options.map(({ value: currValue, label, disabled }) => (
             <CustomOption
               key={label}
-              selected={v === value}
-              value={v}
               label={label}
-              onClick={handleOptionSelect}
+              selected={value === currValue}
+              value={currValue}
               disabled={disabled}
+              onClick={handleOptionSelect}
+              aria-label={`Select ${label}`}
             />
           ))}
         </div>

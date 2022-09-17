@@ -1,0 +1,8 @@
+.demo-container {
+  width: 100%;
+  border: none;
+  border-radius: 1rem;
+  padding: 2rem;
+  background-color: var(--code-bg-color);
+  margin-top: 2rem;
+}

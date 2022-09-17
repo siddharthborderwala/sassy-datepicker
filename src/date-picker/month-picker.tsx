@@ -4,6 +4,7 @@ import CustomSelect, { OptionType } from '../components/select';
 export type MonthPickerProps = {
   value: string;
   onChange: (year: string) => void;
+  disabled: boolean;
 };
 
 const months = [
@@ -21,13 +22,18 @@ const months = [
   'December',
 ];
 
-const MonthPicker: React.FC<MonthPickerProps> = ({ value, onChange }) => {
+const MonthPicker: React.FC<MonthPickerProps> = ({
+  value,
+  onChange,
+  disabled,
+}) => {
   const options = useMemo(
     () =>
       months.map(
         (m) =>
           ({
-            value: [m, m],
+            value: m,
+            label: m,
             disabled: false,
           } as OptionType<string>)
       ),
@@ -40,6 +46,7 @@ const MonthPicker: React.FC<MonthPickerProps> = ({ value, onChange }) => {
       value={value}
       onChange={onChange}
       options={options}
+      disabled={disabled}
     />
   );
 };

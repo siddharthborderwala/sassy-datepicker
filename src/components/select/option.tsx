@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 
 type OptionProps<T> = {
   /**
@@ -26,36 +26,40 @@ type OptionProps<T> = {
 /**
  * Custom Option component.
  */
-function Option<T>({
+function Option<T extends unknown>({
   selected,
   value,
   label,
   onClick,
   disabled,
-}: OptionProps<T>) {
-  const ref = React.useRef<HTMLButtonElement>(null);
+  ...props
+}: OptionProps<T>): JSX.Element {
+  const ref = useRef<HTMLButtonElement>(null);
 
-  const handClick = React.useCallback(() => {
+  const handleClick = useCallback(() => {
     if (!disabled) {
       onClick(value);
     }
   }, [onClick, disabled, value]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (selected) {
-      ref.current?.scrollIntoView();
+      ref.current?.focus();
     }
+
+    return () => ref.current?.blur();
   }, [selected]);
 
   return (
     <button
+      key={label}
       ref={ref}
+      type="button"
       className={`sassy--option ${selected ? 'sassy--option__active' : ''} ${
         disabled ? 'sassy--option__disabled' : ''
       }`}
-      type="button"
-      onClick={handClick}
-      key={label}
+      onClick={handleClick}
+      {...props}
     >
       {label}
     </button>

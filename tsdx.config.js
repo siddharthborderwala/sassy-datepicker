@@ -12,7 +12,8 @@ module.exports = {
             preset: 'default',
           }),
         ],
-        inject: true,
+        inject: false,
+        extract: 'styles.css',
       })
     );
     return config;

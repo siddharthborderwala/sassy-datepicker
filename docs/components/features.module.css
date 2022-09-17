@@ -1,0 +1,42 @@
+.features {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 48rem;
+  margin: 2rem auto;
+}
+
+.features--item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.features--item__icon {
+  font-size: 1.25rem;
+}
+
+.features--item__label {
+  margin-left: 1rem;
+}
+
+@media screen and (max-width: 42em) {
+  .features {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 28em) {
+  .features--item {
+    justify-content: flex-start;
+  }
+
+  .features--item__label {
+    font-size: 0.75rem;
+    margin-left: 0.5rem;
+  }
+
+  .features--item__icon {
+    font-size: 1rem;
+  }
+}

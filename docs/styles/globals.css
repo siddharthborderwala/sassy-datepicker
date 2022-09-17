@@ -1,0 +1,54 @@
+html,
+body {
+  box-sizing: border-box;
+}
+
+.heading {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.heading--sub {
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+article.docs-container > main {
+  width: 100%;
+}
+
+html.dark .sdp,
+html.dark .stp {
+  background-color: #222222;
+  --disabled-color: #555555;
+  --outline: 1px solid #555555;
+  color: #e1e1e1;
+}
+
+html.dark .sdp button,
+html.dark .stp button,
+html.dark .sassy--select__dropdown {
+  background-color: #222222;
+}
+
+html.dark .sdp .sassy--option__active,
+html.dark .sdp .sassy--option:hover,
+html.dark .stp .sassy--option__active,
+html.dark .stp .sassy--option:hover {
+  background-color: var(--theme-color);
+}
+
+html.dark .sdp button.sdp--date-btn__selected {
+  background-color: var(--theme-color);
+}
+
+html.light {
+  --code-bg-color: hsla(212deg, 100%, 39%, 5%);
+}
+
+html.dark {
+  --code-bg-color: hsla(212deg, 100%, 77%, 10%);
+}

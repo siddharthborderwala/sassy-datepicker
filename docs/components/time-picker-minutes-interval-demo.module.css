@@ -1,0 +1,12 @@
+.minutes-interval--picker {
+  margin: 1rem auto 0;
+}
+
+.minutes-interval--input {
+  display: flex;
+}
+
+.minutes-interval--input > label {
+  font-weight: bold;
+  margin-right: 2rem;
+}

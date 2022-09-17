@@ -1,0 +1,37 @@
+import { Callout } from 'nextra-theme-docs';
+
+## Installation
+
+If you are using a package manager such as npm or yarn, simply run -
+
+```sh
+yarn add sassy-datepicker
+# or
+npm install sassy-datepicker
+```
+
+Delivery through CDN -
+
+```html
+<script
+  src="https://unpkg.com/sassy-datepicker/dist/sassy-datepicker.esm.js"
+  type="module"
+></script>
+<link
+  ref="stylesheet"
+  src="https://unpkg.com/sassy-datepicker/dist/styles.css"
+/>
+```
+
+## Imports
+
+The library has a default export and a named export. You will also need to import the stylesheet for the components.
+
+```jsx
+import DatePicker, { TimePicker } from 'sassy-datepicker';
+import 'sassy-datepicker/styles.css';
+```
+
+<Callout emoji="⚠️">
+  Make sure to load/import both javascript and css files.
+</Callout>

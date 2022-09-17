@@ -1,0 +1,97 @@
+import { Callout } from 'nextra-theme-docs';
+
+## Overview
+
+Sassy DatePicker and TimePicker both have carefully selected beautiful default styles. We understand that based on your needs and design choices, you may need to change the styles for the pickers.
+
+We provide some default theme variables (css3 custom properties) that you can use for easy customization of the styles.
+
+<Callout emoji="🛠">
+  By default, the library has styles only for a light theme. If you need a dark
+  theme, you can use the theming variables for the same - I have implemented the
+  dark themed picker for this documentation site similarly.
+</Callout>
+
+## Theme Variables
+
+Here is a list of all theming variables that you can use along with their defualt value and descriptions
+
+#### _--font_
+
+- **Description** - The font-famliy used in the pickers
+- **Defualt Value** - `inherit`
+
+#### _--shadow_
+
+- **Description** - Shadow used for buttons and dropdown options
+- **Defualt Value** - `rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px`
+
+#### _--shadow-md_
+
+- **Description** - Shadow used for dropdown and the pickers containers
+- **Defualt Value** - `rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px`
+
+#### _--theme-color_
+
+- **Description** - Main theme color for stuff like selection
+- **Defualt Value** - `#60a5fa`
+
+#### _--text-color_
+
+- **Description** - Color of the text
+- **Defualt Value** - `#1f1f1f`
+
+#### _--background_
+
+- **Description** - background for the picker
+- **Defualt Value** - `#ffffff`
+
+#### _--btn-background_
+
+- **Description** - background for the date pickers buttons
+- **Defualt Value** - `#ffffff`
+
+#### _--select-background_
+
+- **Description** - background for the dropdown
+- **Defualt Value** - `#ffffff`
+
+#### _--option-background_
+
+- **Description** - background color for the options inside the dropdown
+- **Defualt Value** - `#ffffff`
+
+#### _--selected-date-color_
+
+- **Description** - text color for the selected date
+- **Defualt Value** - `#ffffff`
+
+#### _--disabled-color_
+
+- **Description** - text color for disabled state
+- **Defualt Value** - `#bdbdbd`
+
+#### _--disabled-opacity_
+
+- **Description** - opacity for disabled state
+- **Defualt Value** - `50%`
+
+#### _--outline_
+
+- **Description** - outline for various elements
+- **Defualt Value** - `1px solid #cbd5e1`
+
+#### _--ring-shadow_
+
+- **Description** - a box shadow definition for a ring
+- **Defualt Value** - `0px 0px 0px 2px hsla(213, 94%, 68%, 0.7)`
+
+## Advance Customization
+
+If you would like to get finer control over the styles of the elements, you have two options -
+
+1. `className` prop -  
+   The components have support for the `className` prop, using this you can add your own styling.
+
+2. Overriding styles -  
+   For this you can define custom styles in your stylesheets for different elements using their class names which can be found in the DOM tree inspector.

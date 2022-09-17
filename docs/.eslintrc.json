@@ -1,0 +1,9 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "react/jsx-props-no-spreading": "off",
+    "react/function-component-definition": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "comma-dangle": "off"
+  }
+}

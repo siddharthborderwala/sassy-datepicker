@@ -9,13 +9,26 @@
   border: var(--outline);
 }
 
+.stp--disabled {
+  pointer-events: none;
+}
+
+.stp--divider {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stp--divider__disabled {
+  opacity: var(--disabled-opacity);
+}
+
 .stp * {
   outline: none;
 }
 
-.stp:focus,
-.stp *:focus {
-  box-shadow: 0px 0px 0px 2px #60a5fab3;
+.stp:focus {
+  box-shadow: var(--ring-shadow);
 }
 
 .stp > p {

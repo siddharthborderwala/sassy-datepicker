@@ -1,0 +1,30 @@
+{
+  "index": {
+    "title": "Introduction",
+    "type": "doc"
+  },
+  "getting-started": {
+    "title": "Getting Started",
+    "type": "doc"
+  },
+  "theming": {
+    "title": "Theming",
+    "type": "doc"
+  },
+  "date-picker": {
+    "title": "Date Picker",
+    "type": "doc"
+  },
+  "time-picker": {
+    "title": "Time Picker",
+    "type": "doc"
+  },
+  "utility-functions": {
+    "title": "Utility Functions",
+    "type": "doc"
+  },
+  "examples": {
+    "title": "Examples",
+    "type": "doc"
+  }
+}

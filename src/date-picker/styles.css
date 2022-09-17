@@ -3,16 +3,20 @@
   border: none;
   border-radius: 0.5rem;
   box-shadow: var(--shadow);
-  background-color: #ffffff;
+  background: var(--background);
   padding: 0.75rem;
   border: var(--outline);
+}
+
+.sdp--disabled {
+  pointer-events: none;
 }
 
 .sdp:focus,
 .sdp--month-name:focus,
 .sdp--square-btn:focus {
   outline: none;
-  box-shadow: 0px 0px 0px 2px #60a5fab3;
+  box-shadow: var(--ring-shadow);
 }
 
 .sdp--month-name {
@@ -40,7 +44,7 @@
   align-items: center;
   border-radius: 0.5rem;
   border: none;
-  background-color: #fff;
+  background-color: var(--btn-background);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   font-family: var(--font);
@@ -82,7 +86,7 @@
   align-items: center;
 }
 
-.sdp--dates-grid {
+.sdp--grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 4px;
@@ -90,7 +94,7 @@
   justify-items: center;
 }
 
-.sdp--dates-grid > p.sdp--text {
+.sdp--grid > p.sdp--text {
   padding: 0.5rem 0;
 }
 

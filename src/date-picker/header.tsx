@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import LeftCaret from '../icons/left-caret';
 import RightCaret from '../icons/right-caret';
-import { getMonthNameFromNumber } from '../util';
+import { getMonthNameFromNumber } from './methods';
 import MonthPicker from './month-picker';
 import YearPicker from './year-picker';
 
@@ -14,6 +14,7 @@ export type HeaderProps = {
   prevMonth: () => void;
   onMonthChange: (_: string) => void;
   onYearChange: (_: number) => void;
+  disabled: boolean;
 };
 
 const Header: React.FC<HeaderProps> = ({
@@ -25,11 +26,12 @@ const Header: React.FC<HeaderProps> = ({
   prevMonth,
   onMonthChange,
   onYearChange,
+  disabled,
 }) => {
-  const fromYear = React.useMemo(() => new Date(minDateValue).getFullYear(), [
+  const fromYear = useMemo(() => new Date(minDateValue).getFullYear(), [
     minDateValue,
   ]);
-  const toYear = React.useMemo(() => new Date(maxDateValue).getFullYear(), [
+  const toYear = useMemo(() => new Date(maxDateValue).getFullYear(), [
     maxDateValue,
   ]);
 
@@ -40,15 +42,18 @@ const Header: React.FC<HeaderProps> = ({
         onClick={prevMonth}
         aria-label="Go to previous month"
         type="button"
+        disabled={disabled}
       >
         <LeftCaret />
       </button>
       <div className="sdp--header__main">
         <MonthPicker
+          disabled={disabled}
           value={getMonthNameFromNumber(month)}
           onChange={onMonthChange}
         />
         <YearPicker
+          disabled={disabled}
           fromYear={fromYear}
           toYear={toYear}
           onChange={onYearChange}
@@ -60,6 +65,7 @@ const Header: React.FC<HeaderProps> = ({
         onClick={nextMonth}
         aria-label="Go to next month"
         type="button"
+        disabled={disabled}
       >
         <RightCaret />
       </button>

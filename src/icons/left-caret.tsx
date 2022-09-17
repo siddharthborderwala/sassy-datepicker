@@ -2,8 +2,8 @@ import React from 'react';
 import { IconProps } from './types';
 
 const LeftCaret: React.FC<IconProps> = ({
-  height = '24',
-  width = '24',
+  height = '16',
+  width = '16',
   color = 'currentColor',
   strokeWidth = '24',
 }) => (

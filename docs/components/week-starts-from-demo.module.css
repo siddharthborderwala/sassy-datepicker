@@ -1,0 +1,12 @@
+.week-starts--picker {
+  margin: 2rem auto 0;
+}
+
+.week-starts--input {
+  display: flex;
+}
+
+.week-starts--input > label {
+  font-weight: bold;
+  margin-right: 2rem;
+}

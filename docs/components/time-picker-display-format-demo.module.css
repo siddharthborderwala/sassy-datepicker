@@ -1,0 +1,12 @@
+.display-format--picker {
+  margin: 1rem auto 0;
+}
+
+.display-format--input {
+  display: flex;
+}
+
+.display-format--input > label {
+  font-weight: bold;
+  margin-right: 2rem;
+}

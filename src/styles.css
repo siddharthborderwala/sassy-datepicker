@@ -1,14 +1,35 @@
 .sdp,
 .stp {
+  /* font family */
   --font: inherit;
   --shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
     rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   --shadow-md: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
     rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
     rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  /* main theme color for stuff like selection */
   --theme-color: #60a5fa;
+  /* color of the text */
+  --text-color: #1f1f1f;
+  /* background for the picker */
+  --background: #ffffff;
+  /* background for the date pickers buttons */
+  --btn-background: #ffffff;
+  /* background for the dropdown */
+  --select-background: #ffffff;
+  /* background color for the options inside the dropdown */
+  --option-background: #ffffff;
+  /* text color for the selected date */
   --selected-date-color: #ffffff;
+  /* text color for disabled state */
   --disabled-color: #bdbdbd;
+  /* opacity for disabled state */
+  --disabled-opacity: 50%;
+  /* outline for various elements */
   --outline: 1px solid #cbd5e1;
-  --ring-shadow: 0px 0px 0px 2px var(--theme-color);
+  /* a box shadow definition for a ring */
+  --ring-shadow: 0px 0px 0px 2px hsla(213, 94%, 68%, 0.7);
+
+  color: var(--text-color);
+  background: var(--background);
 }
