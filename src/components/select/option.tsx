@@ -32,6 +32,7 @@ function Option<T extends unknown>({
   label,
   onClick,
   disabled,
+  ...props
 }: OptionProps<T>): JSX.Element {
   const ref = useRef<HTMLButtonElement>(null);
 
@@ -58,6 +59,7 @@ function Option<T extends unknown>({
         disabled ? 'sassy--option__disabled' : ''
       }`}
       onClick={handleClick}
+      {...props}
     >
       {label}
     </button>

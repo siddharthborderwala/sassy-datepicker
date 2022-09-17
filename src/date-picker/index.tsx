@@ -53,6 +53,9 @@ export type DatePickerProps = {
   >
 >;
 
+/**
+ * DatePicker component to pick dates
+ */
 const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
   (
     {
@@ -131,7 +134,6 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
       [openedDate, minDateValue, maxDateValue, weekStartsFrom]
     );
 
-    // TODO: arrow-keys navigation
     return (
       <div
         className={`sdp ${className ?? ''} ${disabled ? 'sdp--disabled' : ''}`}

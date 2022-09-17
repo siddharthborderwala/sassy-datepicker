@@ -78,6 +78,11 @@ function CustomSelect<T>({
 
   const showDropDown = useMemo(() => isOpen && !disabled, [isOpen, disabled]);
 
+  const displayValue = useMemo(() => formatValue?.(value) ?? value, [
+    formatValue,
+    value,
+  ]);
+
   useEffect(() => {
     const clickListener = (e: MouseEvent) => {
       if (!ref.current?.contains(e.target as Node)) {
@@ -112,7 +117,7 @@ function CustomSelect<T>({
         onClick={openOptionsDropdown}
         onFocus={openOptionsDropdown}
       >
-        {formatValue?.(value) ?? value}
+        {displayValue}
       </p>
       {showDropDown && (
         <div className="sassy--select__dropdown">
@@ -124,6 +129,7 @@ function CustomSelect<T>({
               value={currValue}
               disabled={disabled}
               onClick={handleOptionSelect}
+              aria-label={`Select ${label}`}
             />
           ))}
         </div>

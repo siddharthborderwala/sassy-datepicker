@@ -10,7 +10,7 @@
 
 Beautiful, minimal, customizable and accessible date-picker and time-picker for react.
 
-<img width="200" alt="Sassy DatePicker Snapshot" src="https://user-images.githubusercontent.com/54456279/185861749-08218684-23b9-42f4-bfbb-18f4037800cf.png">
+<img width="300" alt="Sassy DatePicker Snapshot" src="https://user-images.githubusercontent.com/54456279/190423366-2516815f-1c4e-4b8b-979d-e722305a1de7.png">
 
 </div>
 

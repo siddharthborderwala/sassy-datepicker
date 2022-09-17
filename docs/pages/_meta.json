@@ -22,5 +22,9 @@
   "utility-functions": {
     "title": "Utility Functions",
     "type": "doc"
+  },
+  "examples": {
+    "title": "Examples",
+    "type": "doc"
   }
 }
