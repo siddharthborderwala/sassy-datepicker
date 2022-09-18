@@ -10,12 +10,14 @@ const TimePickerMinutesIntervalDemo = () => {
   const handleChange = useCallback(
     ({ target }) => {
       const n = target.valueAsNumber;
-      if (Number.isNaN(n)) {
-        setMinutesInterval(5);
-      } else if (!Number.isInteger(n)) {
-        setMinutesInterval(Math.round(n));
+      if (!Number.isNaN(n)) {
+        if (!Number.isInteger(n)) {
+          setMinutesInterval(Math.round(n));
+        } else {
+          setMinutesInterval(n);
+        }
       } else {
-        setMinutesInterval(n);
+        setMinutesInterval(0);
       }
     },
     [setMinutesInterval]
@@ -39,7 +41,7 @@ const TimePickerMinutesIntervalDemo = () => {
         className={styles['minutes-interval--picker']}
         value={time}
         onChange={setTime}
-        minutesInterval={minutesInterval}
+        minutesInterval={minutesInterval === 0 ? 5 : minutesInterval}
       />
     </DemoContainer>
   );

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import DatePicker, { TimePicker } from '../src';
+import DatePicker, { TimePicker } from '../dist';
 import '../dist/styles.css';
 import './styles.css';
 
@@ -26,6 +26,7 @@ const App = () => {
           onChange={setDate}
           weekStartsFrom="Monday"
           disabled={dateDisabled}
+          minDate={new Date(2022, 8, 1)}
         />
       </div>
       <br />

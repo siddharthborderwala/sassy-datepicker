@@ -4,7 +4,7 @@ import DemoContainer from './demo-container';
 import styles from './week-starts-from-demo.module.css';
 
 const WeekStartsFromDemo = () => {
-  const [day, setDay] = useState('Monday');
+  const [weekStartsFrom, setWeekStartsFrom] = useState('Monday');
   const [date, setDate] = useState(new Date());
 
   return (
@@ -15,8 +15,8 @@ const WeekStartsFromDemo = () => {
         </label>
         <select
           id="week-day"
-          value={day}
-          onChange={(e) => setDay(e.target.value)}
+          value={weekStartsFrom}
+          onChange={(e) => setWeekStartsFrom(e.target.value)}
         >
           <option value="Monday">Monday</option>
           <option value="Sunday">Sunday</option>
@@ -25,7 +25,7 @@ const WeekStartsFromDemo = () => {
       <DatePicker
         onChange={setDate}
         value={date}
-        options={{ weekStartsFrom: day }}
+        weekStartsFrom={weekStartsFrom}
         className={styles['week-starts--picker']}
       />
     </DemoContainer>

@@ -7,10 +7,23 @@ const min = new Date(2000, 0, 1); // 1st January 2000
 const max = new Date(2099, 11, 31); // 31st December 2099
 const init = new Date(2001, 8, 30); // 30th September 2001
 
+const formatDateForInputValue = (d) =>
+  `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d
+    .getDate()
+    .toString()
+    .padStart(2, '0')}`;
+
 const LimitedDatePickerDemo = () => {
   const [minDate, setMinDate] = useState(min);
   const [maxDate, setMaxDate] = useState(max);
   const [date, setDate] = useState(init);
+
+  const blockKeyStrokes = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  console.log({ minDate });
 
   return (
     <DemoContainer>
@@ -21,13 +34,9 @@ const LimitedDatePickerDemo = () => {
         <input
           id="min-date"
           type="date"
-          value={`${minDate.getFullYear()}-${(minDate.getMonth() + 1)
-            .toString()
-            .padStart(2, '0')}-${minDate
-            .getDate()
-            .toString()
-            .padStart(2, '0')}`}
+          value={formatDateForInputValue(minDate)}
           onChange={(e) => setMinDate(e.target.valueAsDate)}
+          onKeyDown={blockKeyStrokes}
         />
       </div>
       <div className={styles['limited-dp--date-input']}>
@@ -37,13 +46,9 @@ const LimitedDatePickerDemo = () => {
         <input
           id="max-date"
           type="date"
-          value={`${maxDate.getFullYear()}-${(maxDate.getMonth() + 1)
-            .toString()
-            .padStart(2, '0')}-${maxDate
-            .getDate()
-            .toString()
-            .padStart(2, '0')}`}
+          value={formatDateForInputValue(maxDate)}
           onChange={(e) => setMaxDate(e.target.valueAsDate)}
+          onKeyDown={blockKeyStrokes}
         />
       </div>
       <DatePicker

@@ -21,7 +21,7 @@ const AllBadges = () => (
     />
     <Badge
       href="https://bundlephobia.com/package/sassy-datepicker"
-      src="https://img.shields.io/bundlephobia/minzip/sassy-datepicker@0.10.0?color=blue&label=minzip"
+      src="https://img.shields.io/bundlephobia/minzip/sassy-datepicker@0.10.1?color=blue&label=minzip"
       alt="Bundle Size: Minified + Gzipped"
     />
     <Badge

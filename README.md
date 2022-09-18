@@ -3,10 +3,10 @@
 
 [![npm version](https://badge.fury.io/js/sassy-datepicker.svg)](https://badge.fury.io/js/sassy-datepicker)
 [![CI Status](https://github.com/sassy-labs/datepicker/actions/workflows/main.yml/badge.svg)](https://github.com/sassy-labs/datepicker/actions/workflows/main.yml)
-[![Bundle Size: Minified + Gzipped](https://img.shields.io/bundlephobia/minzip/sassy-datepicker?color=orange&label=minzip)](https://bundlephobia.com/package/sassy-datepicker)
 [![Maintenance Status](https://badgen.net/badge/maintenance/active/green)](https://github.com/sassy-labs/datepicker#maintenance-status)
-[![GitHub Issues: Chat With Us](https://badgen.net/badge/issues/chat%20with%20us/purple)](https://github.com/sassy-labs/datepicker/issues)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-blueviolet.svg)](https://github.com/sassy-labs/datepicker/pulls)
+[![Bundle Size: Minified + Gzipped](https://img.shields.io/bundlephobia/minzip/sassy-datepicker@0.10.1?color=blue&label=minzip)](https://bundlephobia.com/package/sassy-datepicker)
+[![GitHub Issues: Chat With Us](https://badgen.net/badge/issues/chat%20with%20us/blue)](https://github.com/sassy-labs/datepicker/issues)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-blue.svg)](https://github.com/sassy-labs/datepicker/pulls)
 
 Beautiful, minimal, customizable and accessible date-picker and time-picker for react.
 
