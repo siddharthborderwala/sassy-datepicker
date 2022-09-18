@@ -71,11 +71,11 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     ref
   ) => {
     const minDateValue = useMemo(
-      () => minDate?.getTime() ?? new Date(1900, 0, 1).getTime(),
+      () => minDate?.valueOf() ?? new Date(1900, 0, 1).valueOf(),
       [minDate]
     );
     const maxDateValue = useMemo(
-      () => maxDate?.getTime() ?? dt.addYears(new Date(), 100).getTime(),
+      () => maxDate?.valueOf() ?? dt.addYears(new Date(), 100).valueOf(),
       [maxDate]
     );
 

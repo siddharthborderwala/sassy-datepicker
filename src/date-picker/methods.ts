@@ -89,9 +89,17 @@ export const getDaysOfWeek = (weekStartsFrom: WeekStartDay) => {
   return ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 };
 
+const getMidnight = (n: number): number => {
+  const d = new Date(n);
+  d.setHours(0, 0, 0, 0);
+  return d.valueOf();
+}
+
 export const getDatesOfMonth = (date: Date, minDateValue: number, maxDateValue: number, weekStartsFrom: WeekStartDay): DisplayDate[] => {
   const currentYear = date.getFullYear();
   const currentMonth = date.getMonth();
+  const minDate = getMidnight(minDateValue);
+  const maxDate = getMidnight(maxDateValue);
 
   // generate dates of each week of the month including the residue dates
   // of the last week of previous month and first week of next month
@@ -127,9 +135,10 @@ export const getDatesOfMonth = (date: Date, minDateValue: number, maxDateValue: 
     for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
       const d = new Date(fullYear, fullMonth, i);
       const dValue = d.valueOf();
+      // compare day of month
       dates.push({
         date: d,
-        active: dValue >= minDateValue && dValue <= maxDateValue,
+        active: dValue >= minDate && dValue <= maxDate,
         ms: dValue,
       });
     }
@@ -138,7 +147,7 @@ export const getDatesOfMonth = (date: Date, minDateValue: number, maxDateValue: 
     let counter = 1;
     // insert the residual dates of the next month
     while (i <= 6) {
-      const d= dt.addDays(lastDayOfMonth, counter++);
+      const d = dt.addDays(lastDayOfMonth, counter++);
       dates.push({
         date: d,
         active: false,
@@ -157,13 +166,16 @@ export const getDatesOfMonth = (date: Date, minDateValue: number, maxDateValue: 
       });
     }
 
+    const fullYear = date.getFullYear();
+    const fullMonth = date.getMonth();
     // insert the dates of the current month
     for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
-      const d = new Date(date.getFullYear(), date.getMonth(), i);
+      const d = new Date(fullYear, fullMonth, i);
       const dValue = d.valueOf();
+      // compare day of month
       dates.push({
         date: d,
-        active: dValue > minDateValue && dValue < maxDateValue,
+        active: dValue >= minDate && dValue <= maxDate,
         ms: dValue,
       });
     }
