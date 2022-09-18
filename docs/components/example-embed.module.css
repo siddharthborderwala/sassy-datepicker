@@ -21,10 +21,6 @@
   border-radius: 0.5rem;
 }
 
-.example-embed--fs-btn:hover {
-  background-color: #474747af;
-}
-
 .example-embed--fs-btn > span {
   margin-right: 1rem;
   font-size: 0.8rem;

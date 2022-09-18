@@ -12,8 +12,16 @@ const ExampleEmbed = ({ src, title }) => {
 
   return (
     <div className={styles['example-embed--container']}>
+      <style>{`
+        html.dark .hov-style:hover {
+          background-color: #474747af;
+        }
+        html.light .hov-style:hover {
+          background-color: #dbdbdbaf;
+        }
+      `}</style>
       <button
-        className={styles['example-embed--fs-btn']}
+        className={`hov-style ${styles['example-embed--fs-btn']}`}
         onClick={handleFullScreenRequest}
         type="button"
       >

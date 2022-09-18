@@ -2,13 +2,23 @@
   "name": "sassy-datepicker",
   "description": "Beautiful, minimal, customizable and accessible date-picker for react.",
   "author": "Siddharth Borderwala",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "license": "MIT",
+  "homepage": "https://sassy-datepicker.netlify.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sassy-labs/datepicker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sassy-labs/datepicker/issues"
+  },
   "keywords": [
     "react",
-    "datepicker",
+    "date-picker",
+    "time-picker",
     "date",
-    "picker"
+    "calendar",
+    "react-component"
   ],
   "scripts": {
     "start": "tsdx watch",
@@ -31,13 +41,6 @@
     "require": "./dist/sassy-datepicker.cjs.production.min.js",
     "import": "./dist/sassy-datepicker.esm.js",
     "default": "./dist/index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sassy-labs/datepicker.git"
-  },
-  "bugs": {
-    "url": "https://github.com/sassy-labs/datepicker/issues"
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^6.0.4",
