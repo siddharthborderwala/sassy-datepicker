@@ -5,6 +5,7 @@
     "react/function-component-definition": "off",
     "jsx-a11y/label-has-associated-control": "off",
     "comma-dangle": "off",
-    "react/jsx-one-expression-per-line": "off"
+    "react/jsx-one-expression-per-line": "off",
+    "implicit-arrow-linebreak": "off"
   }
 }

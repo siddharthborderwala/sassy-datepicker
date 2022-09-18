@@ -23,8 +23,6 @@ const LimitedDatePickerDemo = () => {
     e.stopPropagation();
   };
 
-  console.log({ minDate });
-
   return (
     <DemoContainer>
       <div className={styles['limited-dp--date-input']}>
