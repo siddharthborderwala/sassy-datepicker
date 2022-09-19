@@ -7,13 +7,13 @@ const min = new Date(2001, 0, 1); // 1st January 2001
 const max = new Date(2030, 11, 31); // 31st December 2030
 const init = new Date(2001, 8, 30); // 30th September 2001
 
-const formatDateForInputValue = (d) =>
-  d
-    ? `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d
-        .getDate()
-        .toString()
-        .padStart(2, '0')}`
+const fn = (n) => n.toString().padStart(2, '0');
+
+const formatDateForInputValue = (d) => {
+  return d
+    ? `${d.getFullYear()}-${fn(d.getMonth() + 1)}-${fn(d.getDate())}`
     : null;
+};
 
 const LimitedDatePickerDemo = () => {
   const [minDate, setMinDate] = useState(min);
