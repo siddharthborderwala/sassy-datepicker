@@ -1,3 +1,6 @@
+import footer from 'components/footer';
+import editLink from 'components/edit-link';
+
 export default {
   project: {
     link: 'https://github.com/sassy-labs/datepicker',
@@ -10,16 +13,18 @@ export default {
   },
   unstable_flexsearch: true,
   footer: {
-    text: `MIT ${new Date().getFullYear()} © Siddharth Borderwala.`,
+    component: footer,
   },
   editLink: {
-    text: `Edit this page on GitHub`,
+    component: editLink,
+    text: 'Edit this page on GitHub',
   },
   logo: (
     <h1>
       <strong>sassy-datepicker</strong>
     </h1>
   ),
+  faviconGlyph: '🗓',
   head: (
     <>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />

@@ -3,15 +3,17 @@ import DatePicker from 'sassy-datepicker';
 import DemoContainer from './demo-container';
 import styles from './limited-datepicker-demo.module.css';
 
-const min = new Date(2000, 0, 1); // 1st January 2000
-const max = new Date(2099, 11, 31); // 31st December 2099
+const min = new Date(2001, 0, 1); // 1st January 2001
+const max = new Date(2030, 11, 31); // 31st December 2030
 const init = new Date(2001, 8, 30); // 30th September 2001
 
 const formatDateForInputValue = (d) =>
-  `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d
-    .getDate()
-    .toString()
-    .padStart(2, '0')}`;
+  d
+    ? `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d
+        .getDate()
+        .toString()
+        .padStart(2, '0')}`
+    : null;
 
 const LimitedDatePickerDemo = () => {
   const [minDate, setMinDate] = useState(min);
@@ -32,7 +34,7 @@ const LimitedDatePickerDemo = () => {
         <input
           id="min-date"
           type="date"
-          value={formatDateForInputValue(minDate)}
+          value={formatDateForInputValue(minDate) ?? '2001-01-01'}
           onChange={(e) => setMinDate(e.target.valueAsDate)}
           onKeyDown={blockKeyStrokes}
         />
@@ -44,7 +46,7 @@ const LimitedDatePickerDemo = () => {
         <input
           id="max-date"
           type="date"
-          value={formatDateForInputValue(maxDate)}
+          value={formatDateForInputValue(maxDate) ?? '2030-12-31'}
           onChange={(e) => setMaxDate(e.target.valueAsDate)}
           onKeyDown={blockKeyStrokes}
         />
