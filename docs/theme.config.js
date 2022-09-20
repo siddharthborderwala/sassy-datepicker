@@ -1,5 +1,4 @@
 import footer from 'components/footer';
-import editLink from 'components/edit-link';
 
 export default {
   project: {
@@ -16,7 +15,6 @@ export default {
     component: footer,
   },
   editLink: {
-    component: editLink,
     text: 'Edit this page on GitHub',
   },
   logo: (
