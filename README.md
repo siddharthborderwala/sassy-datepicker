@@ -27,18 +27,14 @@ Why use sassy-datepicker?
 ## Contents
 
 - [Contents](#contents)
-- [Installation](#installation)
-- [Usage](#usage)
-  - [DatePicker](#datepicker)
-    - [Customization](#customization)
-    - [Props](#props)
-  - [TimePicker](#timepicker)
-    - [Customization](#customization-1)
-    - [Props](#props-1)
-- [Example](#example)
-- [Road Map](#road-map)
+- [Installation and Usage](#installation-and-usage)
+  - [Package Installation](#package-installation)
+  - [Basic Usage](#basic-usage)
+- [Documentation](#documentation)
 
-## Installation
+## Installation and Usage
+
+### Package Installation
 
 ```sh
 yarn add sassy-datepicker
@@ -46,17 +42,16 @@ yarn add sassy-datepicker
 npm install sassy-datepicker
 ```
 
-## Usage
-
-### DatePicker
+### Basic Usage
 
 The default export from the library is the `DatePicker` component.
 
 ```jsx
 import { useState } from 'react';
-import DatePicker from 'sassy-datepicker';
+import DatePicker, { TimePicker } from 'sassy-datepicker';
+import 'sassy-datepicker/dist/styles.css';
 
-function Example() {
+function DateInput() {
   const [date, setDate] = useState(new Date());
 
   const onChange = newDate => {
@@ -66,205 +61,21 @@ function Example() {
 
   return <DatePicker onChange={onChange} value={date} />;
 }
-```
 
-By default the week starts from Sunday, but if you want to change it to Monday, you can use the configuration options on the DatePicker
-
-```jsx
-function Example() {
-  const [date, setDate] = useState(new Date());
-
-  const onChange = newDate => {
-    console.log(`New date selected - ${newDate.toString()}`);
-    setDate(newDate);
-  };
-
-  return <DatePicker onChange={onChange} value={date} weekStartsFrom="Monday />;
-}
-```
-
-Suppose you only want to allow dates within a certain range, for that you can use the `maxDate` and `minDate` props.
-
-```jsx
-function InRange() {
-  // suppose you want to allow user to pick a date from today to the end of this year
-  // minDate = today
-  // maxDate = end of year
-  const firstRenderTime = React.useMemo(() => new Date(), []);
-  const endOfThisYear = React.useMemo(() => new Date(firstRenderTime.getYear(), 11, 31), [firstRenderTime]);
-
-  return <DatePicker minDate={firstRenderTime} maxDate={endOfThisYear} />;
-}
-```
-
-> **Note**: Make sure when using both `value` and `min/maxDate` props, the `value` is in the range you specify using `min/maxDate` prop.
-
-#### Customization
-
-Styles for `DatePicker` have been defined using CSS custom properties under the `sdp` CSS class, hence those properties will have to be changed for customization.
-
-Note - You will have to use the `!important` directive to override the default styles
-
-- Background Color for Selected Date (default `#60a5fa`)
-
-```css
-.sdp {
-  --theme-color: #8b5cf6 !important; /* violet color */
-}
-```
-
-- Text Color for Selected Date (default `#ffffff`)
-
-```css
-.sdp {
-  --selected-date-color: #eeeeee !important; /* light-gray color */
-}
-```
-
-- Font Family (default `inherit` i.e. inherits from the parent element)
-
-```css
-.sdp {
-  --font: 'Kollektif', sans-serif !important;
-}
-```
-
-- Text Color for Disabled Elements (default `#bdbdbd`)
-
-```css
-.stp {
-  --disabled-color: gray !important;
-}
-```
-
-#### Props
-
-| Name           |          Type           | Description                                                                   |
-| :------------- | :---------------------: | :---------------------------------------------------------------------------- |
-| onChange       | `(date: Date) => void;` | This function is triggered every time the selected date in the picker changes |
-| value          |         `Date`          | The selected date                                                             |
-| weekStartsFrom | `'Sunday' \| 'Monday'`  | Some configuration options for the DatePicker                                 |
-| minDate        |         `Date`          | The lowest date value allowed                                                 |
-| maxDate        |         `Date`          | The highest date value allowed                                                |
-| className      |        `string`         | The className prop                                                            |
-| ref            |   `React.ForwardRef`    | The ref prop                                                                  |
-
-And all the other react props for an `HTMLDivElement`.
-
-
-### TimePicker
-
-The `TimePicker` component is a named export.
-
-TimePicker uses a custom Time type for the time values which looks like -
-
-```ts
-type Time = {
-  minutes: number;
-  hours: number;
-};
-
-const aTime = { minutes: 25, hours: 12 };
-```
-
-```jsx
-import { useState } from 'react';
-import { TimePicker } from 'sassy-datepicker';
-
-function Example() {
-  const [time, setTime] = useState({
-    minutes: 0,
-    hours: 18,
-  });
+function TimeInput() {
+  const [time, setTime] = useState({ hours: 15, minutes: 30 });
 
   const onChange = newTime => {
-    console.log(`New date selected`, newTime);
-    setDate(newTime);
+    console.log(`New time selected - ${newTime}`);
+    setTime(newTime);
   };
 
   return <TimePicker onChange={onChange} value={time} />;
 }
 ```
 
-Suppose you only want to allow times within a certain range, for that you can use the `maxTime` and `minTime` props.
+## Documentation
 
-```jsx
-function InRange() {
-  // suppose you want to allow user to pick a date from today to the end of this year
-  const minTime = { hours: 6, minutes: 0 };
-  const maxTime = { hours: 23, minutes: 0 };
+To view detailed documentation, go to [https://sassy-datepicker.siddharthborderwala.com](https://sassy-datepicker.siddharthborderwala.com)
 
-  return <TimePicker minTime={minTime} maxTime={maxTime} />;
-}
-```
-
-> **Note**: Make sure while using `min/maxTime` props, the `selected` is in the range you specify using `min/maxTime` prop.
-
-#### Customization
-
-Styles for `TimePicker` have been defined using CSS custom properties under the `stp` CSS class, hence those properties will have to be changed for customization.
-
-Note - You will have to use the `!important` directive to override the default styles
-
-- Background Color for Selected Time (default `#60a5fa`)
-
-```css
-.stp {
-  --theme-color: #8b5cf6 !important; /* violet color */
-}
-```
-
-- Text Color for Selected Time (default `#ffffff`)
-
-```css
-.stp {
-  --selected-date-color: #eeeeee !important; /* light-gray color */
-}
-```
-
-- Font Family (default `inherit` i.e. inherits from the parent element)
-
-```css
-.stp {
-  --font: 'Kollektif', sans-serif !important;
-}
-```
-
-- Text Color for Disabled Elements (default `#bdbdbd`)
-
-```css
-.stp {
-  --disabled-color: gray !important;
-}
-```
-
-#### Props
-
-| Name            |          Type           | Description                                                                   |
-| :-------------- | :---------------------: | :---------------------------------------------------------------------------- |
-| onChange        | `(date: Time) => void;` | This function is triggered every time the selected time in the picker changes |
-| value           |         `Time`          | The selected date                                                             |
-| minutesInterval |        `number`         | Time interval between the options of minutes dropdown                         |
-| displayFormat   |   `'12hr' \| '24hr'`    | The display format for the time in the Picker                                 |
-| minTime         |         `Time`          | The lowest date value allowed                                                 |
-| maxTime         |         `Time`          | The highest date value allowed                                                |
-| className       |        `string`         | The className prop                                                            |
-| ref             |   `React.ForwardRef`    | The ref prop                                                                  |
-
-And all the other react props for an `HTMLDivElement`.
-
-
-## Example
-
-You can view a good example over at [Stackblitz](https://stackblitz.com/edit/react-umsdtl)
-
-## Road Map
-
-- [x] DatePicker
-- [x] TimePicker
-- [x] Slick Transitions
-- [x] DatePicker Configuration Options
-- [x] Month Picker Dropdown
-- [x] Year Picker Dropdown
-- [ ] Enhanced Keyboard Support
-- [ ] Release v1.0.0
+![Powered By](https://www.datocms-assets.com/31049/1618983297-powered-by-vercel.svg)

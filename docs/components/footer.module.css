@@ -1,0 +1,36 @@
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 4rem 3rem;
+  color: currentColor;
+  background-color: #6e767e1a;
+}
+
+.footer--vercel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  margin-right: auto;
+}
+
+.footer--vercel__divider {
+  margin: 0 1rem;
+  border: 0.5px solid currentColor;
+  height: 100%;
+  width: 0;
+}
+
+@media screen and (max-width: 600px) {
+  .footer {
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem 1.5rem;
+  }
+  .footer--vercel {
+    margin-right: 0;
+    margin-bottom: 3rem;
+  }
+}

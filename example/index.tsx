@@ -27,6 +27,7 @@ const App = () => {
           weekStartsFrom="Monday"
           disabled={dateDisabled}
           minDate={new Date(2022, 8, 1)}
+          maxDate={new Date(2025, 11, 31)}
         />
       </div>
       <br />
