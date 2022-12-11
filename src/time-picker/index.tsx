@@ -82,7 +82,7 @@ const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(
     }
 
     const [selectedTime, setSelectedTime] = useState(() => {
-      if (value !== undefined) alignTime(value, minutesInterval);
+      if (value !== undefined) return alignTime(value, minutesInterval);
       const d = new Date();
       return alignTime(
         { minutes: d.getMinutes(), hours: d.getHours() },
