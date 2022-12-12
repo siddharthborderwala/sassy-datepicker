@@ -78,4 +78,6 @@ function TimeInput() {
 
 To view detailed documentation, go to [https://sassy-datepicker.siddharthborderwala.com](https://sassy-datepicker.siddharthborderwala.com)
 
-![Powered By](https://www.datocms-assets.com/31049/1618983297-powered-by-vercel.svg)
+<div style="display: flex; align-items: center;">
+Powered By <img src="https://www.netlify.com/v3/img/components/full-logo-dark.svg" alt="Netlify" height="24px" style="margin-left: 0.5rem;" />
+</div>

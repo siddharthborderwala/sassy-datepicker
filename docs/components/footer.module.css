@@ -8,7 +8,7 @@
   background-color: #6e767e1a;
 }
 
-.footer--vercel {
+.footer--logo {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -16,11 +16,10 @@
   margin-right: auto;
 }
 
-.footer--vercel__divider {
-  margin: 0 1rem;
-  border: 0.5px solid currentColor;
-  height: 100%;
-  width: 0;
+.footer--logo__img {
+  height: 1.5rem;
+  display: inline-block;
+  margin-left: 0.5rem;
 }
 
 @media screen and (max-width: 600px) {
@@ -29,7 +28,7 @@
     align-items: center;
     padding: 3rem 1.5rem;
   }
-  .footer--vercel {
+  .footer--logo {
     margin-right: 0;
     margin-bottom: 3rem;
   }
