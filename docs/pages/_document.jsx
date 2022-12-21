@@ -11,7 +11,7 @@ class MyDocument extends Document {
             data-goatcounter-settings='{"no_onload": true}'
             async
             src="/scripts/ronaldo-goat.js"
-          ></script>
+          />
         </Head>
         <body>
           <Main />
