@@ -76,8 +76,8 @@ function TimeInput() {
 
 ## Documentation
 
-To view detailed documentation, go to [https://sassy-datepicker.siddharthborderwala.com](https://sassy-datepicker.siddharthborderwala.com)
+To view detailed documentation, go to [https://sassy-datepicker.netlify.app](https://sassy-datepicker.netlify.app)
 
 <div style="display: flex; align-items: center;">
-Powered By <img src="https://www.netlify.com/v3/img/components/full-logo-dark.svg" alt="Netlify" height="24px" style="margin-left: 0.5rem;" />
+Powered By Netlify <img src="https://www.netlify.com/v3/img/components/full-logo-dark.svg" alt="Netlify" height="24px" style="margin-left: 0.5rem;" /> 
 </div>

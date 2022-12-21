@@ -4,13 +4,7 @@ import { Callout } from 'nextra-theme-docs';
 
 Sassy DatePicker and TimePicker both have carefully selected beautiful default styles. We understand that based on your needs and design choices, you may need to change the styles for the pickers.
 
-We provide some default theme variables (css3 custom properties) that you can use for easy customization of the styles.
-
-<Callout emoji="🛠">
-  By default, the library has styles only for a light theme. If you need a dark
-  theme, you can use the theming variables for the same - I have implemented the
-  dark themed picker for this documentation site similarly.
-</Callout>
+We provide some default theme variables (css3 custom properties) that you can use for easy customization of the styles. [Here's](#example) an example where we implement a dark mode theme.
 
 ## Theme Variables
 
@@ -95,3 +89,60 @@ If you would like to get finer control over the styles of the elements, you have
 
 2. Overriding styles -  
    For this you can define custom styles in your stylesheets for different elements using their class names which can be found in the DOM tree inspector.
+
+## Example
+
+I am going to show you how to customize the styles for a dark mode theme.
+
+To scope the styles to dark mode only, you will need a selector. Based on what logic you are using to switch between dark and light mode, you can use that selector. In this example, I am using the `dark` class on the `html` element.
+
+I will use the following selector -
+
+```css
+html.dark
+```
+
+Say you are using `data-theme` attribute on the `html` element to switch between dark and light mode, you can use the following selector -
+
+```css
+html[data-theme='dark']
+```
+
+Open your global stylesheet and add the following code -
+
+```css
+html.dark .sdp,
+html.dark .stp {
+  background-color: #222222;
+  --disabled-color: #555555;
+  --outline: 1px solid #555555;
+  color: #e1e1e1;
+}
+
+html.dark .sdp button,
+html.dark .stp button,
+html.dark .sassy--select__dropdown {
+  background-color: #222222;
+}
+
+html.dark .sdp .sassy--option__active,
+html.dark .sdp .sassy--option:hover,
+html.dark .stp .sassy--option__active,
+html.dark .stp .sassy--option:hover {
+  background-color: var(--theme-color);
+}
+
+html.dark .sdp button.sdp--date-btn__selected {
+  background-color: var(--theme-color);
+}
+
+html.light {
+  --code-bg-color: hsla(212deg, 100%, 39%, 5%);
+}
+
+html.dark {
+  --code-bg-color: hsla(212deg, 100%, 77%, 10%);
+}
+```
+
+For understanding the selectors I have used in this, you can refer to the [above list](#theme-variables)
